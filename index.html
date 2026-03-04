@@ -3833,5 +3833,227 @@ ${permToggle('timeline','Timeline Editor',false)}
       return target;
     }
   </script>
+  <script>
+
+/* -------------------------
+CONFIG
+-------------------------- */
+
+const API = "http://localhost:3000/api"
+
+let memories = []
+let currentPage = 1
+let loading = false
+let infiniteScroll = true
+
+const grid = document.getElementById("memoryGrid")
+const loadMoreBtn = document.getElementById("loadMoreBtn")
+
+/* -------------------------
+LOAD MEMORIES
+-------------------------- */
+
+async function loadMemories(page=1){
+
+ if(loading) return
+ loading = true
+
+ const res = await fetch(API + "/memories/page/" + page)
+ const data = await res.json()
+
+ if(page === 1){
+   memories = []
+   grid.innerHTML = ""
+ }
+
+ memories = memories.concat(data)
+
+ renderMemories(data)
+
+ if(data.length < 20){
+   document.getElementById("loadMoreWrap").style.display="none"
+ }else{
+   document.getElementById("loadMoreWrap").style.display="flex"
+ }
+
+ loading=false
+}
+
+/* -------------------------
+RENDER MEMORIES
+-------------------------- */
+
+function renderMemories(list){
+
+ list.forEach(m=>{
+
+ const card = document.createElement("div")
+ card.className="memory-card"
+
+ card.innerHTML = `
+ <div class="memory-media">
+   <img src="/uploads/${m.file}">
+ </div>
+
+ <div class="memory-content">
+
+ <div class="memory-author">
+ <div class="memory-avatar">${m.name[0]}</div>
+
+ <div class="memory-author-info">
+ <div class="memory-author-name">${m.name}</div>
+ <div class="memory-time">${new Date(m.created_at).toLocaleDateString()}</div>
+ </div>
+
+ </div>
+
+ <div class="memory-caption">${m.caption}</div>
+
+ <div class="memory-actions">
+
+ <button class="like-btn" onclick="likeMemory(${m.id})">
+ ❤️ <span>${m.likes || 0}</span>
+ </button>
+
+ <button class="comments-open-btn" onclick="openComments(${m.id})">
+ 💬 Comments
+ </button>
+
+ </div>
+
+ </div>
+ `
+
+ grid.appendChild(card)
+
+ })
+
+}
+
+/* -------------------------
+LIKE / REACTIONS
+-------------------------- */
+
+async function likeMemory(id){
+
+ const res = await fetch(API + "/react",{
+ method:"POST",
+ headers:{ "Content-Type":"application/json"},
+ body:JSON.stringify({
+   memoryId:id,
+   emoji:"❤️"
+ })
+ })
+
+}
+
+/* -------------------------
+COMMENTS
+-------------------------- */
+
+let activeMemory=null
+
+function openComments(id){
+
+ activeMemory=id
+ document.getElementById("lightbox").classList.add("active")
+
+ loadComments()
+
+}
+
+async function loadComments(){
+
+ const res = await fetch(API + "/comments/"+activeMemory)
+ const data = await res.json()
+
+ const list = document.getElementById("commentList")
+ list.innerHTML=""
+
+ data.forEach(c=>{
+
+ const div=document.createElement("div")
+ div.className="comment-item"
+
+ div.innerHTML=`
+ <div class="comment-name">${c.name}</div>
+ <div class="comment-text">${c.text}</div>
+ `
+
+ list.appendChild(div)
+
+ })
+
+}
+
+/* -------------------------
+POST COMMENT
+-------------------------- */
+
+document.getElementById("postCommentBtn").onclick = async ()=>{
+
+ const name=document.getElementById("commentName").value
+ const text=document.getElementById("commentText").value
+
+ await fetch(API+"/comments",{
+ method:"POST",
+ headers:{ "Content-Type":"application/json"},
+ body:JSON.stringify({
+ memoryId:activeMemory,
+ name,
+ text
+ })
+ })
+
+ document.getElementById("commentText").value=""
+ loadComments()
+
+}
+
+/* -------------------------
+INFINITE SCROLL
+-------------------------- */
+
+window.addEventListener("scroll",()=>{
+
+ if(!infiniteScroll) return
+
+ if(window.innerHeight + window.scrollY >= document.body.offsetHeight-400){
+
+ currentPage++
+ loadMemories(currentPage)
+
+ }
+
+})
+
+/* -------------------------
+LOAD MORE BUTTON
+-------------------------- */
+
+loadMoreBtn.onclick=()=>{
+
+ currentPage++
+ loadMemories(currentPage)
+
+}
+
+/* -------------------------
+LIVE UPDATES
+-------------------------- */
+
+setInterval(()=>{
+
+ loadMemories(1)
+
+},15000)
+
+/* -------------------------
+START
+-------------------------- */
+
+loadMemories(1)
+
+</script>
 </body>
 </html>
