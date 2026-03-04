@@ -4,7 +4,7 @@ A complete farewell memory website system with file uploads, admin panel, and me
 
 ## 🚀 Quick Start
 
-### 1. Clone Repository
+### 1. Clone Repository now
 ```bash
 git clone https://github.com/YOUR_USERNAME/cornerstone-farewell.git
 cd cornerstone-farewell
