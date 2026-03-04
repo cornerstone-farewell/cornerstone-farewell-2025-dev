@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": "super",
+      "name": "Super Admin",
+      "role": "superadmin",
+      "password": "cornerstone2025",
+      "createdAt": "2026-03-03T00:00:00.000Z",
+      "updatedAt": "2026-03-03T00:00:00.000Z",
+      "disabled": false,
+      "permissions": {
+        "moderation": true,
+        "settings": true,
+        "theme": true,
+        "export": true,
+        "users": true,
+        "trash": true,
+        "replaceFile": true,
+        "editMemory": true,
+        "bulk": true,
+        "featured": true
+      }
+    },
+    {
+      "id": "techteam",
+      "name": "Tech - Farewell",
+      "role": "moderator",
+      "password": "farewell2025",
+      "createdAt": "2026-03-03T14:43:54.604Z",
+      "updatedAt": "2026-03-03T14:53:45.770Z",
+      "disabled": false,
+      "permissions": {
+        "moderation": true,
+        "settings": true,
+        "theme": true,
+        "export": true,
+        "users": false,
+        "trash": true,
+        "replaceFile": true,
+        "editMemory": true,
+        "bulk": true,
+        "featured": true
+      }
+    }
+  ]
+}

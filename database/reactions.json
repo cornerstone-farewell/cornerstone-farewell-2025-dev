@@ -1,0 +1,94 @@
+{
+  "reactions": [
+    {
+      "memoryId": 3,
+      "type": "love",
+      "createdAt": "2026-03-03T14:44:35.661Z"
+    },
+    {
+      "memoryId": 14,
+      "type": "like",
+      "createdAt": "2026-03-03T14:51:16.508Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "like",
+      "createdAt": "2026-03-03T14:52:07.138Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "love",
+      "createdAt": "2026-03-03T14:52:08.968Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "laugh",
+      "createdAt": "2026-03-03T14:52:09.878Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "wow",
+      "createdAt": "2026-03-03T14:52:10.737Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "sad",
+      "createdAt": "2026-03-03T14:52:11.672Z"
+    },
+    {
+      "memoryId": 14,
+      "type": "love",
+      "createdAt": "2026-03-03T14:53:00.754Z"
+    },
+    {
+      "memoryId": 14,
+      "type": "like",
+      "createdAt": "2026-03-03T14:53:02.890Z"
+    },
+    {
+      "memoryId": 14,
+      "type": "laugh",
+      "createdAt": "2026-03-03T14:53:03.859Z"
+    },
+    {
+      "memoryId": 14,
+      "type": "wow",
+      "createdAt": "2026-03-03T14:53:05.122Z"
+    },
+    {
+      "memoryId": 14,
+      "type": "sad",
+      "createdAt": "2026-03-03T14:53:06.392Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "love",
+      "createdAt": "2026-03-03T14:54:10.284Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "like",
+      "createdAt": "2026-03-03T14:54:11.324Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "laugh",
+      "createdAt": "2026-03-03T14:54:12.111Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "wow",
+      "createdAt": "2026-03-03T14:54:12.933Z"
+    },
+    {
+      "memoryId": 4,
+      "type": "sad",
+      "createdAt": "2026-03-03T14:54:13.509Z"
+    },
+    {
+      "memoryId": 15,
+      "type": "like",
+      "createdAt": "2026-03-03T15:09:46.802Z"
+    }
+  ]
+}

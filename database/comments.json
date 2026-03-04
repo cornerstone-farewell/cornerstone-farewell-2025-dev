@@ -1,0 +1,23 @@
+{
+  "comments": [
+    {
+      "id": 1,
+      "memoryId": 7,
+      "parentId": null,
+      "name": "Vedansh",
+      "text": "Not Tasty... Too Bland",
+      "createdAt": "2026-03-03T14:45:06.300Z",
+      "deletedAt": null
+    },
+    {
+      "id": 2,
+      "memoryId": 4,
+      "parentId": null,
+      "name": ".",
+      "text": "fire",
+      "createdAt": "2026-03-03T14:53:58.674Z",
+      "deletedAt": null
+    }
+  ],
+  "nextId": 3
+}

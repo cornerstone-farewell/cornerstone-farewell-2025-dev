@@ -1,0 +1,103 @@
+{
+  "settings": {
+    "schoolName": "Cornerstone School",
+    "eventName": "Farewell 2026",
+    "logoText": "🎓",
+    "contactEmail": "farewell2025@cornerstone.edu",
+    "locationLine": "Cornerstone School",
+    "farewellIST": "2026-03-15T15:00",
+    "heroBadge": "Class of 2026",
+    "heroTitle": "Farewell {year}",
+    "heroSubtitle": "Where Memories Become Eternal",
+    "heroDescription": "As we close this chapter and begin new journeys, let's celebrate the friendships, lessons, and memories that shaped us.",
+    "quoteText": "\"Don't cry because it's over, smile because it happened. The memories we made will last a lifetime.\"",
+    "quoteAuthor": "— Class of 2025",
+    "footerDesc": "Where futures are built and memories are made.",
+    "footerContactNote": "Contact School Office",
+    "footerMadeBy": "Made with ♥ by the Class of 2025",
+    "footerCopyright": "© 2026 Cornerstone International School. All rights reserved.",
+    "uploadsEnabled": true,
+    "commentsEnabled": true,
+    "profanityFilterEnabled": false,
+    "uploadWindowEnabled": false,
+    "uploadWindowStartIST": "",
+    "uploadWindowEndIST": "",
+    "autoApproveEnabled": false,
+    "autoApproveStartIST": "",
+    "autoApproveEndIST": "",
+    "teachers": [
+      {
+        "name": "Mr. Principal",
+        "subject": "School Principal",
+        "quote": "\"Education is not preparation for life; education is life itself.\"",
+        "imageUrl": ""
+      },
+      {
+        "name": "Mrs. Teacher",
+        "subject": "Class Teacher",
+        "quote": "\"Every student can learn, just not on the same day or in the same way.\"",
+        "imageUrl": ""
+      },
+      {
+        "name": "Mr. Science",
+        "subject": "Science Department",
+        "quote": "\"The good thing about science is that it's true whether or not you believe in it.\"",
+        "imageUrl": ""
+      },
+      {
+        "name": "Mrs. Mathematics",
+        "subject": "Mathematics",
+        "quote": "\"Mathematics is not about numbers, it's about understanding.\"",
+        "imageUrl": ""
+      }
+    ],
+    "timeline": [
+      {
+        "year": "2020",
+        "title": "The Beginning",
+        "description": "We started this journey together, full of hope and excitement for what lay ahead."
+      },
+      {
+        "year": "2021",
+        "title": "Virtual Bonds",
+        "description": "Despite the challenges, we stayed connected and grew closer through screens."
+      },
+      {
+        "year": "2022",
+        "title": "Reunion",
+        "description": "Back together again, stronger than ever. The halls echoed with our laughter once more."
+      },
+      {
+        "year": "2023",
+        "title": "Growth & Discovery",
+        "description": "Finding our passions, building our dreams, and creating unforgettable memories."
+      },
+      {
+        "year": "2024",
+        "title": "Final Chapter",
+        "description": "Our last year together, making every moment count before we say goodbye."
+      },
+      {
+        "year": "2025",
+        "title": "New Beginnings",
+        "description": "As we close this chapter, new adventures await. Forever Cornerstone!"
+      }
+    ],
+    "theme": {
+      "primaryGold": "#D4AF37",
+      "primaryGoldLight": "#F4E5B2",
+      "primaryGoldDark": "#B8860B",
+      "navyDark": "#1a1a2e",
+      "navyMedium": "#16213e",
+      "navyLight": "#0f3460",
+      "accentRose": "#e94560",
+      "accentPurple": "#7B2D8E",
+      "textLight": "#ffffff",
+      "textMuted": "rgba(255, 255, 255, 0.7)",
+      "glassBg": "rgba(255, 255, 255, 0.1)",
+      "glassBorder": "rgba(255, 255, 255, 0.2)",
+      "successGreen": "#4CAF50",
+      "errorRed": "#f44336"
+    }
+  }
+}
