@@ -1473,7 +1473,62 @@
 
   <div class="confetti-container" id="confettiContainer"></div>
     <script>
+function teacherRowHtml(t = {}, idx = 0){
+  return `
+  <div class="admin-memory-card" style="padding:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <div style="font-weight:800;">Teacher #${idx+1}</div>
+      <button class="admin-btn admin-btn-danger" type="button" onclick="removeTeacherRow(${idx})">Remove</button>
+    </div>
 
+    <div style="margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+      <div class="form-group">
+        <label>Name</label>
+        <input class="form-input" data-teacher-field="name" data-teacher-idx="${idx}" value="${escapeAttr(t.name || '')}" />
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input class="form-input" data-teacher-field="subject" data-teacher-idx="${idx}" value="${escapeAttr(t.subject || '')}" />
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top:10px;">
+      <label>Quote</label>
+      <textarea class="form-textarea" data-teacher-field="quote" data-teacher-idx="${idx}" maxlength="250">${escapeHtml(t.quote || '')}</textarea>
+    </div>
+
+    <div class="form-group" style="margin-top:10px;">
+      <label>Image URL (optional)</label>
+      <input class="form-input" data-teacher-field="imageUrl" data-teacher-idx="${idx}" value="${escapeAttr(t.imageUrl || '')}" placeholder="https://... or /uploads/..." />
+    </div>
+  </div>`;
+}
+
+function timelineRowHtml(x = {}, idx = 0){
+  return `
+  <div class="admin-memory-card" style="padding:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <div style="font-weight:800;">Item #${idx+1}</div>
+      <button class="admin-btn admin-btn-danger" type="button" onclick="removeTimelineRow(${idx})">Remove</button>
+    </div>
+
+    <div style="margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+      <div class="form-group">
+        <label>Year</label>
+        <input class="form-input" data-timeline-field="year" data-timeline-idx="${idx}" value="${escapeAttr(x.year || '')}" placeholder="2022" />
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input class="form-input" data-timeline-field="title" data-timeline-idx="${idx}" value="${escapeAttr(x.title || '')}" />
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top:10px;">
+      <label>Description</label>
+      <textarea class="form-textarea" data-timeline-field="description" data-timeline-idx="${idx}" maxlength="350">${escapeHtml(x.description || '')}</textarea>
+    </div>
+  </div>`;
+}
         function renderTeachersEditor(){
   const wrap = document.getElementById('teachersEditor');
   if (!wrap) return;
@@ -3151,7 +3206,6 @@ function safeParse(v){
   <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
     <h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:6px;">Timeline Editor</h4>
     <button class="admin-btn admin-btn-secondary" type="button" onclick="addTimelineRow()">+ Add Timeline Item</button>
-    <div id="timelineEditor" style="margin-top:12px; display:grid; gap:12px;"></div>
   </div>
   <div class="mini-pill">Fields: year, title, description</div>
   <div id="timelineEditor" style="margin-top:12px; display:grid; gap:12px;"></div>
