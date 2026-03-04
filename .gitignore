@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Uploads (don't commit user files)
+uploads/*
+!uploads/.gitkeep
+
+# Database
+database/*.db
+!database/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env

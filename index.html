@@ -1,0 +1,3782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farewell 2025 | Cornerstone International School</title>
+  <meta name="description" content="Celebrating the Class of 2025 - Share and cherish our memories together" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary-gold: #D4AF37;
+      --primary-gold-light: #F4E5B2;
+      --primary-gold-dark: #B8860B;
+      --navy-dark: #1a1a2e;
+      --navy-medium: #16213e;
+      --navy-light: #0f3460;
+      --accent-rose: #e94560;
+      --accent-purple: #7B2D8E;
+      --text-light: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.7);
+      --text-dark: #1a1a2e;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --success-green: #4CAF50;
+      --error-red: #f44336;
+
+      --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F4E5B2 50%, #D4AF37 100%);
+      --gradient-navy: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      --gradient-hero: linear-gradient(180deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.8) 100%);
+
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Poppins', sans-serif;
+      --font-script: 'Dancing Script', cursive;
+
+      --section-padding: 100px;
+      --container-width: 1400px;
+
+      --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+      --shadow-gold: 0 4px 30px rgba(212, 175, 55, 0.3);
+      --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Theme overrides injected from settings.theme */
+    :root[data-theme="custom"]{
+      /* these are updated dynamically via JS by setting style props on documentElement */
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--navy-dark);
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--navy-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary-gold-dark); }
+
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-20px) rotate(5deg);} }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+    @keyframes fadeInUp { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes scaleIn { from{opacity:0; transform:scale(0.9);} to{opacity:1; transform:scale(1);} }
+    @keyframes confettiFall { 0%{transform:translateY(-100vh) rotate(0deg); opacity:1;} 100%{transform:translateY(100vh) rotate(720deg); opacity:0;} }
+    @keyframes slideInRight { from{opacity:0; transform:translateX(50px);} to{opacity:1; transform:translateX(0);} }
+    @keyframes heartBeat { 0%{transform:scale(1);} 14%{transform:scale(1.3);} 28%{transform:scale(1);} 42%{transform:scale(1.3);} 70%{transform:scale(1);} }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .animate-fadeInUp { animation: fadeInUp 0.8s ease forwards; }
+    .animate-scaleIn { animation: scaleIn 0.6s ease forwards; }
+
+    #particles-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 4px; height: 4px;
+      background: var(--primary-gold);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 8s infinite ease-in-out;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition-smooth);
+      background: transparent;
+    }
+    .navbar.scrolled {
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 15px 50px;
+      box-shadow: var(--shadow-soft);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .logo-icon {
+      width: 50px; height: 50px;
+      background: var(--gradient-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: var(--shadow-gold);
+      transition: var(--transition-smooth);
+    }
+    .logo:hover .logo-icon { transform: rotate(360deg); }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-text .school-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary-gold);
+    }
+    .logo-text .event-name {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      position: relative;
+      padding: 5px 0;
+      transition: var(--transition-smooth);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--primary-gold);
+      transition: var(--transition-smooth);
+    }
+    .nav-links a:hover { color: var(--primary-gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--gradient-gold);
+      color: var(--navy-dark) !important;
+      padding: 12px 28px !important;
+      border-radius: 30px;
+      font-weight: 600 !important;
+      box-shadow: var(--shadow-gold);
+      transition: var(--transition-smooth) !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { transform: translateY(-3px); box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5); }
+
+    .mobile-menu-btn { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
+    .mobile-menu-btn span { width: 25px; height: 3px; background: var(--primary-gold); border-radius: 2px; transition: var(--transition-smooth); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--gradient-navy);
+    }
+    .hero-bg {
+      position: absolute; top:0; left:0; right:0; bottom:0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(123, 45, 142, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(15, 52, 96, 0.3) 0%, transparent 70%);
+    }
+    .hero-content {
+      text-align: center;
+      z-index: 10;
+      padding: 0 20px;
+      max-width: 900px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      color: var(--primary-gold);
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 0.8s ease;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    .hero-title .highlight {
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-family: var(--font-script);
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: var(--primary-gold-light);
+      margin-bottom: 20px;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+    .hero-description {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      animation: fadeInUp 0.8s ease 0.6s both;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.8s both;
+    }
+
+    .btn {
+      padding: 16px 36px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+      border: none;
+      font-family: var(--font-body);
+    }
+    .btn-primary { background: var(--gradient-gold); color: var(--navy-dark); box-shadow: var(--shadow-gold); }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 40px rgba(212, 175, 55, 0.5); }
+    .btn-secondary { background: transparent; color: var(--text-light); border: 2px solid var(--glass-border); backdrop-filter: blur(10px); }
+    .btn-secondary:hover { background: var(--glass-bg); border-color: var(--primary-gold); color: var(--primary-gold); }
+    .btn-danger { background: rgba(244,67,54,0.2); border: 1px solid rgba(244,67,54,0.6); color: #ffb3ad; }
+    .btn-danger:hover { background: rgba(244,67,54,0.35); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      animation: float 3s infinite ease-in-out;
+    }
+    .scroll-indicator { width: 30px; height: 50px; border: 2px solid var(--glass-border); border-radius: 20px; position: relative; }
+    .scroll-indicator::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px; height: 10px;
+      background: var(--primary-gold);
+      border-radius: 3px;
+      animation: pulse 2s infinite;
+    }
+
+    section { padding: var(--section-padding) 20px; position: relative; }
+    .container { max-width: var(--container-width); margin: 0 auto; }
+
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-badge {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--primary-gold);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    .section-title .highlight {
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-description {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Countdown */
+    #countdown { background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-medium) 100%); }
+    .countdown-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+    .countdown-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 30px 40px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      min-width: 140px;
+      transition: var(--transition-smooth);
+    }
+    .countdown-item:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: var(--shadow-gold); }
+    .countdown-number {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      font-weight: 700;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .countdown-label { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-top: 10px; }
+
+    .event-date-display {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 15px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .event-date-display p { font-size: 1.2rem; color: var(--primary-gold); }
+    .event-date-display p span { font-weight: 700; }
+
+    /* Upload */
+    #upload { background: var(--navy-medium); }
+    .upload-container { max-width: 800px; margin: 0 auto; }
+    .upload-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px; padding: 50px; backdrop-filter: blur(20px); }
+
+    .callout {
+      margin: 0 0 20px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06);
+      color: var(--text-muted);
+    }
+    .callout strong { color: var(--text-light); }
+
+    .dropzone {
+      border: 3px dashed var(--glass-border);
+      border-radius: 20px;
+      padding: 60px 40px;
+      text-align: center;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .dropzone:hover, .dropzone.drag-over { border-color: var(--primary-gold); background: rgba(212, 175, 55, 0.05); }
+    .dropzone-icon { font-size: 4rem; margin-bottom: 20px; }
+    .dropzone-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; }
+    .dropzone-subtitle { color: var(--text-muted); margin-bottom: 20px; }
+    .dropzone-formats { font-size: 0.85rem; color: var(--text-muted); }
+    .dropzone-formats span { background: rgba(212, 175, 55, 0.2); padding: 4px 10px; border-radius: 10px; margin: 0 3px; color: var(--primary-gold); }
+    #file-input { display: none; }
+
+    .file-preview-container { margin-top: 30px; display: none; }
+    .file-preview-container.has-files { display: block; }
+    .file-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .file-preview-item { position: relative; aspect-ratio: 1; border-radius: 15px; overflow: hidden; background: var(--navy-dark); }
+    .file-preview-item img, .file-preview-item video { width: 100%; height: 100%; object-fit: cover; }
+    .file-preview-item .video-indicator {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px; height: 40px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .file-preview-item .remove-file {
+      position: absolute;
+      top: 5px; right: 5px;
+      width: 25px; height: 25px;
+      background: var(--error-red);
+      border: none; border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: var(--transition-smooth);
+    }
+    .file-preview-item:hover .remove-file { opacity: 1; }
+    .file-info { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+
+    .upload-form { margin-top: 30px; }
+    .form-group { margin-bottom: 25px; }
+    .form-group label { display: block; margin-bottom: 10px; font-weight: 500; color: var(--text-light); }
+    .form-group label .required { color: var(--accent-rose); }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid var(--glass-border);
+      border-radius: 15px;
+      color: var(--text-light);
+      font-size: 1rem;
+      font-family: var(--font-body);
+      transition: var(--transition-smooth);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary-gold);
+      background: rgba(255,255,255,0.08);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+
+    .form-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 20px;
+    }
+    .form-select option { background: var(--navy-dark); color: var(--text-light); }
+    .form-textarea { min-height: 120px; resize: vertical; }
+
+    .char-counter { text-align: right; font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; }
+    .char-counter.warning { color: var(--accent-rose); }
+
+    .upload-progress { display: none; margin-top: 20px; }
+    .upload-progress.active { display: block; }
+    .progress-bar { height: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+    .progress-fill { height: 100%; background: var(--gradient-gold); border-radius: 10px; width: 0%; transition: width 0.3s ease; }
+    .progress-text { text-align: center; color: var(--text-muted); }
+
+    .upload-success { display: none; text-align: center; padding: 40px; }
+    .upload-success.active { display: block; animation: scaleIn 0.5s ease; }
+    .success-icon { font-size: 5rem; margin-bottom: 20px; }
+    .success-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; color: var(--primary-gold); }
+    .success-message { color: var(--text-muted); margin-bottom: 20px; }
+
+    @media (max-width: 768px) {
+      .navbar { padding: 15px 20px; }
+      .nav-links {
+        position: fixed; top:0; left:0; right:0; bottom:0;
+        background: var(--navy-dark);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        transform: translateX(-100%);
+        transition: var(--transition-smooth);
+      }
+      .nav-links.active { transform: translateX(0); }
+      .mobile-menu-btn { display: flex; z-index: 1001; }
+      .mobile-menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+      .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+      .mobile-menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+      section { padding: 60px 15px; }
+      .upload-card { padding: 30px 20px; }
+      .dropzone { padding: 40px 20px; }
+      .countdown-container { gap: 15px; }
+      .countdown-item { padding: 20px 30px; min-width: 100px; }
+      .countdown-number { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="particles-container"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="logo" id="logo" title="Click 5 times for Admin login">
+      <div class="logo-icon" id="uiLogoIcon">🎓</div>
+      <div class="logo-text">
+        <span class="school-name" id="uiSchoolName">Cornerstone</span>
+        <span class="event-name" id="uiEventName">Farewell 2025</span>
+      </div>
+    </div>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#countdown">Countdown</a></li>
+      <li><a href="#memories">Memories</a></li>
+      <li><a href="#teachers">Teachers</a></li>
+      <li><a href="#timeline">Journey</a></li>
+      <li><a href="#upload" class="nav-cta">Upload Memory</a></li>
+    </ul>
+    <div class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge" id="uiHeroBadge">Class of 2025</div>
+      <h1 class="hero-title" id="uiHeroTitle">Farewell <span class="highlight">2025</span></h1>
+      <p class="hero-subtitle" id="uiHeroSubtitle">Where Memories Become Eternal</p>
+      <p class="hero-description" id="uiHeroDescription">
+        As we close this chapter and begin new journeys, let's celebrate the friendships, lessons, and memories that shaped us.
+      </p>
+      <div class="hero-buttons">
+        <a href="#upload" class="btn btn-primary">Share Your Memory</a>
+        <a href="#memories" class="btn btn-secondary">View Memory Wall</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll to explore</span>
+      <div class="scroll-indicator"></div>
+    </div>
+  </section>
+
+  <section id="countdown">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge" id="uiCountdownBadge">Mark Your Calendar</span>
+        <h2 class="section-title" id="uiCountdownTitle">Countdown to <span class="highlight">Farewell</span></h2>
+        <p class="section-description" id="uiCountdownDesc">The moment we've all been waiting for is almost here</p>
+      </div>
+
+      <div class="countdown-container">
+        <div class="countdown-item"><div class="countdown-number" id="days">00</div><div class="countdown-label">Days</div></div>
+        <div class="countdown-item"><div class="countdown-number" id="hours">00</div><div class="countdown-label">Hours</div></div>
+        <div class="countdown-item"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">Minutes</div></div>
+        <div class="countdown-item"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">Seconds</div></div>
+      </div>
+
+      <div class="event-date-display">
+        <p id="uiEventDateLine"><span>March 15, 2026</span> at <span>6:00 PM</span> IST</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="upload">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge" id="uiUploadBadge">Share Your Story</span>
+        <h2 class="section-title" id="uiUploadTitle">Upload Your <span class="highlight">Memories</span></h2>
+        <p class="section-description" id="uiUploadDesc">Share the moments that made your journey special</p>
+      </div>
+
+      <div class="upload-container">
+        <div class="upload-card">
+          <div class="callout" id="uploadStatusCallout" style="display:none;"></div>
+
+          <div id="uploadForm">
+            <div class="dropzone" id="dropzone">
+              <div class="dropzone-icon">📤</div>
+              <h3 class="dropzone-title">Drag & Drop Your Files</h3>
+              <p class="dropzone-subtitle">or click to browse</p>
+              <p class="dropzone-formats">Supported: <span>JPG</span> <span>PNG</span> <span>GIF</span> <span>MP4</span> <span>MOV</span></p>
+              <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">Max 200MB total • 100MB per file</p>
+              <input type="file" id="file-input" multiple accept="image/*,video/*" />
+            </div>
+
+            <div class="file-preview-container" id="filePreviewContainer">
+              <h4 style="margin-bottom: 15px;">Selected Files:</h4>
+              <div class="file-preview-grid" id="filePreviewGrid"></div>
+              <p class="file-info" id="fileInfo"></p>
+            </div>
+
+            <div class="upload-form" id="uploadFormFields" style="display: none;">
+              <div class="form-group">
+                <label>Your Name <span class="required">*</span></label>
+                <input type="text" class="form-input" id="studentName" placeholder="Enter your full name" maxlength="100" />
+              </div>
+
+              <div class="form-group">
+                <label>Caption / Memory Description <span class="required">*</span></label>
+                <textarea class="form-textarea" id="caption" placeholder="Share the story behind this memory..." maxlength="500"></textarea>
+                <p class="char-counter"><span id="charCount">0</span>/500 characters</p>
+              </div>
+
+              <div class="form-group">
+                <label>Memory Category <span class="required">*</span></label>
+                <select class="form-select" id="memoryType">
+                  <option value="">Select a category</option>
+                  <option value="Friends">Friends</option>
+                  <option value="Teachers">Teachers</option>
+                  <option value="Events">Events</option>
+                  <option value="Fun Moments">Fun Moments</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Academics">Academics</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <button type="button" class="btn btn-primary" id="submitUpload" style="width: 100%;">Upload Memory</button>
+            </div>
+
+            <div class="upload-progress" id="uploadProgress">
+              <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+              <p class="progress-text" id="progressText">Uploading... 0%</p>
+            </div>
+          </div>
+
+          <div class="upload-success" id="uploadSuccess">
+            <div class="success-icon">✅</div>
+            <h3 class="success-title">Memory Uploaded!</h3>
+            <p class="success-message" id="uploadSuccessMsg">
+              Your memory has been submitted and is pending approval. It will appear once approved by the admin.
+            </p>
+            <button class="btn btn-primary" onclick="resetUploadForm()">Upload Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    <style>
+    /* Memories */
+    #memories { background: linear-gradient(180deg, var(--navy-medium) 0%, var(--navy-dark) 100%); }
+    .memory-filters { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+    .filter-btn {
+      padding: 10px 25px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 25px;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+    }
+    .filter-btn:hover, .filter-btn.active { background: var(--primary-gold); color: var(--navy-dark); border-color: var(--primary-gold); }
+
+    .memories-toolbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      flex-wrap:wrap;
+      margin: 0 0 25px;
+    }
+    .memories-toolbar .left, .memories-toolbar .right{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .mini-pill{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .memory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+    .memory-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+      animation: fadeInUp 0.6s ease;
+      position: relative;
+    }
+    .memory-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: var(--shadow-gold); }
+    .memory-media { position: relative; aspect-ratio: 4/3; overflow: hidden; cursor: pointer; }
+    .memory-media img, .memory-media video { width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth); }
+    .memory-card:hover .memory-media img, .memory-card:hover .memory-media video { transform: scale(1.05); }
+
+    .memory-media .play-button {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px; height: 60px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: white;
+      transition: var(--transition-smooth);
+    }
+    .memory-media:hover .play-button { background: var(--primary-gold); transform: translate(-50%, -50%) scale(1.1); }
+
+    .memory-type-badge {
+      position: absolute; top: 15px; left: 15px;
+      background: rgba(0,0,0,0.7);
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      color: var(--primary-gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      z-index: 2;
+    }
+    .memory-featured-badge{
+      position:absolute;
+      top: 15px; right: 15px;
+      background: rgba(212,175,55,0.15);
+      border: 1px solid rgba(212,175,55,0.5);
+      color: var(--primary-gold);
+      padding: 5px 10px;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      z-index: 2;
+      backdrop-filter: blur(8px);
+    }
+
+    .memory-content { padding: 20px; }
+    .memory-author { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .memory-avatar {
+      width: 40px; height: 40px;
+      background: var(--gradient-gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+    .memory-author-info { flex: 1; }
+    .memory-author-name { font-weight: 600; font-size: 1rem; }
+    .memory-time { font-size: 0.8rem; color: var(--text-muted); }
+
+    .memory-caption { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; }
+
+    .memory-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .action-row { display:flex; align-items:center; gap: 10px; flex-wrap: wrap; }
+
+    .like-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: none; border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.95rem;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: var(--transition-smooth);
+      font-family: var(--font-body);
+      border: 1px solid transparent;
+    }
+    .like-btn:hover { background: rgba(233, 69, 96, 0.1); color: var(--accent-rose); border-color: rgba(233,69,96,0.2); }
+    .like-btn.liked { color: var(--accent-rose); }
+    .like-btn.liked .heart-icon { animation: heartBeat 0.8s ease; }
+
+    .react-group{
+      display:flex; align-items:center; gap: 8px; flex-wrap:wrap;
+    }
+    .react-btn{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-light);
+      cursor:pointer;
+      transition: var(--transition-smooth);
+      font-size: 0.9rem;
+    }
+    .react-btn:hover{ border-color: var(--primary-gold); transform: translateY(-1px); }
+    .react-count{
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-left: 6px;
+    }
+
+    .comments-open-btn{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-light);
+      cursor:pointer;
+      transition: var(--transition-smooth);
+      font-size: 0.9rem;
+    }
+    .comments-open-btn:hover{ border-color: var(--primary-gold); transform: translateY(-1px); }
+
+    .memory-empty { text-align: center; padding: 80px 20px; color: var(--text-muted); }
+    .memory-empty-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.5; }
+    .memory-loading { text-align: center; padding: 60px; color: var(--text-muted); }
+    .loading-spinner { width: 50px; height: 50px; border: 4px solid var(--glass-border); border-top-color: var(--primary-gold); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+
+    .load-more-wrap{ display:flex; justify-content:center; margin-top: 35px; }
+    .load-more-btn{ min-width: 220px; justify-content:center; }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.95);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lightbox.active { display: flex; animation: fadeIn 0.3s ease; }
+
+    .lightbox-grid{
+      width: min(1200px, 96vw);
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .lightbox-main{
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 14px;
+      overflow:hidden;
+    }
+    .lightbox-content { width: 100%; position: relative; }
+    .lightbox-content img, .lightbox-content video { width: 100%; max-height: 75vh; object-fit: contain; border-radius: 12px; background: rgba(0,0,0,0.2); }
+
+    .lightbox-side{
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 16px;
+      max-height: 82vh;
+      overflow:auto;
+    }
+
+    .lightbox-close { position: fixed; top: 18px; right: 18px; background: rgba(255,255,255,0.08); border: 1px solid var(--glass-border); color: white; font-size: 1.4rem; cursor: pointer; transition: var(--transition-smooth); width: 44px; height: 44px; border-radius: 50%; }
+    .lightbox-close:hover { color: var(--primary-gold); border-color: var(--primary-gold); transform: scale(1.05); }
+
+    .lightbox-nav {
+      position: fixed; top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      font-size: 2rem;
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .lightbox-nav:hover { background: var(--primary-gold); color: var(--navy-dark); }
+    .lightbox-prev { left: 18px; }
+    .lightbox-next { right: 18px; }
+
+    .lightbox-info { color: white; }
+    .lightbox-author { font-weight: 700; font-size: 1.1rem; }
+    .lightbox-caption { color: var(--text-muted); margin-top: 8px; white-space: pre-wrap; }
+    .lightbox-meta{ margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); display:flex; gap: 10px; flex-wrap: wrap; }
+    .lightbox-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 10px 16px;
+      background: var(--gradient-gold);
+      color: var(--navy-dark);
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition-smooth);
+    }
+    .lightbox-download:hover { transform: scale(1.03); }
+
+    /* Comments */
+    .comments-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .comments-title{
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--primary-gold);
+    }
+    .comments-disabled{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+    .comment-form{
+      display:grid;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .comment-form-row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .comment-form-actions{
+      display:flex; gap: 10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .comment-list{ display:grid; gap: 12px; }
+    .comment-item{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.15);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .comment-top{
+      display:flex; justify-content:space-between; align-items:center; gap: 10px;
+      margin-bottom: 6px;
+    }
+    .comment-name{ font-weight: 700; }
+    .comment-time{ font-size: 0.8rem; color: var(--text-muted); }
+    .comment-text{ color: rgba(255,255,255,0.9); white-space: pre-wrap; }
+    .comment-reply-btn{
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: var(--primary-gold);
+      background:none;
+      border:none;
+      cursor:pointer;
+      padding: 0;
+    }
+    .comment-replies{
+      margin-top: 10px;
+      padding-left: 14px;
+      border-left: 2px solid rgba(212,175,55,0.25);
+      display:grid;
+      gap: 10px;
+    }
+
+    @media (max-width: 980px){
+      .lightbox-grid{ grid-template-columns: 1fr; }
+      .lightbox-side{ max-height: unset; }
+    }
+    @media (max-width: 768px){
+      .memory-grid { grid-template-columns: 1fr; }
+      .lightbox-nav{ display:none; }
+    }
+  </style>
+
+  <section id="memories">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge" id="uiMemoriesBadge">Memory Wall</span>
+        <h2 class="section-title" id="uiMemoriesTitle">Our <span class="highlight">Memories</span></h2>
+        <p class="section-description" id="uiMemoriesDesc">A collection of moments from our incredible journey together</p>
+      </div>
+
+      <div class="memories-toolbar">
+        <div class="left">
+          <div class="mini-pill" id="memCountPill">Loading...</div>
+          <div class="mini-pill" id="livePill" style="display:none;">Live updates enabled</div>
+        </div>
+        <div class="right">
+          <button class="filter-btn" id="toggleInfiniteBtn" type="button" style="padding:10px 16px;">Infinite Scroll: <span id="infiniteLabel">ON</span></button>
+        </div>
+      </div>
+
+      <div class="memory-filters" id="memoryFilters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Friends">Friends</button>
+        <button class="filter-btn" data-filter="Teachers">Teachers</button>
+        <button class="filter-btn" data-filter="Events">Events</button>
+        <button class="filter-btn" data-filter="Fun Moments">Fun Moments</button>
+        <button class="filter-btn" data-filter="Sports">Sports</button>
+        <button class="filter-btn" data-filter="Academics">Academics</button>
+        <button class="filter-btn" data-filter="Other">Other</button>
+      </div>
+
+      <div class="memory-grid" id="memoryGrid">
+        <div class="memory-loading" style="grid-column: 1/-1;">
+          <div class="loading-spinner"></div>
+          <p>Loading memories...</p>
+        </div>
+      </div>
+
+      <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+        <button class="btn btn-secondary load-more-btn" id="loadMoreBtn" type="button">Load More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teachers / Timeline / Quote / Footer kept from previous version (rendered from settings) -->
+  <style>
+    #teachers { background: var(--navy-dark); }
+    .teachers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+    .teacher-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 25px; padding: 30px; text-align: center; transition: var(--transition-smooth); }
+    .teacher-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: var(--shadow-gold); }
+    .teacher-image {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      background: var(--gradient-gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      overflow: hidden;
+      color: var(--navy-dark);
+      font-weight: 800;
+    }
+    .teacher-image img { width: 100%; height: 100%; object-fit: cover; }
+    .teacher-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; margin-bottom: 5px; }
+    .teacher-subject { color: var(--primary-gold); font-size: 0.95rem; margin-bottom: 15px; }
+    .teacher-quote { font-style: italic; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+    #timeline { background: var(--navy-medium); }
+    .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+    .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background: var(--gradient-gold); border-radius: 2px; }
+    .timeline-item { display: flex; justify-content: flex-end; padding-right: 50%; position: relative; margin-bottom: 50px; }
+    .timeline-item:nth-child(even) { justify-content: flex-start; padding-right: 0; padding-left: 50%; }
+    .timeline-content { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 25px; max-width: 350px; position: relative; margin-right: 30px; }
+    .timeline-item:nth-child(even) .timeline-content { margin-right: 0; margin-left: 30px; }
+    .timeline-dot { position: absolute; right: -38px; top: 25px; width: 20px; height: 20px; background: var(--primary-gold); border-radius: 50%; border: 4px solid var(--navy-medium); }
+    .timeline-item:nth-child(even) .timeline-dot { right: auto; left: -38px; }
+    .timeline-year { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--primary-gold); margin-bottom: 10px; }
+    .timeline-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
+    .timeline-description { color: var(--text-muted); font-size: 0.9rem; }
+
+    #quote { background: var(--navy-dark); text-align: center; padding: 150px 20px; }
+    .quote-content { max-width: 900px; margin: 0 auto; }
+    .quote-icon { font-size: 4rem; color: var(--primary-gold); margin-bottom: 30px; opacity: 0.5; }
+    .quote-text { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.5; font-style: italic; margin-bottom: 30px; }
+    .quote-author { color: var(--primary-gold); font-size: 1.2rem; }
+
+    footer { background: var(--navy-dark); border-top: 1px solid var(--glass-border); padding: 60px 20px 30px; }
+    .footer-content {
+      max-width: var(--container-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-section h4 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-gold); }
+    .footer-section p { color: var(--text-muted); line-height: 1.8; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; transition: var(--transition-smooth); }
+    .footer-links a:hover { color: var(--primary-gold); }
+    .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.9rem; }
+
+    @media (max-width: 1024px) {
+      .timeline::before { left: 20px; }
+      .timeline-item { padding-right: 0; padding-left: 50px; justify-content: flex-start; }
+      .timeline-item:nth-child(even) { padding-left: 50px; }
+      .timeline-content { margin-right: 0; margin-left: 0; }
+      .timeline-item:nth-child(even) .timeline-content { margin-left: 0; }
+      .timeline-dot { left: 12px; right: auto; }
+      .timeline-item:nth-child(even) .timeline-dot { left: 12px; }
+    }
+    @media (max-width: 480px) {
+      .hero-buttons { flex-direction: column; width: 100%; padding: 0 20px; }
+      .btn { width: 100%; justify-content: center; }
+      .teachers-grid { grid-template-columns: 1fr; }
+      .footer-content { grid-template-columns: 1fr; text-align: center; }
+    }
+  </style>
+
+  <section id="teachers">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge" id="uiTeachersBadge">Our Guides</span>
+        <h2 class="section-title" id="uiTeachersTitle">Beloved <span class="highlight">Teachers</span></h2>
+        <p class="section-description" id="uiTeachersDesc">The mentors who shaped our minds and hearts</p>
+      </div>
+      <div class="teachers-grid" id="teachersGrid"></div>
+    </div>
+  </section>
+
+  <section id="timeline">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge" id="uiTimelineBadge">Our Journey</span>
+        <h2 class="section-title" id="uiTimelineTitle">Through The <span class="highlight">Years</span></h2>
+        <p class="section-description" id="uiTimelineDesc">Key milestones of our school journey</p>
+      </div>
+      <div class="timeline" id="timelineList"></div>
+    </div>
+  </section>
+
+  <section id="quote">
+    <div class="quote-content">
+      <div class="quote-icon" id="uiQuoteIcon">❝</div>
+      <p class="quote-text" id="uiQuoteText">"Don't cry because it's over, smile because it happened. The memories we made will last a lifetime."</p>
+      <p class="quote-author" id="uiQuoteAuthor">— Class of 2025</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4 id="uiFooterSchool">Cornerstone</h4>
+        <p id="uiFooterDesc">Cornerstone International School - Where futures are built and memories are made.</p>
+      </div>
+      <div class="footer-section">
+        <h4 id="uiFooterQuickLinksTitle">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#memories">Memory Wall</a></li>
+          <li><a href="#upload">Upload Memory</a></li>
+          <li><a href="#teachers">Teachers</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4 id="uiFooterContactTitle">Contact</h4>
+        <ul class="footer-links">
+          <li id="uiFooterLocation">Cornerstone International School</li>
+          <li><a id="uiFooterEmailLink" href="mailto:farewell2025@cornerstone.edu">farewell2025@cornerstone.edu</a></li>
+          <li id="uiFooterContactNote">Contact School Office</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p id="uiFooterMadeBy">Made with ♥ by the Class of 2025</p>
+      <p style="margin-top: 10px; opacity: 0.7;" id="uiFooterCopyright">© 2025 Cornerstone International School. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">❮</button>
+    <div class="lightbox-grid">
+      <div class="lightbox-main">
+        <div class="lightbox-content" id="lightboxContent"></div>
+      </div>
+      <div class="lightbox-side">
+        <div class="lightbox-info" id="lightboxInfo"></div>
+
+        <div style="margin-top: 14px;">
+          <div class="comments-header">
+            <div class="comments-title">Comments</div>
+            <div class="mini-pill" id="commentsCountPill">0</div>
+          </div>
+
+          <div class="comments-disabled" id="commentsDisabledBanner" style="display:none;">
+            Comments are currently disabled by the admin.
+          </div>
+
+          <div class="comment-form" id="commentForm">
+            <div class="comment-form-row">
+              <input class="form-input" id="commentName" placeholder="Your name *" maxlength="60" />
+              <textarea class="form-textarea" id="commentText" placeholder="Write a comment..." maxlength="800" style="min-height: 90px;"></textarea>
+            </div>
+            <div class="comment-form-actions">
+              <button class="btn btn-secondary" type="button" id="cancelReplyBtn" style="display:none; padding: 12px 18px;">Cancel Reply</button>
+              <button class="btn btn-primary" type="button" id="postCommentBtn" style="padding: 12px 18px;">Post</button>
+            </div>
+            <div class="mini-pill" id="replyingToPill" style="display:none;">Replying…</div>
+          </div>
+
+          <div class="comment-list" id="commentList"></div>
+        </div>
+      </div>
+    </div>
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">❯</button>
+  </div>
+
+  <!-- Admin Login Overlay -->
+  <style>
+    .admin-overlay {
+      position: fixed; top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.9);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .admin-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+    .admin-login-card {
+      background: var(--navy-medium);
+      border: 1px solid var(--glass-border);
+      border-radius: 25px;
+      padding: 42px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+    .admin-login-card h2 { font-family: var(--font-display); font-size: 2rem; margin-bottom: 10px; color: var(--primary-gold); }
+    .admin-login-card p { color: var(--text-muted); margin-bottom: 22px; }
+    .admin-login-card .form-group { text-align: left; }
+    .admin-login-error {
+      background: rgba(244, 67, 54, 0.1);
+      border: 1px solid var(--error-red);
+      color: var(--error-red);
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .admin-login-error.active { display: block; }
+    .admin-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
+
+    /* Admin dashboard base (full UI + theme editor + users panel in Part 3) */
+    .admin-dashboard {
+      position: fixed; top:0; left:0; right:0; bottom:0;
+      background: var(--navy-dark);
+      z-index: 3000;
+      display: none;
+      overflow-y: auto;
+    }
+    .admin-dashboard.active { display: block; }
+
+    .admin-header {
+      background: var(--navy-medium);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .admin-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--primary-gold); }
+    .admin-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .admin-btn {
+      padding: 10px 16px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      font-family: var(--font-body);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+    }
+    .admin-btn-primary { background: var(--gradient-gold); color: var(--navy-dark); }
+    .admin-btn-secondary { background: var(--glass-bg); color: var(--text-light); border: 1px solid var(--glass-border); }
+    .admin-btn-danger { background: rgba(244, 67, 54, 0.2); color: #ffb3ad; border: 1px solid rgba(244,67,54,0.5); }
+    .admin-btn:hover { transform: translateY(-2px); }
+
+    .admin-content { padding: 40px; }
+
+    .admin-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .admin-tab {
+      padding: 10px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      color: var(--text-light);
+      transition: var(--transition-smooth);
+      user-select: none;
+    }
+    .admin-tab.active { background: var(--primary-gold); color: var(--navy-dark); border-color: var(--primary-gold); }
+
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+
+    .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 25px; text-align: center; }
+    .stat-number { font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; color: var(--primary-gold); }
+    .stat-label { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+
+    .admin-filters { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+    .admin-search { flex: 1; min-width: 250px; }
+    .admin-search input {
+      width: 100%;
+      padding: 12px 20px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 25px;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    .admin-search input:focus { outline: none; border-color: var(--primary-gold); }
+    .admin-filter-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+    .admin-memory-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; overflow: hidden; transition: var(--transition-smooth); }
+    .admin-memory-card:hover { border-color: var(--primary-gold); }
+    .admin-memory-media { position: relative; aspect-ratio: 16/10; overflow: hidden; background: var(--navy-dark); }
+    .admin-memory-media img, .admin-memory-media video { width: 100%; height: 100%; object-fit: cover; }
+    .admin-memory-status { position: absolute; top: 10px; right: 10px; padding: 5px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+    .status-approved { background: rgba(76, 175, 80, 0.9); color: white; }
+    .status-pending { background: rgba(255, 193, 7, 0.9); color: #333; }
+    .status-trash { background: rgba(244,67,54,0.9); color: white; }
+
+    .admin-memory-info { padding: 15px; }
+    .admin-memory-name { font-weight: 800; margin-bottom: 5px; }
+    .admin-memory-caption { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .admin-memory-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; gap: 10px; }
+    .admin-memory-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .admin-memory-actions button {
+      padding: 9px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      border: none;
+      font-family: var(--font-body);
+      font-weight: 700;
+    }
+    .approve-btn { background: rgba(76, 175, 80, 0.2); color: #8ff09a; border: 1px solid rgba(76,175,80,0.35); }
+    .approve-btn:hover { background: var(--success-green); color: white; }
+    .delete-btn { background: rgba(244, 67, 54, 0.2); color: #ffb3ad; border: 1px solid rgba(244,67,54,0.35); }
+    .delete-btn:hover { background: var(--error-red); color: white; }
+    .download-btn { background: rgba(33, 150, 243, 0.2); color: #9cd3ff; border: 1px solid rgba(33,150,243,0.35); }
+    .download-btn:hover { background: #2196F3; color: white; }
+    .edit-btn { background: rgba(212,175,55,0.18); color: var(--primary-gold-light); border: 1px solid rgba(212,175,55,0.35); }
+    .edit-btn:hover { background: rgba(212,175,55,0.35); }
+    .restore-btn { background: rgba(255,255,255,0.08); color: var(--text-light); border: 1px solid rgba(255,255,255,0.2); }
+    .restore-btn:hover { border-color: var(--primary-gold); }
+
+    /* notification */
+    .notification {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      padding: 18px 22px;
+      border-radius: 15px;
+      z-index: 4000;
+      display: none;
+      align-items: center;
+      gap: 15px;
+      animation: slideInRight 0.5s ease;
+      max-width: 420px;
+    }
+    .notification.active { display: flex; }
+    .notification.success { background: rgba(76, 175, 80, 0.95); color: white; }
+    .notification.error { background: rgba(244, 67, 54, 0.95); color: white; }
+    .notification.info { background: rgba(33, 150, 243, 0.95); color: white; }
+    .notification-icon { font-size: 1.5rem; }
+    .notification-content { flex: 1; }
+    .notification-title { font-weight: 800; margin-bottom: 3px; }
+    .notification-message { font-size: 0.9rem; opacity: 0.95; }
+    .notification-close { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; opacity: 0.7; }
+    .notification-close:hover { opacity: 1; }
+
+    .confetti-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:5000; overflow:hidden; }
+    .confetti { position: absolute; width: 10px; height: 10px; animation: confettiFall 3s linear forwards; }
+
+    @media (max-width: 768px) {
+      .admin-header { padding: 15px 20px; }
+      .admin-content { padding: 20px; }
+      .admin-filters { flex-direction: column; }
+      .admin-search { width: 100%; }
+    }
+  </style>
+
+  <div class="admin-overlay" id="adminOverlay">
+    <button class="admin-close" onclick="closeAdminLogin()">✕</button>
+    <div class="admin-login-card">
+      <h2>Admin Access</h2>
+      <p>Login with your Admin ID + password</p>
+      <div class="admin-login-error" id="adminLoginError">Invalid credentials. Please try again.</div>
+
+      <div class="form-group">
+        <label>Admin ID</label>
+        <input type="text" class="form-input" id="adminUserId" placeholder="super" />
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:8px;">Tip: Super Admin ID is <strong>super</strong>.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-input" id="adminPassword" placeholder="Enter password" />
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%;" onclick="adminLogin()">Login</button>
+    </div>
+  </div>
+
+  <div class="admin-dashboard" id="adminDashboard">
+    <div class="admin-header">
+      <h1 class="admin-title">Admin Dashboard</h1>
+      <div class="admin-actions">
+        <button class="admin-btn admin-btn-primary" id="btnApproveAll" onclick="approveAllPending()">Approve All</button>
+        <button class="admin-btn admin-btn-secondary" id="btnDownloadZip" onclick="downloadAllApproved()">Download ZIP</button>
+        <button class="admin-btn admin-btn-secondary" id="btnExportCsv" onclick="exportCSV()">Export CSV</button>
+        <button class="admin-btn admin-btn-danger" onclick="adminLogout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-tabs" id="adminTabs">
+        <div class="admin-tab active" id="tabModeration" onclick="switchAdminTab('moderation')">Moderation</div>
+        <div class="admin-tab" id="tabSettings" onclick="switchAdminTab('settings')">Site Settings</div>
+        <div class="admin-tab" id="tabTheme" onclick="switchAdminTab('theme')">Theme</div>
+        <div class="admin-tab" id="tabUsers" onclick="switchAdminTab('users')">Users</div>
+        <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
+      </div>
+
+      <!-- Panels: content is completed in Part 3 -->
+      <div class="admin-panel active" id="panelModeration">
+        <div class="admin-stats" id="adminStats">
+          <div class="stat-card"><div class="stat-number" id="statTotal">0</div><div class="stat-label">Total Uploads</div></div>
+          <div class="stat-card"><div class="stat-number" id="statApproved">0</div><div class="stat-label">Approved</div></div>
+          <div class="stat-card"><div class="stat-number" id="statPending">0</div><div class="stat-label">Pending</div></div>
+          <div class="stat-card"><div class="stat-number" id="statStorage">0 MB</div><div class="stat-label">Storage</div></div>
+        </div>
+
+        <div class="admin-filters">
+          <div class="admin-search"><input type="text" id="adminSearch" placeholder="Search by name/caption/type..." /></div>
+          <div class="admin-filter-group">
+            <button class="filter-btn active" data-admin-filter="all">All</button>
+            <button class="filter-btn" data-admin-filter="approved">Approved</button>
+            <button class="filter-btn" data-admin-filter="pending">Pending</button>
+            <button class="filter-btn" data-admin-filter="featured">Featured</button>
+            <button class="filter-btn" data-admin-filter="trash">Trash</button>
+          </div>
+          <select class="form-select" id="adminSort" style="width: auto; padding: 10px 40px 10px 15px;">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="likes">Most Liked</option>
+          </select>
+          <select class="form-select" id="adminPageSize" style="width:auto; padding: 10px 40px 10px 15px;">
+            <option value="30">30/page</option>
+            <option value="60">60/page</option>
+          </select>
+        </div>
+
+        <div style="display:flex; gap: 10px; flex-wrap:wrap; margin-bottom: 14px;">
+          <button class="admin-btn admin-btn-secondary" id="bulkSelectToggle" onclick="toggleBulkSelect()">Bulk Select: OFF</button>
+          <button class="admin-btn admin-btn-secondary" onclick="bulkActionPrompt('approve')">Bulk Approve</button>
+          <button class="admin-btn admin-btn-secondary" onclick="bulkActionPrompt('trash')">Bulk Trash</button>
+          <button class="admin-btn admin-btn-secondary" onclick="bulkActionPrompt('restore')">Bulk Restore</button>
+          <button class="admin-btn admin-btn-secondary" onclick="bulkActionPrompt('setType')">Bulk Change Category</button>
+          <button class="admin-btn admin-btn-secondary" onclick="bulkActionPrompt('feature')">Bulk Feature</button>
+          <button class="admin-btn admin-btn-secondary" onclick="bulkActionPrompt('unfeature')">Bulk Unfeature</button>
+        </div>
+
+        <div class="admin-grid" id="adminGrid"></div>
+
+        <div class="load-more-wrap" style="margin-top: 25px;">
+          <button class="btn btn-secondary load-more-btn" id="adminLoadMoreBtn" type="button" onclick="adminLoadMore()">Load More</button>
+        </div>
+      </div>
+
+      <div class="admin-panel" id="panelSettings"></div>
+      <div class="admin-panel" id="panelTheme"></div>
+      <div class="admin-panel" id="panelUsers"></div>
+      <div class="admin-panel" id="panelSecurity"></div>
+    </div>
+  </div>
+
+  <div class="notification" id="notification">
+    <span class="notification-icon" id="notificationIcon">✓</span>
+    <div class="notification-content">
+      <div class="notification-title" id="notificationTitle">Success</div>
+      <div class="notification-message" id="notificationMessage">Operation completed successfully.</div>
+    </div>
+    <button class="notification-close" onclick="hideNotification()">✕</button>
+  </div>
+
+  <div class="confetti-container" id="confettiContainer"></div>
+    <script>
+
+        function renderTeachersEditor(){
+  const wrap = document.getElementById('teachersEditor');
+  if (!wrap) return;
+  const arr = Array.isArray(state.settings.teachers) ? state.settings.teachers : [];
+  wrap.innerHTML = arr.map((t, i) => teacherRowHtml(t, i)).join('') ||
+    `<div class="mini-pill">No teachers yet. Click “Add Teacher”.</div>`;
+}
+
+function renderTimelineEditor(){
+  const wrap = document.getElementById('timelineEditor');
+  if (!wrap) return;
+  const arr = Array.isArray(state.settings.timeline) ? state.settings.timeline : [];
+  wrap.innerHTML = arr.map((x, i) => timelineRowHtml(x, i)).join('') ||
+    `<div class="mini-pill">No timeline items yet. Click “Add Timeline Item”.</div>`;
+}
+
+function addTeacherRow(){
+  if (!Array.isArray(state.settings.teachers)) state.settings.teachers = [];
+  state.settings.teachers.push({ name:'', subject:'', quote:'', imageUrl:'' });
+  renderTeachersEditor();
+}
+
+function removeTeacherRow(idx){
+  if (!Array.isArray(state.settings.teachers)) return;
+  state.settings.teachers.splice(idx, 1);
+  renderTeachersEditor();
+}
+
+function addTimelineRow(){
+  if (!Array.isArray(state.settings.timeline)) state.settings.timeline = [];
+  state.settings.timeline.push({ year:'', title:'', description:'' });
+  renderTimelineEditor();
+}
+
+function removeTimelineRow(idx){
+  if (!Array.isArray(state.settings.timeline)) return;
+  state.settings.timeline.splice(idx, 1);
+  renderTimelineEditor();
+}
+
+function readTeachersFromEditor(){
+  const inputs = Array.from(document.querySelectorAll('[data-teacher-idx]'));
+  const arr = [];
+  for (const el of inputs){
+    const idx = Number(el.dataset.teacherIdx);
+    const field = el.dataset.teacherField;
+    arr[idx] = arr[idx] || { name:'', subject:'', quote:'', imageUrl:'' };
+    arr[idx][field] = el.value;
+  }
+  // cleanup + trim
+  return (arr || [])
+    .filter(Boolean)
+    .map(t => ({
+      name: String(t.name || '').trim(),
+      subject: String(t.subject || '').trim(),
+      quote: String(t.quote || '').trim(),
+      imageUrl: String(t.imageUrl || '').trim()
+    }))
+    .filter(t => t.name); // require name
+}
+
+function readTimelineFromEditor(){
+  const inputs = Array.from(document.querySelectorAll('[data-timeline-idx]'));
+  const arr = [];
+  for (const el of inputs){
+    const idx = Number(el.dataset.timelineIdx);
+    const field = el.dataset.timelineField;
+    arr[idx] = arr[idx] || { year:'', title:'', description:'' };
+    arr[idx][field] = el.value;
+  }
+  return (arr || [])
+    .filter(Boolean)
+    .map(x => ({
+      year: String(x.year || '').trim(),
+      title: String(x.title || '').trim(),
+      description: String(x.description || '').trim()
+    }))
+    .filter(x => x.year || x.title || x.description);
+}
+    // =========================
+    // CONFIG
+    // =========================
+    const CONFIG = {
+      API_BASE: "140.245.193.185:3000",
+      REFRESH_INTERVAL: 60000,
+      MAX_FILE_SIZE: 100 * 1024 * 1024,
+      MAX_TOTAL_SIZE: 200 * 1024 * 1024,
+      MAX_FILES: 20,
+      ALLOWED_TYPES: ['image/jpeg','image/png','image/gif','image/webp','video/mp4','video/quicktime','video/webm'],
+      WS_AUTO: false
+    };
+
+    function apiUrl(path){ return `${CONFIG.API_BASE}${path}`; }
+    function mediaUrl(url){
+      if (!url) return url;
+      if (url.startsWith('http://') || url.startsWith('https://')) return url;
+      if (url.startsWith('/')) return `${CONFIG.API_BASE}${url}`;
+      return `${CONFIG.API_BASE}/${url}`;
+    }
+
+    // =========================
+    // DEFAULT SETTINGS (merged with server)
+    // =========================
+    const DEFAULT_SETTINGS = {
+      schoolName: "Cornerstone International School",
+      eventName: "Farewell 2025",
+      logoText: "🎓",
+      contactEmail: "farewell2025@cornerstone.edu",
+      locationLine: "Cornerstone International School",
+      farewellIST: "2026-03-15T18:00",
+      heroBadge: "Class of 2025",
+      heroTitle: "Farewell {year}",
+      heroSubtitle: "Where Memories Become Eternal",
+      heroDescription: "As we close this chapter and begin new journeys, let's celebrate the friendships, lessons, and memories that shaped us.",
+      quoteText: "\"Don't cry because it's over, smile because it happened. The memories we made will last a lifetime.\"",
+      quoteAuthor: "— Class of 2025",
+      footerDesc: "Where futures are built and memories are made.",
+      footerContactNote: "Contact School Office",
+      footerMadeBy: "Made with ♥ by the Class of 2025",
+      footerCopyright: "© 2026 Cornerstone International School. All rights reserved.",
+
+      // New toggles/windows
+      uploadsEnabled: true,
+      commentsEnabled: true,
+      profanityFilterEnabled: false,
+
+      uploadWindowEnabled: false,
+      uploadWindowStartIST: "",
+      uploadWindowEndIST: "",
+
+      autoApproveEnabled: false,
+      autoApproveStartIST: "",
+      autoApproveEndIST: "",
+
+      // Teacher/Timeline
+      teachers: [],
+      timeline: [],
+
+      // Theme (full palette)
+      theme: {
+        // base
+        primaryGold: "#D4AF37",
+        primaryGoldLight: "#F4E5B2",
+        primaryGoldDark: "#B8860B",
+        navyDark: "#1a1a2e",
+        navyMedium: "#16213e",
+        navyLight: "#0f3460",
+        accentRose: "#e94560",
+        accentPurple: "#7B2D8E",
+        textLight: "#ffffff",
+        textMuted: "rgba(255, 255, 255, 0.7)",
+        glassBg: "rgba(255, 255, 255, 0.1)",
+        glassBorder: "rgba(255, 255, 255, 0.2)",
+        successGreen: "#4CAF50",
+        errorRed: "#f44336"
+      }
+    };
+function safeParse(v){
+  try{
+    if (!v || v === 'undefined') return null;
+    return JSON.parse(v);
+  }catch{
+    return null;
+  }
+}
+    // =========================
+    // STATE
+    // =========================
+    let state = {
+      selectedFiles: [],
+      // public memories pagination
+      memories: [],
+      memPage: 1,
+      memLimit: 20,
+      memHasMore: true,
+      memLoading: false,
+      memCursor: null,
+      currentFilter: 'all',
+      infiniteScroll: true,
+
+      // lightbox + comments
+      lightboxIndex: 0,
+      replyingTo: null, // commentId
+    
+      // admin
+      adminToken: localStorage.getItem('adminToken') || null,
+      adminUser: safeParse(localStorage.getItem('adminUser')),
+      adminFilter: 'all',
+      adminSort: 'newest',
+      adminSearch: '',
+      adminLimit: 30,
+      adminPage: 1,
+      adminHasMore: true,
+      adminBulkMode: false,
+      adminSelectedIds: new Set(),
+
+      // settings
+      settings: structuredClone(DEFAULT_SETTINGS),
+
+      // websocket
+      ws: null,
+      wsConnected: false
+    };
+
+    // =========================
+    // INIT
+    // =========================
+    document.addEventListener('DOMContentLoaded', async () => {
+      initParticles();
+      initNavbar();
+      initUpload();
+      initMemoryWall();
+      initLightboxComments();
+      initAdminTrigger();
+
+      await loadSettings();
+      applySettingsToUI();
+      applyThemeToCSS();
+      initCountdown();
+
+      renderTeachers();
+      renderTimeline();
+
+      await loadMemories(true);
+
+      if (CONFIG.WS_AUTO) connectWS();
+
+      // periodic refresh of public feed
+      setInterval(() => {
+        if (!document.getElementById('adminDashboard').classList.contains('active')) {
+          // lightweight: only refresh counts + new items indicator via ws; keep this as fallback
+          loadMemories(true);
+        }
+      }, CONFIG.REFRESH_INTERVAL);
+    });
+
+    // =========================
+    // PARTICLES / NAV
+    // =========================
+    function initParticles() {
+      const container = document.getElementById('particles-container');
+      const particleCount = 50;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 8 + 's';
+        particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+        container.appendChild(particle);
+      }
+    }
+
+    function initNavbar() {
+      const navbar = document.getElementById('navbar');
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const navLinks = document.getElementById('navLinks');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+      });
+
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenuBtn.classList.remove('active');
+          navLinks.classList.remove('active');
+        });
+      });
+    }
+
+    // =========================
+    // SETTINGS + THEME
+    // =========================
+    async function loadSettings() {
+      try {
+        const res = await fetch(apiUrl('/api/settings'));
+        const data = await res.json();
+        if (data && data.success) {
+          state.settings = mergeDeep(structuredClone(DEFAULT_SETTINGS), data.settings || {});
+        } else {
+          state.settings = structuredClone(DEFAULT_SETTINGS);
+        }
+      } catch {
+        state.settings = structuredClone(DEFAULT_SETTINGS);
+      }
+      updateUploadStatusCallout();
+    }
+
+    function applySettingsToUI() {
+      const s = state.settings;
+      document.getElementById('uiLogoIcon').textContent = s.logoText || '🎓';
+      document.getElementById('uiSchoolName').textContent = s.schoolName || '';
+      document.getElementById('uiEventName').textContent = s.eventName || '';
+
+      document.getElementById('uiHeroBadge').textContent = s.heroBadge || '';
+      const year = inferYearFromIST(s.farewellIST) || new Date().getFullYear();
+      document.getElementById('uiHeroTitle').innerHTML =
+        escapeHtml((s.heroTitle || '').replaceAll('{year}', String(year)))
+          .replace(String(year), `<span class="highlight">${escapeHtml(String(year))}</span>`);
+      document.getElementById('uiHeroSubtitle').textContent = s.heroSubtitle || '';
+      document.getElementById('uiHeroDescription').textContent = s.heroDescription || '';
+
+      document.getElementById('uiQuoteText').textContent = s.quoteText || '';
+      document.getElementById('uiQuoteAuthor').textContent = s.quoteAuthor || '';
+
+      document.getElementById('uiFooterSchool').textContent = s.schoolName || '';
+      document.getElementById('uiFooterDesc').textContent = s.footerDesc || '';
+      document.getElementById('uiFooterLocation').textContent = s.locationLine || '';
+      const emailLink = document.getElementById('uiFooterEmailLink');
+      emailLink.textContent = s.contactEmail || '';
+      emailLink.href = `mailto:${s.contactEmail || ''}`;
+      document.getElementById('uiFooterContactNote').textContent = s.footerContactNote || '';
+      document.getElementById('uiFooterMadeBy').textContent = s.footerMadeBy || '';
+      document.getElementById('uiFooterCopyright').textContent = s.footerCopyright || '';
+      document.getElementById('uiEventDateLine').innerHTML = formatEventLineIST(s.farewellIST);
+
+      document.title = `${s.eventName || 'Farewell'} | ${s.schoolName || 'School'}`;
+    }
+
+    function applyThemeToCSS() {
+      const t = state.settings.theme || {};
+      const root = document.documentElement;
+      root.dataset.theme = 'custom';
+
+      // map theme to CSS variables used by styles
+      setCss('--primary-gold', t.primaryGold);
+      setCss('--primary-gold-light', t.primaryGoldLight);
+      setCss('--primary-gold-dark', t.primaryGoldDark);
+
+      setCss('--navy-dark', t.navyDark);
+      setCss('--navy-medium', t.navyMedium);
+      setCss('--navy-light', t.navyLight);
+
+      setCss('--accent-rose', t.accentRose);
+      setCss('--accent-purple', t.accentPurple);
+
+      setCss('--text-light', t.textLight);
+      setCss('--text-muted', t.textMuted);
+      setCss('--glass-bg', t.glassBg);
+      setCss('--glass-border', t.glassBorder);
+      setCss('--success-green', t.successGreen);
+      setCss('--error-red', t.errorRed);
+
+      // rebuild gradients based on gold/navy
+      root.style.setProperty('--gradient-gold', `linear-gradient(135deg, ${t.primaryGold} 0%, ${t.primaryGoldLight} 50%, ${t.primaryGold} 100%)`);
+      root.style.setProperty('--gradient-navy', `linear-gradient(135deg, ${t.navyDark} 0%, ${t.navyMedium} 50%, ${t.navyLight} 100%)`);
+    }
+
+    function setCss(varName, val){
+      if (val === undefined || val === null || val === '') return;
+      document.documentElement.style.setProperty(varName, String(val));
+    }
+
+    function updateUploadStatusCallout(){
+      const el = document.getElementById('uploadStatusCallout');
+      const s = state.settings;
+
+      // Can't know window status without duplicating logic; we can still show config.
+      let lines = [];
+      if (!s.uploadsEnabled) lines.push(`<strong>Uploads are currently disabled.</strong>`);
+      else lines.push(`<strong>Uploads are enabled.</strong>`);
+
+      if (s.uploadWindowEnabled) {
+        lines.push(`Upload window: <strong>${escapeHtml(s.uploadWindowStartIST || '—')}</strong> to <strong>${escapeHtml(s.uploadWindowEndIST || '—')}</strong> (IST)`);
+      }
+      if (s.autoApproveEnabled) {
+        lines.push(`Auto-approve window: <strong>${escapeHtml(s.autoApproveStartIST || '—')}</strong> to <strong>${escapeHtml(s.autoApproveEndIST || '—')}</strong> (IST)`);
+      }
+      if (s.profanityFilterEnabled) {
+        lines.push(`Profanity filter: <strong>ON</strong>`);
+      }
+
+      el.innerHTML = lines.join('<br/>');
+      el.style.display = 'block';
+    }
+
+    // =========================
+    // COUNTDOWN
+    // =========================
+    function initCountdown() {
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+
+    function updateCountdown() {
+      const target = parseISTLocalToDate(state.settings.farewellIST);
+      if (!target) return;
+
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById('days').textContent = ' ';
+        document.getElementById('hours').textContent = "IT'S";
+        document.getElementById('minutes').textContent = 'TIME';
+        document.getElementById('seconds').textContent = ' ';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    function parseISTLocalToDate(istLocal) {
+      if (!istLocal || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(istLocal)) return null;
+      const [datePart, timePart] = istLocal.split('T');
+      const [Y, M, D] = datePart.split('-').map(Number);
+      const [h, m] = timePart.split(':').map(Number);
+      const utcMs = Date.UTC(Y, M - 1, D, h - 5, m - 30, 0);
+      return new Date(utcMs);
+    }
+
+    function formatEventLineIST(istLocal) {
+      const d = parseISTLocalToDate(istLocal);
+      if (!d) return `<span>Invalid date</span>`;
+      const fmtDate = new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+      const fmtTime = new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit' }).format(d);
+      return `<span>${escapeHtml(fmtDate)}</span> at <span>${escapeHtml(fmtTime)}</span> IST`;
+    }
+
+    function inferYearFromIST(istLocal) {
+      const d = parseISTLocalToDate(istLocal);
+      if (!d) return null;
+      const parts = new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', year: 'numeric' }).formatToParts(d);
+      const y = parts.find(p => p.type === 'year')?.value;
+      return y ? Number(y) : null;
+    }
+
+    // =========================
+    // UPLOAD
+    // =========================
+    function initUpload() {
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('file-input');
+      const caption = document.getElementById('caption');
+      const charCount = document.getElementById('charCount');
+
+      dropzone.addEventListener('click', () => fileInput.click());
+      dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+      dropzone.addEventListener('drop', (e) => { e.preventDefault(); dropzone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+      fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+      caption.addEventListener('input', () => {
+        const count = caption.value.length;
+        charCount.textContent = count;
+        charCount.parentElement.classList.toggle('warning', count > 450);
+      });
+
+      document.getElementById('submitUpload').addEventListener('click', submitUpload);
+    }
+
+    function handleFiles(files) {
+      const fileArray = Array.from(files);
+      let totalSize = 0;
+      const validFiles = [];
+
+      if (fileArray.length > CONFIG.MAX_FILES) {
+        showNotification('error','Too many files',`Maximum ${CONFIG.MAX_FILES} files per upload.`);
+        return;
+      }
+
+      for (const file of fileArray) {
+        if (!CONFIG.ALLOWED_TYPES.includes(file.type)) { showNotification('error', 'Invalid File Type', `${file.name} is not supported.`); continue; }
+        if (file.size > CONFIG.MAX_FILE_SIZE) { showNotification('error', 'File Too Large', `${file.name} exceeds 100MB limit.`); continue; }
+        totalSize += file.size;
+        validFiles.push(file);
+      }
+
+      if (totalSize > CONFIG.MAX_TOTAL_SIZE) {
+        showNotification('error', 'Total Size Exceeded', 'Total upload size cannot exceed 200MB.');
+        return;
+      }
+
+      state.selectedFiles = validFiles;
+      updateFilePreview();
+    }
+
+    function updateFilePreview() {
+      const container = document.getElementById('filePreviewContainer');
+      const grid = document.getElementById('filePreviewGrid');
+      const info = document.getElementById('fileInfo');
+      const formFields = document.getElementById('uploadFormFields');
+
+      grid.innerHTML = '';
+
+      if (state.selectedFiles.length === 0) {
+        container.classList.remove('has-files');
+        formFields.style.display = 'none';
+        return;
+      }
+
+      container.classList.add('has-files');
+      formFields.style.display = 'block';
+
+      let totalSize = 0;
+      state.selectedFiles.forEach((file, index) => {
+        totalSize += file.size;
+        const item = document.createElement('div');
+        item.className = 'file-preview-item';
+
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          item.appendChild(img);
+        } else {
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(file);
+          item.appendChild(video);
+          const indicator = document.createElement('div');
+          indicator.className = 'video-indicator';
+          indicator.textContent = '▶';
+          item.appendChild(indicator);
+        }
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-file';
+        removeBtn.textContent = '✕';
+        removeBtn.onclick = () => removeFile(index);
+        item.appendChild(removeBtn);
+
+        grid.appendChild(item);
+      });
+
+      info.textContent = `${state.selectedFiles.length} file(s) selected • ${formatFileSize(totalSize)}`;
+    }
+
+    function removeFile(index) {
+      state.selectedFiles.splice(index, 1);
+      updateFilePreview();
+    }
+
+    async function submitUpload() {
+      const name = document.getElementById('studentName').value.trim();
+      const cap = document.getElementById('caption').value.trim();
+      const type = document.getElementById('memoryType').value;
+
+      if (!name) { showNotification('error', 'Missing Name', 'Please enter your name.'); return; }
+      if (!cap) { showNotification('error', 'Missing Caption', 'Please add a caption.'); return; }
+      if (!type) { showNotification('error', 'Missing Category', 'Please select a category.'); return; }
+      if (state.selectedFiles.length === 0) { showNotification('error', 'No Files', 'Please select at least one file.'); return; }
+
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('caption', cap);
+      formData.append('type', type);
+      state.selectedFiles.forEach(file => formData.append('files', file));
+
+      const progressDiv = document.getElementById('uploadProgress');
+      const progressFill = document.getElementById('progressFill');
+      const progressText = document.getElementById('progressText');
+      const submitBtn = document.getElementById('submitUpload');
+      progressDiv.classList.add('active');
+      submitBtn.disabled = true;
+
+      try {
+        const xhr = new XMLHttpRequest();
+
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable) {
+            const percent = Math.round((e.loaded / e.total) * 100);
+            progressFill.style.width = percent + '%';
+            progressText.textContent = `Uploading... ${percent}%`;
+          }
+        });
+
+        xhr.addEventListener('load', () => {
+          let response = {};
+          try { response = JSON.parse(xhr.responseText); } catch {}
+          if (xhr.status === 200 && response.success) {
+            document.getElementById('uploadForm').style.display = 'none';
+            document.getElementById('uploadSuccess').classList.add('active');
+            document.getElementById('uploadSuccessMsg').textContent =
+              response.duplicates?.length
+                ? `Uploaded with duplicates skipped (${response.duplicates.length}). Pending approval unless auto-approve is active.`
+                : `Uploaded successfully. Pending approval unless auto-approve is active.`;
+            triggerConfetti();
+            loadMemories(true);
+          } else {
+            showNotification('error', 'Upload Failed', response.error || 'Server error');
+          }
+          progressDiv.classList.remove('active');
+          submitBtn.disabled = false;
+        });
+
+        xhr.addEventListener('error', () => {
+          showNotification('error', 'Upload Failed', 'Network error. Please try again.');
+          progressDiv.classList.remove('active');
+          submitBtn.disabled = false;
+        });
+
+        xhr.open('POST', apiUrl('/api/upload'));
+        xhr.send(formData);
+      } catch (e) {
+        showNotification('error', 'Upload Failed', e.message);
+        progressDiv.classList.remove('active');
+        submitBtn.disabled = false;
+      }
+    }
+
+    function resetUploadForm() {
+      state.selectedFiles = [];
+      document.getElementById('uploadForm').style.display = 'block';
+      document.getElementById('uploadSuccess').classList.remove('active');
+      document.getElementById('studentName').value = '';
+      document.getElementById('caption').value = '';
+      document.getElementById('memoryType').value = '';
+      document.getElementById('charCount').textContent = '0';
+      document.getElementById('file-input').value = '';
+      document.getElementById('progressFill').style.width = '0%';
+      updateFilePreview();
+    }
+
+    // =========================
+    // PUBLIC MEMORIES (pagination + infinite scroll)
+    // =========================
+    function initMemoryWall() {
+      document.querySelectorAll('.memory-filters .filter-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          document.querySelectorAll('.memory-filters .filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.currentFilter = btn.dataset.filter;
+          await loadMemories(true);
+        });
+      });
+
+      document.getElementById('loadMoreBtn').addEventListener('click', async () => {
+        await loadMemories(false);
+      });
+
+      document.getElementById('toggleInfiniteBtn').addEventListener('click', () => {
+        state.infiniteScroll = !state.infiniteScroll;
+        document.getElementById('infiniteLabel').textContent = state.infiniteScroll ? 'ON' : 'OFF';
+        if (state.infiniteScroll) {
+          showNotification('info','Infinite Scroll','Scroll near bottom to load more.');
+        } else {
+          showNotification('info','Infinite Scroll','You can use the Load More button.');
+        }
+      });
+
+      window.addEventListener('scroll', debounce(async () => {
+        if (!state.infiniteScroll) return;
+        if (!state.memHasMore || state.memLoading) return;
+        const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 700;
+        if (nearBottom) await loadMemories(false);
+      }, 250));
+    }
+
+    async function loadMemories(reset) {
+      if (state.memLoading) return;
+      state.memLoading = true;
+
+      if (reset) {
+        state.memPage = 1;
+        state.memCursor = null;
+        state.memHasMore = true;
+        state.memories = [];
+        renderMemories(true);
+      }
+
+      try {
+        const params = new URLSearchParams();
+        params.set('page', String(state.memPage));
+        params.set('limit', String(state.memLimit));
+        if (state.currentFilter !== 'all') params.set('type', state.currentFilter);
+        if (state.memCursor) params.set('cursor', state.memCursor);
+
+        const res = await fetch(apiUrl(`/api/memories?${params}`));
+        const data = await res.json();
+        if (data.success) {
+          const newItems = (data.memories || []).map(m => ({ ...m, file_url: mediaUrl(m.file_url) }));
+          state.memories = reset ? newItems : state.memories.concat(newItems);
+          state.memHasMore = !!data.hasMore;
+          state.memCursor = data.nextCursor;
+          state.memPage += 1;
+          renderMemories(false);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        state.memLoading = false;
+      }
+    }
+
+    function renderMemories(resetLoading) {
+      const grid = document.getElementById('memoryGrid');
+
+      if (resetLoading) {
+        grid.innerHTML = `
+          <div class="memory-loading" style="grid-column: 1/-1;">
+            <div class="loading-spinner"></div>
+            <p>Loading memories...</p>
+          </div>`;
+        return;
+      }
+
+      document.getElementById('memCountPill').textContent = `${state.memories.length} loaded${state.memHasMore ? ' • more available' : ''}`;
+
+      if (state.memories.length === 0) {
+        grid.innerHTML = `
+          <div class="memory-empty" style="grid-column: 1/-1;">
+            <div class="memory-empty-icon">🖼️</div>
+            <h3>No Memories Yet</h3>
+            <p>Be the first to share a memory!</p>
+          </div>`;
+        document.getElementById('loadMoreWrap').style.display = 'none';
+        return;
+      }
+
+      grid.innerHTML = state.memories.map((memory, index) => `
+        <div class="memory-card" data-index="${index}">
+          <div class="memory-media" onclick="openLightbox(${index})">
+            ${memory.file_type === 'video' ? `
+              <video src="${memory.file_url}" preload="metadata"></video>
+              <div class="play-button">▶</div>
+            ` : `
+              <img src="${memory.file_url}" alt="${escapeAttr(memory.caption)}" loading="lazy" />
+            `}
+            <span class="memory-type-badge">${escapeHtml(memory.memory_type)}</span>
+            ${(memory.featured ? `<span class="memory-featured-badge">Featured</span>` : '')}
+          </div>
+          <div class="memory-content">
+            <div class="memory-author">
+              <div class="memory-avatar">${escapeHtml((memory.student_name||'').charAt(0).toUpperCase())}</div>
+              <div class="memory-author-info">
+                <div class="memory-author-name">${escapeHtml(memory.student_name || '')}</div>
+                <div class="memory-time">${timeAgo(memory.created_at)}</div>
+              </div>
+            </div>
+
+            <p class="memory-caption">${escapeHtml(memory.caption || '')}</p>
+
+            <div class="memory-actions">
+              <div class="action-row">
+                <button class="like-btn ${isLiked(memory.id) ? 'liked' : ''}" onclick="likeMemory(${memory.id}, this)">
+                  <span class="heart-icon">${isLiked(memory.id) ? '❤️' : '🤍'}</span>
+                  <span class="like-count">${memory.likes || 0}</span>
+                </button>
+
+                <button class="comments-open-btn" onclick="openLightbox(${index}); setTimeout(()=>scrollCommentsTop(), 50);">
+                  💬 Comments
+                </button>
+              </div>
+
+              <div class="react-group" title="Reactions">
+                ${renderReactionButtons(memory)}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('loadMoreWrap').style.display = state.memHasMore && !state.infiniteScroll ? 'flex' : 'none';
+    }
+
+    function renderReactionButtons(memory){
+      const rx = memory.reactions || {};
+      const items = [
+        { t:'like', e:'👍' },
+        { t:'love', e:'😍' },
+        { t:'laugh', e:'😂' },
+        { t:'wow', e:'😮' },
+        { t:'sad', e:'😢' }
+      ];
+      return items.map(it => `
+        <button class="react-btn" onclick="react(${memory.id}, '${it.t}')">
+          ${it.e}<span class="react-count">${rx[it.t] || 0}</span>
+        </button>
+      `).join('');
+    }
+
+    async function react(memoryId, type){
+      try{
+        const res = await fetch(apiUrl(`/api/reactions/${memoryId}`), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify({ type })
+        });
+        const data = await res.json();
+        if (data.success){
+          const m = state.memories.find(x => x.id === memoryId);
+          if (m) m.reactions = data.reactions;
+          renderMemories(false);
+        }
+      }catch(e){ console.error(e); }
+    }
+
+    function isLiked(id) {
+      const liked = JSON.parse(localStorage.getItem('likedMemories') || '[]');
+      return liked.includes(id);
+    }
+
+    async function likeMemory(id, btn) {
+      if (isLiked(id)) return;
+      try {
+        const response = await fetch(apiUrl(`/api/like/${id}`), { method: 'POST' });
+        const data = await response.json();
+        if (data.success) {
+          btn.classList.add('liked');
+          btn.querySelector('.heart-icon').textContent = '❤️';
+          btn.querySelector('.like-count').textContent = data.likes;
+
+          const liked = JSON.parse(localStorage.getItem('likedMemories') || '[]');
+          liked.push(id);
+          localStorage.setItem('likedMemories', JSON.stringify(liked));
+
+          const memory = state.memories.find(m => m.id === id);
+          if (memory) {
+            memory.likes = data.likes;
+            if (data.reactions) memory.reactions = data.reactions;
+          }
+          renderMemories(false);
+        }
+      } catch (error) {
+        console.error('Failed to like memory:', error);
+      }
+    }
+
+    // =========================
+    // LIGHTBOX + COMMENTS
+    // =========================
+    function openLightbox(index) {
+      state.lightboxIndex = index;
+      state.replyingTo = null;
+      updateLightbox();
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+      const video = document.querySelector('#lightboxContent video');
+      if (video) video.pause();
+    }
+
+    function navigateLightbox(direction) {
+      state.lightboxIndex += direction;
+      if (state.lightboxIndex < 0) state.lightboxIndex = state.memories.length - 1;
+      if (state.lightboxIndex >= state.memories.length) state.lightboxIndex = 0;
+      state.replyingTo = null;
+      updateLightbox();
+    }
+
+    async function updateLightbox() {
+      const memory = state.memories[state.lightboxIndex];
+      if (!memory) return;
+
+      const content = document.getElementById('lightboxContent');
+      const info = document.getElementById('lightboxInfo');
+
+      content.innerHTML = memory.file_type === 'video'
+        ? `<video src="${memory.file_url}" controls autoplay></video>`
+        : `<img src="${memory.file_url}" alt="${escapeAttr(memory.caption || '')}" />`;
+
+      info.innerHTML = `
+        <div class="lightbox-author">${escapeHtml(memory.student_name || '')}</div>
+        <div class="lightbox-caption">${escapeHtml(memory.caption || '')}</div>
+        <div class="lightbox-meta">
+          <span>Category: <strong style="color:var(--text-light);">${escapeHtml(memory.memory_type || '')}</strong></span>
+          <span>•</span>
+          <span>${escapeHtml(timeAgo(memory.created_at))}</span>
+          ${memory.featured ? `<span class="mini-pill" style="border-color:rgba(212,175,55,0.45); color:var(--primary-gold);">Featured</span>` : ''}
+        </div>
+        <a href="${memory.file_url}" download class="lightbox-download">Download</a>
+        <div style="margin-top: 14px; display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="react-btn" onclick="react(${memory.id}, 'like')">👍</button>
+          <button class="react-btn" onclick="react(${memory.id}, 'love')">😍</button>
+          <button class="react-btn" onclick="react(${memory.id}, 'laugh')">😂</button>
+          <button class="react-btn" onclick="react(${memory.id}, 'wow')">😮</button>
+          <button class="react-btn" onclick="react(${memory.id}, 'sad')">😢</button>
+        </div>
+      `;
+
+      await loadComments(memory.id);
+      resetReplyUI();
+    }
+
+    function initLightboxComments(){
+      document.getElementById('postCommentBtn').addEventListener('click', postComment);
+      document.getElementById('cancelReplyBtn').addEventListener('click', () => {
+        state.replyingTo = null;
+        resetReplyUI();
+      });
+    }
+
+    function resetReplyUI(){
+      document.getElementById('cancelReplyBtn').style.display = state.replyingTo ? 'inline-flex' : 'none';
+      document.getElementById('replyingToPill').style.display = state.replyingTo ? 'inline-block' : 'none';
+    }
+
+    function scrollCommentsTop(){
+      const side = document.querySelector('.lightbox-side');
+      if (side) side.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function loadComments(memoryId){
+      try{
+        const res = await fetch(apiUrl(`/api/comments/${memoryId}`));
+        const data = await res.json();
+        if (!data.success) return;
+
+        const disabled = !!data.disabled;
+        document.getElementById('commentsDisabledBanner').style.display = disabled ? 'block' : 'none';
+        document.getElementById('commentForm').style.display = disabled ? 'none' : 'grid';
+
+        const comments = data.comments || [];
+        const count = countComments(comments);
+        document.getElementById('commentsCountPill').textContent = `${count}`;
+        renderComments(comments);
+      }catch(e){ console.error(e); }
+    }
+
+    function countComments(tree){
+      let n = 0;
+      for (const c of tree){
+        n++;
+        if (c.replies?.length) n += countComments(c.replies);
+      }
+      return n;
+    }
+
+    function renderComments(tree){
+      const list = document.getElementById('commentList');
+      if (!tree.length){
+        list.innerHTML = `<div class="mini-pill">No comments yet. Be the first!</div>`;
+        return;
+      }
+      list.innerHTML = tree.map(c => renderCommentNode(c)).join('');
+    }
+
+    function renderCommentNode(c){
+      return `
+        <div class="comment-item" data-comment-id="${c.id}">
+          <div class="comment-top">
+            <div class="comment-name">${escapeHtml(c.name || '')}</div>
+            <div class="comment-time">${escapeHtml(timeAgo(c.createdAt))}</div>
+          </div>
+          <div class="comment-text">${escapeHtml(c.text || '')}</div>
+          <button class="comment-reply-btn" onclick="startReply(${c.id})">Reply</button>
+          ${c.replies && c.replies.length ? `
+            <div class="comment-replies">
+              ${c.replies.map(r => renderCommentNode(r)).join('')}
+            </div>` : ''}
+        </div>
+      `;
+    }
+
+    function startReply(commentId){
+      state.replyingTo = commentId;
+      resetReplyUI();
+      document.getElementById('commentText').focus();
+    }
+
+    async function postComment(){
+      const memory = state.memories[state.lightboxIndex];
+      if (!memory) return;
+
+      const name = document.getElementById('commentName').value.trim();
+      const text = document.getElementById('commentText').value.trim();
+      if (!name) return showNotification('error','Name required','Please enter your name.');
+      if (!text) return showNotification('error','Comment required','Please write a comment.');
+
+      try{
+        const res = await fetch(apiUrl(`/api/comments/${memory.id}`), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify({ name, text, parentId: state.replyingTo })
+        });
+        const data = await res.json();
+        if (!data.success){
+          return showNotification('error','Failed', data.error || 'Could not post comment.');
+        }
+        document.getElementById('commentText').value = '';
+        state.replyingTo = null;
+        resetReplyUI();
+        await loadComments(memory.id);
+      }catch(e){
+        showNotification('error','Failed', e.message);
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closeLightbox(); closeAdminLogin(); }
+      if (document.getElementById('lightbox').classList.contains('active')) {
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+      }
+    });
+
+    // =========================
+    // TEACHERS / TIMELINE (from settings)
+    // =========================
+    function renderTeachers() {
+      const grid = document.getElementById('teachersGrid');
+      const t = Array.isArray(state.settings.teachers) ? state.settings.teachers : [];
+      if (t.length === 0) {
+        grid.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><h3>No teachers configured</h3></div>`;
+        return;
+      }
+      grid.innerHTML = t.map(teacher => {
+        const initials = getInitials(teacher.name || 'T');
+        const img = (teacher.imageUrl || '').trim();
+        return `
+          <div class="teacher-card">
+            <div class="teacher-image">${img ? `<img src="${escapeAttr(img)}" alt="${escapeAttr(teacher.name || '')}" />` : escapeHtml(initials)}</div>
+            <h3 class="teacher-name">${escapeHtml(teacher.name || '')}</h3>
+            <p class="teacher-subject">${escapeHtml(teacher.subject || '')}</p>
+            <p class="teacher-quote">${escapeHtml(teacher.quote || '')}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTimeline() {
+      const list = document.getElementById('timelineList');
+      const items = Array.isArray(state.settings.timeline) ? state.settings.timeline : [];
+      if (items.length === 0) {
+        list.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><h3>No timeline configured</h3></div>`;
+        return;
+      }
+      list.innerHTML = items.map(item => `
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">${escapeHtml(item.year || '')}</div>
+            <h3 class="timeline-title">${escapeHtml(item.title || '')}</h3>
+            <p class="timeline-description">${escapeHtml(item.description || '')}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // =========================
+    // WEBSOCKET LIVE UPDATES (74)
+    // =========================
+    function connectWS(){
+      try{
+        const base = new URL(CONFIG.API_BASE);
+    const wsProto = base.protocol === 'https:' ? 'wss' : 'ws';
+    const wsUrl = `${wsProto}://${base.host}`;
+    state.ws = new WebSocket(wsUrl);
+
+        state.ws.onopen = () => {
+          state.wsConnected = true;
+          document.getElementById('livePill').style.display = 'inline-flex';
+        };
+        state.ws.onclose = () => {
+          state.wsConnected = false;
+          document.getElementById('livePill').style.display = 'none';
+          setTimeout(connectWS, 2000);
+        };
+        state.ws.onerror = () => {
+          // handled by close
+        };
+        state.ws.onmessage = async (msg) => {
+          let data = null;
+          try{ data = JSON.parse(msg.data); }catch{ return; }
+          if (!data || !data.event) return;
+
+          // settings updated -> reload settings + apply
+          if (data.event === 'settings:update'){
+            await loadSettings();
+            applySettingsToUI();
+            applyThemeToCSS();
+            renderTeachers();
+            renderTimeline();
+          }
+
+          // memory/new/update/bulk -> refresh public feed lightly
+          if (data.event === 'memory:new' || data.event === 'memory:update' || data.event === 'memory:bulk'){
+            // If admin panel open, refresh admin data (below)
+            if (document.getElementById('adminDashboard').classList.contains('active')) {
+              loadAdminMemories(true);
+            } else {
+              loadMemories(true);
+            }
+          }
+
+          if (data.event === 'reaction:update'){
+            // fetch latest page again (simplest)
+            if (!document.getElementById('adminDashboard').classList.contains('active')) {
+              loadMemories(true);
+            }
+          }
+
+          if (data.event === 'comment:new'){
+            // if lightbox open on that memory, refresh comments
+            const m = state.memories[state.lightboxIndex];
+            if (m && m.id === data.payload?.memoryId && document.getElementById('lightbox').classList.contains('active')){
+              loadComments(m.id);
+            }
+          }
+        };
+      }catch(e){
+        console.warn('WS unavailable', e);
+      }
+    }
+
+    // =========================
+    // ADMIN
+    // =========================
+    function initAdminTrigger() {
+      const logo = document.getElementById('logo');
+      let clicks = 0;
+      let timer = null;
+
+      logo.addEventListener('click', () => {
+        clicks++;
+        clearTimeout(timer);
+        timer = setTimeout(() => clicks = 0, 2000);
+        if (clicks >= 5) { clicks = 0; openAdminLogin(); }
+      });
+
+      if (window.location.hash === '#admin') openAdminLogin();
+
+      document.getElementById('adminPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') adminLogin(); });
+
+      document.getElementById('adminSearch').addEventListener('input', debounce(() => {
+        state.adminSearch = document.getElementById('adminSearch').value;
+        loadAdminMemories(true);
+      }, 250));
+
+      document.querySelectorAll('[data-admin-filter]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-admin-filter]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.adminFilter = btn.dataset.adminFilter;
+          loadAdminMemories(true);
+        });
+      });
+
+      document.getElementById('adminSort').addEventListener('change', (e) => {
+        state.adminSort = e.target.value;
+        loadAdminMemories(true);
+      });
+      document.getElementById('adminPageSize').addEventListener('change', (e) => {
+        state.adminLimit = Number(e.target.value);
+        loadAdminMemories(true);
+      });
+
+      // try verify existing token
+      if (state.adminToken) verifyAdminToken();
+    }
+
+    function openAdminLogin() {
+      if (state.adminToken) openAdminDashboard();
+      else document.getElementById('adminOverlay').classList.add('active');
+    }
+
+    function closeAdminLogin() {
+      document.getElementById('adminOverlay').classList.remove('active');
+      document.getElementById('adminPassword').value = '';
+      document.getElementById('adminLoginError').classList.remove('active');
+    }
+
+    async function adminLogin() {
+      const userId = document.getElementById('adminUserId').value.trim() || 'super';
+      const password = document.getElementById('adminPassword').value;
+
+      try {
+        const response = await fetch(apiUrl('/api/admin/login'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, password })
+        });
+        const data = await response.json();
+        if (data.success) {
+          state.adminToken = data.token;
+          state.adminUser = data.user;
+          localStorage.setItem('adminToken', data.token);
+          localStorage.setItem('adminUser', JSON.stringify(data.user));
+          closeAdminLogin();
+          openAdminDashboard();
+        } else {
+          document.getElementById('adminLoginError').classList.add('active');
+        }
+      } catch (error) {
+        showNotification('error', 'Login Failed', error.message);
+      }
+    }
+
+    async function verifyAdminToken() {
+      try {
+        const response = await fetch(apiUrl('/api/admin/verify'), {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${state.adminToken}` }
+        });
+        const data = await response.json();
+        if (data.valid) {
+          state.adminUser = data.user;
+          localStorage.setItem('adminUser', JSON.stringify(data.user));
+          openAdminDashboard();
+        } else {
+          adminLogout();
+        }
+      } catch {
+        adminLogout();
+      }
+    }
+
+    function openAdminDashboard() {
+      document.getElementById('adminDashboard').classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // build panels (depends on permissions)
+      buildAdminPanels();
+
+      switchAdminTab('moderation');
+      loadAdminMemories(true);
+    }
+
+    async function adminLogout() {
+      try {
+        await fetch(apiUrl('/api/admin/logout'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } });
+      } catch {}
+      state.adminToken = null;
+      state.adminUser = null;
+      localStorage.removeItem('adminToken');
+      localStorage.removeItem('adminUser');
+      document.getElementById('adminDashboard').classList.remove('active');
+      document.body.style.overflow = '';
+      window.location.hash = '';
+    }
+
+    function switchAdminTab(tab) {
+      ['moderation','settings','theme','users','security'].forEach(t => {
+        document.getElementById('tab' + capitalize(t)).classList.toggle('active', t === tab);
+        document.getElementById('panel' + capitalize(t)).classList.toggle('active', t === tab);
+      });
+    }
+
+    function can(perm){
+      const u = state.adminUser;
+      if (!u) return false;
+      if (u.role === 'superadmin') return true;
+      return !!u.permissions?.[perm];
+    }
+
+    function buildAdminPanels(){
+      // permissions gate tabs/buttons
+      document.getElementById('tabSettings').style.display = can('settings') ? 'inline-block' : 'none';
+      document.getElementById('tabTheme').style.display = can('theme') ? 'inline-block' : 'none';
+      document.getElementById('tabUsers').style.display = can('users') ? 'inline-block' : 'none';
+
+      document.getElementById('btnExportCsv').style.display = can('export') ? 'inline-flex' : 'none';
+      document.getElementById('btnApproveAll').style.display = can('bulk') ? 'inline-flex' : 'none';
+
+      // Settings panel
+      document.getElementById('panelSettings').innerHTML = can('settings') ? renderSettingsPanelHtml() : `<div class="mini-pill">No permission.</div>`;
+      // Theme panel
+      document.getElementById('panelTheme').innerHTML = can('theme') ? renderThemePanelHtml() : `<div class="mini-pill">No permission.</div>`;
+      // Users panel
+      document.getElementById('panelUsers').innerHTML = can('users') ? renderUsersPanelHtml() : `<div class="mini-pill">No permission.</div>`;
+      // Security panel
+      document.getElementById('panelSecurity').innerHTML = renderSecurityPanelHtml();
+
+      // wire panel events
+      if (can('settings')) wireSettingsPanel();
+      if (can('theme')) wireThemePanel();
+      if (can('users')) wireUsersPanel();
+      wireSecurityPanel();
+
+      // sync values from loaded settings
+      syncSettingsEditor();
+      syncThemeEditor();
+    }
+
+    // -------------------------
+    // Admin Moderation data (45)
+    // -------------------------
+    async function loadAdminMemories(reset){
+      if (!state.adminToken) return;
+
+      if (reset){
+        state.adminPage = 1;
+        state.adminHasMore = true;
+        state.adminSelectedIds.clear();
+        state.adminBulkMode = false;
+        updateBulkToggleUI();
+      }
+      if (!state.adminHasMore) return;
+
+      try{
+        const params = new URLSearchParams({
+          filter: state.adminFilter,
+          sort: state.adminSort,
+          search: state.adminSearch || '',
+          page: String(state.adminPage),
+          limit: String(state.adminLimit)
+        });
+
+        const res = await fetch(apiUrl(`/api/admin/memories?${params}`), {
+          headers: { 'Authorization': `Bearer ${state.adminToken}` }
+        });
+        const data = await res.json();
+        if (!data.success){
+          if (res.status === 401) return adminLogout();
+          return;
+        }
+
+        updateAdminStats(data.stats);
+        renderAdminGrid(data.memories || [], reset);
+        state.adminHasMore = !!data.hasMore;
+        state.adminPage += 1;
+      }catch(e){
+        console.error(e);
+      }
+    }
+
+    function adminLoadMore(){
+      loadAdminMemories(false);
+    }
+
+    function updateAdminStats(stats){
+      document.getElementById('statTotal').textContent = stats.total;
+      document.getElementById('statApproved').textContent = stats.approved;
+      document.getElementById('statPending').textContent = stats.pending;
+      document.getElementById('statStorage').textContent = stats.totalSizeFormatted;
+    }
+
+    function renderAdminGrid(memories, reset){
+      const grid = document.getElementById('adminGrid');
+      const items = (memories || []).map(m => ({ ...m, file_url: mediaUrl(m.file_url) }));
+
+      if (reset) grid.innerHTML = '';
+
+      if (!items.length && reset){
+        grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color: var(--text-muted);">No memories found.</p>`;
+        return;
+      }
+
+      grid.insertAdjacentHTML('beforeend', items.map(memory => {
+        const statusClass = memory.purgedAt ? 'status-trash' : (memory.deletedAt ? 'status-trash' : (memory.approved ? 'status-approved' : 'status-pending'));
+        const statusText = memory.deletedAt ? 'TRASH' : (memory.approved ? 'APPROVED' : 'PENDING');
+
+        const bulkBox = state.adminBulkMode
+          ? `<div style="position:absolute; left:10px; top:10px; z-index:2;">
+               <input type="checkbox" style="transform:scale(1.3);" onchange="toggleSelectId(${memory.id}, this.checked)" ${state.adminSelectedIds.has(memory.id) ? 'checked' : ''}/>
+             </div>`
+          : '';
+
+        return `
+          <div class="admin-memory-card" data-id="${memory.id}">
+            <div class="admin-memory-media">
+              ${bulkBox}
+              ${memory.file_type === 'video' ? `<video src="${memory.file_url}" preload="metadata"></video>` : `<img src="${memory.file_url}" alt="">`}
+              <span class="admin-memory-status ${statusClass}">${statusText}</span>
+            </div>
+            <div class="admin-memory-info">
+              <div class="admin-memory-name">${escapeHtml(memory.student_name || '')}</div>
+              <div class="admin-memory-caption">${escapeHtml(memory.caption || '')}</div>
+              <div class="admin-memory-meta"><span>${escapeHtml(memory.memory_type || '')}</span><span>${escapeHtml(memory.file_size_formatted || '')}</span></div>
+              <div class="admin-memory-meta"><span>${memory.likes || 0} likes</span><span>${escapeHtml(timeAgo(memory.created_at))}</span></div>
+              <div class="admin-memory-actions">
+                ${(!memory.approved && !memory.deletedAt && can('moderation')) ? `<button class="approve-btn" onclick="approveMemory(${memory.id})">Approve</button>` : `<button class="approve-btn" style="opacity:0.5;" disabled>Approve</button>`}
+                <button class="download-btn" onclick="window.open('${memory.file_url}', '_blank')">Download</button>
+                ${(!memory.deletedAt ? `<button class="delete-btn" onclick="trashMemory(${memory.id})">Trash</button>` : `<button class="restore-btn" onclick="restoreMemory(${memory.id})">Restore</button>`)}
+                ${can('editMemory') ? `<button class="edit-btn" onclick="openEditMemory(${memory.id})">Edit</button>` : `<button class="edit-btn" style="opacity:0.5;" disabled>Edit</button>`}
+              </div>
+              ${can('replaceFile') ? `<div style="margin-top:10px;">
+                  <label style="color:var(--text-muted); font-size:0.85rem;">Replace file:</label>
+                  <input type="file" accept="image/*,video/*" onchange="replaceFile(${memory.id}, this.files[0])" />
+                </div>` : ''}
+              ${state.adminUser?.role === 'superadmin' && memory.deletedAt ? `
+                <button class="btn btn-danger" style="margin-top:12px; width:100%; justify-content:center; padding:12px 16px;"
+                  onclick="purgeMemory(${memory.id})">Purge Permanently</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join(''));
+    }
+
+    async function approveMemory(id){
+      try{
+        const res = await fetch(apiUrl(`/api/admin/approve/${id}`), {
+          method:'POST',
+          headers:{ 'Authorization': `Bearer ${state.adminToken}` }
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Approved','Memory approved.');
+          loadAdminMemories(true);
+          loadMemories(true);
+        } else showNotification('error','Failed', data.error || 'Could not approve.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    async function approveAllPending(){
+      if (!confirm('Approve all pending memories?')) return;
+      try{
+        const res = await fetch(apiUrl(`/api/admin/approve-all`), {
+          method:'POST',
+          headers:{ 'Authorization': `Bearer ${state.adminToken}` }
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Approved All', `${data.count} approved.`);
+          loadAdminMemories(true);
+          loadMemories(true);
+        } else showNotification('error','Failed', data.error || 'Could not approve all.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    async function trashMemory(id){
+      if (!confirm('Move this memory to Trash?')) return;
+      try{
+        const res = await fetch(apiUrl(`/api/admin/delete/${id}`), {
+          method:'DELETE',
+          headers:{ 'Authorization': `Bearer ${state.adminToken}` }
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Trashed','Moved to trash.');
+          loadAdminMemories(true);
+          loadMemories(true);
+        } else showNotification('error','Failed', data.error || 'Could not trash.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    async function restoreMemory(id){
+      try{
+        const res = await fetch(apiUrl(`/api/admin/restore/${id}`), {
+          method:'POST',
+          headers:{ 'Authorization': `Bearer ${state.adminToken}` }
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Restored','Memory restored.');
+          loadAdminMemories(true);
+          loadMemories(true);
+        } else showNotification('error','Failed', data.error || 'Could not restore.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    async function purgeMemory(id){
+      if (!confirm('Purge permanently? This deletes the file and cannot be undone.')) return;
+      try{
+        const res = await fetch(apiUrl(`/api/admin/purge/${id}`), {
+          method:'DELETE',
+          headers:{ 'Authorization': `Bearer ${state.adminToken}` }
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Purged','Deleted permanently.');
+          loadAdminMemories(true);
+          loadMemories(true);
+        } else showNotification('error','Failed', data.error || 'Could not purge.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    async function replaceFile(id, file){
+      if (!file) return;
+      if (!confirm('Replace the file for this memory?')) return;
+      const fd = new FormData();
+      fd.append('file', file);
+      try{
+        const res = await fetch(apiUrl(`/api/admin/memory/replace-file/${id}`), {
+          method:'POST',
+          headers:{ 'Authorization': `Bearer ${state.adminToken}` },
+          body: fd
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Replaced','File replaced.');
+          loadAdminMemories(true);
+          loadMemories(true);
+        } else showNotification('error','Failed', data.error || 'Could not replace.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    // Bulk select
+    function toggleBulkSelect(){
+      state.adminBulkMode = !state.adminBulkMode;
+      if (!state.adminBulkMode) state.adminSelectedIds.clear();
+      updateBulkToggleUI();
+      loadAdminMemories(true);
+    }
+    function updateBulkToggleUI(){
+      document.getElementById('bulkSelectToggle').textContent = `Bulk Select: ${state.adminBulkMode ? 'ON' : 'OFF'}`;
+    }
+    function toggleSelectId(id, checked){
+      if (checked) state.adminSelectedIds.add(id);
+      else state.adminSelectedIds.delete(id);
+    }
+    async function bulkActionPrompt(action){
+      if (!can('bulk')) return showNotification('error','No permission','You cannot do bulk actions.');
+      if (!state.adminBulkMode) return showNotification('info','Enable bulk select','Turn Bulk Select ON first.');
+      const ids = Array.from(state.adminSelectedIds);
+      if (!ids.length) return showNotification('info','Select items','Select at least one memory.');
+
+      let memoryType = undefined;
+      if (action === 'setType'){
+        memoryType = prompt('Enter new category/type:', 'Friends');
+        if (!memoryType) return;
+      }
+      const ok = confirm(`Run bulk action "${action}" on ${ids.length} item(s)?`);
+      if (!ok) return;
+
+      try{
+        const res = await fetch(apiUrl(`/api/admin/bulk`), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${state.adminToken}` },
+          body: JSON.stringify({ action, ids, memoryType })
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Bulk done', `${data.changed} updated.`);
+          state.adminSelectedIds.clear();
+          loadAdminMemories(true);
+          loadMemories(true);
+        } else showNotification('error','Failed', data.error || 'Bulk failed.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    // Edit memory metadata modal (simple prompt UI)
+    async function openEditMemory(id){
+      const card = document.querySelector(`.admin-memory-card[data-id="${id}"]`);
+      const name = prompt('Student name (leave blank to keep):');
+      const caption = prompt('Caption (leave blank to keep):');
+      const type = prompt('Category/type (leave blank to keep):');
+      const featuredStr = prompt('Featured? (yes/no/blank keep):');
+      let featured = undefined;
+      if (featuredStr && featuredStr.toLowerCase().startsWith('y')) featured = 1;
+      if (featuredStr && featuredStr.toLowerCase().startsWith('n')) featured = 0;
+
+      const payload = {};
+      if (name !== null && name.trim() !== '') payload.student_name = name;
+      if (caption !== null && caption.trim() !== '') payload.caption = caption;
+      if (type !== null && type.trim() !== '') payload.memory_type = type;
+      if (featured !== undefined) payload.featured = featured;
+
+      if (!Object.keys(payload).length) return;
+
+      try{
+        const res = await fetch(apiUrl(`/api/admin/memory/edit/${id}`), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${state.adminToken}` },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Saved','Memory updated.');
+          loadAdminMemories(true);
+          loadMemories(true);
+        } else showNotification('error','Failed', data.error || 'Edit failed.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    function downloadAllApproved(){
+      const downloadUrl = apiUrl(`/api/admin/download-all?token=${encodeURIComponent(state.adminToken || '')}`);
+      window.location.href = downloadUrl;
+      showNotification('info','Downloading','Preparing ZIP...');
+    }
+
+    function exportCSV(){
+      const url = apiUrl(`/api/admin/export/csv`);
+      fetch(url, { headers:{ 'Authorization': `Bearer ${state.adminToken}` } })
+        .then(async r => {
+          if (!r.ok) throw new Error('Export failed');
+          const blob = await r.blob();
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = `memories-export-${new Date().toISOString().slice(0,10)}.csv`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+          showNotification('success','Exported','CSV downloaded.');
+        })
+        .catch(e => showNotification('error','Failed', e.message));
+    }
+
+    // =========================
+    // SETTINGS PANEL
+    // =========================
+    function renderSettingsPanelHtml(){
+      return `
+        <div style="display:grid; gap: 18px;">
+          <div class="stat-card" style="text-align:left;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+              <h3 style="font-family:var(--font-display); color:var(--primary-gold); font-size:1.3rem;">Site Settings</h3>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="admin-btn admin-btn-primary" onclick="saveSettingsFromEditor()">Save</button>
+                <button class="admin-btn admin-btn-secondary" onclick="reloadSettingsAdmin()">Reload</button>
+              </div>
+            </div>
+
+            <div style="margin-top:12px; display:grid; gap: 14px;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>School Name</label><input class="form-input" id="setSchoolName"/></div>
+                <div class="form-group"><label>Event Name</label><input class="form-input" id="setEventName"/></div>
+              </div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>Logo Text</label><input class="form-input" id="setLogoText" maxlength="5"/></div>
+                <div class="form-group"><label>Farewell IST (YYYY-MM-DDTHH:mm)</label><input class="form-input" id="setFarewellIST"/></div>
+              </div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>Contact Email</label><input class="form-input" id="setContactEmail"/></div>
+                <div class="form-group"><label>Location Line</label><input class="form-input" id="setLocationLine"/></div>
+              </div>
+
+              <div class="form-group"><label>Hero Badge</label><input class="form-input" id="setHeroBadge"/></div>
+              <div class="form-group"><label>Hero Title (use {year})</label><input class="form-input" id="setHeroTitle"/></div>
+              <div class="form-group"><label>Hero Subtitle</label><input class="form-input" id="setHeroSubtitle"/></div>
+              <div class="form-group"><label>Hero Description</label><textarea class="form-textarea" id="setHeroDescription" maxlength="600"></textarea></div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>Quote Text</label><textarea class="form-textarea" id="setQuoteText" maxlength="500"></textarea></div>
+                <div class="form-group"><label>Quote Author</label><input class="form-input" id="setQuoteAuthor"/></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>Uploads Enabled</label>
+                  <select class="form-select" id="setUploadsEnabled"><option value="true">true</option><option value="false">false</option></select>
+                </div>
+                <div class="form-group"><label>Comments Enabled</label>
+                  <select class="form-select" id="setCommentsEnabled"><option value="true">true</option><option value="false">false</option></select>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>Profanity Filter Enabled</label>
+                  <select class="form-select" id="setProfanityEnabled"><option value="false">false</option><option value="true">true</option></select>
+                </div>
+                <div class="form-group"><label>Upload Window Enabled</label>
+                  <select class="form-select" id="setUploadWindowEnabled"><option value="false">false</option><option value="true">true</option></select>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>Upload Window Start (IST)</label><input class="form-input" id="setUploadWindowStart"/></div>
+                <div class="form-group"><label>Upload Window End (IST)</label><input class="form-input" id="setUploadWindowEnd"/></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>Auto-Approve Enabled</label>
+                  <select class="form-select" id="setAutoApproveEnabled"><option value="false">false</option><option value="true">true</option></select>
+                </div>
+                <div class="form-group"><label>(Auto) Start (IST)</label><input class="form-input" id="setAutoApproveStart"/></div>
+              </div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>(Auto) End (IST)</label><input class="form-input" id="setAutoApproveEnd"/></div>
+                <div class="form-group"><label>—</label><div class="mini-pill">Auto-approve applies at upload time.</div></div>
+              </div>
+
+              <div class="form-group"><label>Footer Description</label><textarea class="form-textarea" id="setFooterDesc" maxlength="400"></textarea></div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group"><label>Footer Contact Note</label><input class="form-input" id="setFooterContactNote"/></div>
+                <div class="form-group"><label>Footer Made By</label><input class="form-input" id="setFooterMadeBy"/></div>
+              </div>
+              <div class="form-group"><label>Footer Copyright</label><input class="form-input" id="setFooterCopyright"/></div>
+
+              <div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);">
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+    <h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:6px;">Teachers Editor</h4>
+    <button class="admin-btn admin-btn-secondary" type="button" onclick="addTeacherRow()">+ Add Teacher</button>
+  </div>
+  <div class="mini-pill">Fields: name, subject, quote, imageUrl (optional)</div>
+  <div id="teachersEditor" style="margin-top:12px; display:grid; gap:12px;"></div>
+</div>
+
+<div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);">
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+    <h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:6px;">Timeline Editor</h4>
+    <button class="admin-btn admin-btn-secondary" type="button" onclick="addTimelineRow()">+ Add Timeline Item</button>
+  </div>
+  <div class="mini-pill">Fields: year, title, description</div>
+  <div id="timelineEditor" style="margin-top:12px; display:grid; gap:12px;"></div>
+</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function wireSettingsPanel(){ /* no-op (buttons inline) */ }
+
+    function syncSettingsEditor(){
+      const s = state.settings;
+      setVal('setSchoolName', s.schoolName);
+      setVal('setEventName', s.eventName);
+      setVal('setLogoText', s.logoText);
+      setVal('setFarewellIST', s.farewellIST);
+      setVal('setContactEmail', s.contactEmail);
+      setVal('setLocationLine', s.locationLine);
+
+      setVal('setHeroBadge', s.heroBadge);
+      setVal('setHeroTitle', s.heroTitle);
+      setVal('setHeroSubtitle', s.heroSubtitle);
+      setVal('setHeroDescription', s.heroDescription);
+
+      setVal('setQuoteText', s.quoteText);
+      setVal('setQuoteAuthor', s.quoteAuthor);
+
+      setVal('setUploadsEnabled', String(!!s.uploadsEnabled));
+      setVal('setCommentsEnabled', String(!!s.commentsEnabled));
+      setVal('setProfanityEnabled', String(!!s.profanityFilterEnabled));
+
+      setVal('setUploadWindowEnabled', String(!!s.uploadWindowEnabled));
+      setVal('setUploadWindowStart', s.uploadWindowStartIST || '');
+      setVal('setUploadWindowEnd', s.uploadWindowEndIST || '');
+
+      setVal('setAutoApproveEnabled', String(!!s.autoApproveEnabled));
+      setVal('setAutoApproveStart', s.autoApproveStartIST || '');
+      setVal('setAutoApproveEnd', s.autoApproveEndIST || '');
+
+      setVal('setFooterDesc', s.footerDesc);
+      setVal('setFooterContactNote', s.footerContactNote);
+      setVal('setFooterMadeBy', s.footerMadeBy);
+      setVal('setFooterCopyright', s.footerCopyright);
+
+      renderTeachersEditor();
+renderTimelineEditor();
+    }
+
+    function readSettingsFromEditor(){
+      const s = structuredClone(state.settings);
+
+      s.schoolName = getVal('setSchoolName');
+      s.eventName = getVal('setEventName');
+      s.logoText = getVal('setLogoText');
+      s.farewellIST = getVal('setFarewellIST');
+      s.contactEmail = getVal('setContactEmail');
+      s.locationLine = getVal('setLocationLine');
+
+      s.heroBadge = getVal('setHeroBadge');
+      s.heroTitle = getVal('setHeroTitle');
+      s.heroSubtitle = getVal('setHeroSubtitle');
+      s.heroDescription = getVal('setHeroDescription');
+
+      s.quoteText = getVal('setQuoteText');
+      s.quoteAuthor = getVal('setQuoteAuthor');
+
+      s.uploadsEnabled = getVal('setUploadsEnabled') === 'true';
+      s.commentsEnabled = getVal('setCommentsEnabled') === 'true';
+      s.profanityFilterEnabled = getVal('setProfanityEnabled') === 'true';
+
+      s.uploadWindowEnabled = getVal('setUploadWindowEnabled') === 'true';
+      s.uploadWindowStartIST = getVal('setUploadWindowStart');
+      s.uploadWindowEndIST = getVal('setUploadWindowEnd');
+
+      s.autoApproveEnabled = getVal('setAutoApproveEnabled') === 'true';
+      s.autoApproveStartIST = getVal('setAutoApproveStart');
+      s.autoApproveEndIST = getVal('setAutoApproveEnd');
+
+      s.footerDesc = getVal('setFooterDesc');
+      s.footerContactNote = getVal('setFooterContactNote');
+      s.footerMadeBy = getVal('setFooterMadeBy');
+      s.footerCopyright = getVal('setFooterCopyright');
+
+      return s;
+    }
+
+    async function saveSettingsFromEditor(){
+      const newSettings = readSettingsFromEditor();
+      // keep existing teachers/timeline/theme if not changed
+      renderTeachers();
+renderTimeline();
+renderTeachersEditor();
+renderTimelineEditor();
+      newSettings.teachers = readTeachersFromEditor();
+newSettings.timeline = readTimelineFromEditor();
+      newSettings.theme = state.settings.theme || {};
+
+      try{
+        const res = await fetch(apiUrl('/api/admin/settings'), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${state.adminToken}` },
+          body: JSON.stringify({ settings: newSettings })
+        });
+        const data = await res.json();
+        if (data.success){
+          state.settings = mergeDeep(structuredClone(DEFAULT_SETTINGS), newSettings);
+          applySettingsToUI();
+          applyThemeToCSS();
+          updateUploadStatusCallout();
+          showNotification('success','Saved','Settings updated.');
+        }else{
+          showNotification('error','Save failed', data.error || 'Unknown error');
+        }
+      }catch(e){ showNotification('error','Save failed', e.message); }
+    }
+
+    async function reloadSettingsAdmin(){
+      await loadSettings();
+      applySettingsToUI();
+      applyThemeToCSS();
+      syncSettingsEditor();
+      syncThemeEditor();
+      renderTeachers();
+      renderTimeline();
+      showNotification('success','Reloaded','Settings loaded from server.');
+      renderTeachersEditor();
+renderTimelineEditor();
+    }
+
+    // =========================
+    // THEME PANEL (64)
+    // =========================
+    function renderThemePanelHtml(){
+      return `
+        <div class="stat-card" style="text-align:left;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+            <h3 style="font-family:var(--font-display); color:var(--primary-gold); font-size:1.3rem;">Theme Editor</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="admin-btn admin-btn-secondary" onclick="resetThemeDefaults()">Reset</button>
+              <button class="admin-btn admin-btn-primary" onclick="saveTheme()">Save Theme</button>
+            </div>
+          </div>
+
+          <div class="mini-pill" style="margin-top:12px;">
+            Changes apply live. Save to persist. These map to CSS variables used site-wide.
+          </div>
+
+          <div style="margin-top:16px; display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;">
+            ${themeColorInput('Primary Gold','themePrimaryGold')}
+            ${themeColorInput('Gold Light','themePrimaryGoldLight')}
+            ${themeColorInput('Gold Dark','themePrimaryGoldDark')}
+            ${themeColorInput('Navy Dark','themeNavyDark')}
+            ${themeColorInput('Navy Medium','themeNavyMedium')}
+            ${themeColorInput('Navy Light','themeNavyLight')}
+            ${themeColorInput('Accent Rose','themeAccentRose')}
+            ${themeColorInput('Accent Purple','themeAccentPurple')}
+            ${themeColorInput('Text Light','themeTextLight')}
+            <div class="form-group">
+              <label>Text Muted (rgba)</label>
+              <input class="form-input" id="themeTextMuted" placeholder="rgba(255, 255, 255, 0.7)" />
+            </div>
+            <div class="form-group">
+              <label>Glass BG (rgba)</label>
+              <input class="form-input" id="themeGlassBg" placeholder="rgba(255, 255, 255, 0.1)" />
+            </div>
+            <div class="form-group">
+              <label>Glass Border (rgba)</label>
+              <input class="form-input" id="themeGlassBorder" placeholder="rgba(255, 255, 255, 0.2)" />
+            </div>
+            ${themeColorInput('Success Green','themeSuccessGreen')}
+            ${themeColorInput('Error Red','themeErrorRed')}
+          </div>
+
+          <div style="margin-top:18px;">
+            <h4 style="font-family:var(--font-display); color:var(--primary-gold);">Preview</h4>
+            <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+              <span class="mini-pill">Pill</span>
+              <button class="btn btn-primary" type="button" style="padding:12px 18px;">Primary</button>
+              <button class="btn btn-secondary" type="button" style="padding:12px 18px;">Secondary</button>
+              <button class="btn btn-danger" type="button" style="padding:12px 18px;">Danger</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function themeColorInput(label, id){
+      return `
+        <div class="form-group">
+          <label>${label}</label>
+          <input class="form-input" type="color" id="${id}" />
+        </div>
+      `;
+    }
+
+    function wireThemePanel(){
+      // live update on change
+      const ids = [
+        'themePrimaryGold','themePrimaryGoldLight','themePrimaryGoldDark',
+        'themeNavyDark','themeNavyMedium','themeNavyLight',
+        'themeAccentRose','themeAccentPurple','themeTextLight',
+        'themeTextMuted','themeGlassBg','themeGlassBorder',
+        'themeSuccessGreen','themeErrorRed'
+      ];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          const t = readThemeFromEditor();
+          state.settings.theme = t;
+          applyThemeToCSS();
+        });
+      });
+    }
+
+    function syncThemeEditor(){
+      const t = state.settings.theme || {};
+      setVal('themePrimaryGold', t.primaryGold);
+      setVal('themePrimaryGoldLight', t.primaryGoldLight);
+      setVal('themePrimaryGoldDark', t.primaryGoldDark);
+
+      setVal('themeNavyDark', t.navyDark);
+      setVal('themeNavyMedium', t.navyMedium);
+      setVal('themeNavyLight', t.navyLight);
+
+      setVal('themeAccentRose', t.accentRose);
+      setVal('themeAccentPurple', t.accentPurple);
+
+      setVal('themeTextLight', t.textLight);
+      setVal('themeTextMuted', t.textMuted);
+
+      setVal('themeGlassBg', t.glassBg);
+      setVal('themeGlassBorder', t.glassBorder);
+
+      setVal('themeSuccessGreen', t.successGreen);
+      setVal('themeErrorRed', t.errorRed);
+    }
+
+    function readThemeFromEditor(){
+      return {
+        primaryGold: getVal('themePrimaryGold'),
+        primaryGoldLight: getVal('themePrimaryGoldLight'),
+        primaryGoldDark: getVal('themePrimaryGoldDark'),
+        navyDark: getVal('themeNavyDark'),
+        navyMedium: getVal('themeNavyMedium'),
+        navyLight: getVal('themeNavyLight'),
+        accentRose: getVal('themeAccentRose'),
+        accentPurple: getVal('themeAccentPurple'),
+        textLight: getVal('themeTextLight'),
+        textMuted: getVal('themeTextMuted'),
+        glassBg: getVal('themeGlassBg'),
+        glassBorder: getVal('themeGlassBorder'),
+        successGreen: getVal('themeSuccessGreen'),
+        errorRed: getVal('themeErrorRed')
+      };
+    }
+
+    function resetThemeDefaults(){
+      if (!confirm('Reset theme to defaults?')) return;
+      state.settings.theme = structuredClone(DEFAULT_SETTINGS.theme);
+      syncThemeEditor();
+      applyThemeToCSS();
+    }
+
+    async function saveTheme(){
+      const t = readThemeFromEditor();
+      // save whole settings (server stores whole object)
+      const merged = structuredClone(state.settings);
+      merged.theme = t;
+
+      try{
+        const res = await fetch(apiUrl('/api/admin/settings'), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${state.adminToken}` },
+          body: JSON.stringify({ settings: merged })
+        });
+        const data = await res.json();
+        if (data.success){
+          state.settings = mergeDeep(structuredClone(DEFAULT_SETTINGS), merged);
+          showNotification('success','Saved','Theme saved.');
+        } else showNotification('error','Failed', data.error || 'Could not save theme.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    // =========================
+    // USERS PANEL (supreme creates admin IDs + permissions limits)
+    // =========================
+    function renderUsersPanelHtml(){
+      return `
+        <div class="stat-card" style="text-align:left;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+            <h3 style="font-family:var(--font-display); color:var(--primary-gold); font-size:1.3rem;">Admin Users</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="admin-btn admin-btn-secondary" onclick="loadUsers()">Refresh</button>
+            </div>
+          </div>
+
+          <div class="mini-pill" style="margin-top:12px;">
+            Create admin IDs and toggle what they can control (theme/settings/export/users/etc).
+          </div>
+
+          <div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);">
+            <h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:10px;">Create User</h4>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group"><label>User ID</label><input class="form-input" id="newUserId" placeholder="moderator1" /></div>
+              <div class="form-group"><label>Name</label><input class="form-input" id="newUserName" placeholder="Moderator" /></div>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group"><label>Password</label><input class="form-input" id="newUserPass" placeholder="min 8 chars" /></div>
+              <div class="form-group"><label>Role</label>
+                <select class="form-select" id="newUserRole">
+                  <option value="moderator">moderator</option>
+                  <option value="admin">admin</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mini-pill" style="margin:10px 0;">Permissions</div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 10px;">
+              ${permToggle('moderation','Moderation',true)}
+              ${permToggle('settings','Site Settings',false)}
+              ${permToggle('theme','Theme Editor',false)}
+              ${permToggle('export','CSV Export',false)}
+              ${permToggle('users','User Management',false)}
+              ${permToggle('trash','Trash/Restore',true)}
+              ${permToggle('replaceFile','Replace File',false)}
+              ${permToggle('editMemory','Edit Memory',true)}
+              ${permToggle('bulk','Bulk Actions',false)}
+              ${permToggle('featured','Feature controls',false)}
+              ${permToggle('teachers','Teachers Editor',false)}
+${permToggle('timeline','Timeline Editor',false)}
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+              <button class="admin-btn admin-btn-primary" onclick="createUser()">Create</button>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;">
+            <h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:10px;">Existing Users</h4>
+            <div id="usersList" class="admin-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px,1fr));"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function permToggle(id,label,checked){
+      return `
+        <label style="display:flex; gap:10px; align-items:center; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);">
+          <input type="checkbox" id="perm_${id}" ${checked ? 'checked':''} />
+          <span style="color:var(--text-light); font-weight:600;">${label}</span>
+        </label>
+      `;
+    }
+
+    function wireUsersPanel(){ loadUsers(); }
+
+    function gatherPermsFromCreateForm(){
+      const ids = ['moderation','settings','theme','export','users','trash','replaceFile','editMemory','bulk','featured','teachers','timeline'];
+        const p = {};
+      ids.forEach(k => p[k] = !!document.getElementById(`perm_${k}`)?.checked);
+      return p;
+    }
+
+    async function loadUsers(){
+      try{
+        const res = await fetch(apiUrl('/api/admin/users'), { headers:{ 'Authorization': `Bearer ${state.adminToken}` } });
+        const data = await res.json();
+        if (!data.success) return showNotification('error','Failed', data.error || 'Could not load users.');
+        renderUsersList(data.users || []);
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    function renderUsersList(users){
+      const list = document.getElementById('usersList');
+      if (!users.length) { list.innerHTML = `<div class="mini-pill">No users.</div>`; return; }
+
+      list.innerHTML = users.map(u => `
+        <div class="admin-memory-card" style="padding:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+            <div>
+              <div style="font-weight:800;">${escapeHtml(u.name)} <span class="mini-pill" style="margin-left:8px;">${escapeHtml(u.role)}</span></div>
+              <div style="color:var(--text-muted); font-size:0.85rem;">ID: <strong style="color:var(--text-light);">${escapeHtml(u.id)}</strong></div>
+            </div>
+            <div class="mini-pill" style="${u.disabled ? 'border-color:rgba(244,67,54,0.4); color:#ffb3ad;' : 'border-color:rgba(76,175,80,0.4); color:#b7ffbf;'}">
+              ${u.disabled ? 'Disabled' : 'Active'}
+            </div>
+          </div>
+
+          <div style="margin-top:10px; color:var(--text-muted); font-size:0.85rem;">
+            Permissions: ${Object.keys(u.permissions||{}).filter(k => u.permissions[k]).join(', ') || 'none'}
+          </div>
+
+          ${u.id === 'super' ? `<div class="mini-pill" style="margin-top:10px;">Super admin cannot be edited here.</div>` : `
+            <div style="margin-top:12px; display:grid; gap:10px;">
+              <input class="form-input" id="editName_${u.id}" value="${escapeAttr(u.name)}" />
+              <input class="form-input" id="editPass_${u.id}" placeholder="New password (optional)" />
+              <select class="form-select" id="editDisabled_${u.id}">
+                <option value="false" ${!u.disabled?'selected':''}>Active</option>
+                <option value="true" ${u.disabled?'selected':''}>Disabled</option>
+              </select>
+
+              <div class="mini-pill">Toggle permissions</div>
+              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 8px;">
+                ${Object.entries(u.permissions||{}).map(([k,v]) => `
+                  <label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);">
+                    <input type="checkbox" id="editPerm_${u.id}_${k}" ${v?'checked':''} />
+                    <span style="font-size:0.9rem;">${escapeHtml(k)}</span>
+                  </label>
+                `).join('')}
+              </div>
+
+              <button class="admin-btn admin-btn-primary" onclick="updateUser('${escapeAttr(u.id)}')">Save User</button>
+            </div>
+          `}
+        </div>
+      `).join('');
+    }
+
+    async function createUser(){
+      const id = document.getElementById('newUserId')?.value?.trim();
+      const name = document.getElementById('newUserName')?.value?.trim();
+      const password = document.getElementById('newUserPass')?.value || '';
+      const role = document.getElementById('newUserRole')?.value || 'moderator';
+      const permissions = gatherPermsFromCreateForm();
+
+      try{
+        const res = await fetch(apiUrl('/api/admin/users'), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${state.adminToken}` },
+          body: JSON.stringify({ id, name, password, role, permissions })
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Created','User created.');
+          document.getElementById('newUserId').value = '';
+          document.getElementById('newUserName').value = '';
+          document.getElementById('newUserPass').value = '';
+          loadUsers();
+        } else showNotification('error','Failed', data.error || 'Could not create user.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    async function updateUser(id){
+      const name = document.getElementById(`editName_${id}`)?.value?.trim();
+      const password = document.getElementById(`editPass_${id}`)?.value || '';
+      const disabled = document.getElementById(`editDisabled_${id}`)?.value === 'true';
+
+      // collect permission checkboxes by scanning DOM
+      const permInputs = Array.from(document.querySelectorAll(`[id^="editPerm_${CSS.escape(id)}_"]`));
+      const permissions = {};
+      permInputs.forEach(inp => {
+        const key = inp.id.replace(`editPerm_${id}_`, '');
+        permissions[key] = !!inp.checked;
+      });
+
+      const payload = { name, disabled, permissions };
+      if (password && password.length >= 8) payload.password = password;
+
+      try{
+        const res = await fetch(apiUrl(`/api/admin/users/${encodeURIComponent(id)}`), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${state.adminToken}` },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success){
+          showNotification('success','Saved','User updated (sessions invalidated).');
+          loadUsers();
+        } else showNotification('error','Failed', data.error || 'Could not update user.');
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    // =========================
+    // SECURITY PANEL (change own password)
+    // =========================
+    function renderSecurityPanelHtml(){
+      return `
+        <div class="stat-card" style="text-align:left;">
+          <h3 style="font-family:var(--font-display); color:var(--primary-gold); font-size:1.3rem;">Security</h3>
+          <div class="mini-pill" style="margin-top:12px;">Change your own password. Minimum 8 characters.</div>
+
+          <div style="margin-top:14px; display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group"><label>Old Password</label><input type="password" class="form-input" id="oldAdminPassword" /></div>
+            <div class="form-group"><label>New Password</label><input type="password" class="form-input" id="newAdminPassword" /></div>
+          </div>
+          <div style="margin-top:12px; display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group"><label>Confirm New</label><input type="password" class="form-input" id="confirmAdminPassword" /></div>
+            <div class="form-group"><label>&nbsp;</label><button class="btn btn-primary" style="width:100%;" onclick="changeAdminPassword()">Change</button></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function wireSecurityPanel(){ /* buttons inline */ }
+
+    async function changeAdminPassword(){
+      const oldPassword = document.getElementById('oldAdminPassword').value;
+      const newPassword = document.getElementById('newAdminPassword').value;
+      const confirmPassword = document.getElementById('confirmAdminPassword').value;
+
+      if (!oldPassword || !newPassword) return showNotification('error','Missing','Fill old and new password.');
+      if (newPassword.length < 8) return showNotification('error','Weak','Use at least 8 characters.');
+      if (newPassword !== confirmPassword) return showNotification('error','Mismatch','New password and confirmation do not match.');
+
+      try{
+        const res = await fetch(apiUrl('/api/admin/change-password'), {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${state.adminToken}` },
+          body: JSON.stringify({ oldPassword, newPassword })
+        });
+        const data = await res.json();
+        if (data.success){
+          document.getElementById('oldAdminPassword').value = '';
+          document.getElementById('newAdminPassword').value = '';
+          document.getElementById('confirmAdminPassword').value = '';
+          showNotification('success','Changed','Password updated. You may need to login again on other devices.');
+        } else {
+          showNotification('error','Failed', data.error || 'Could not change password.');
+        }
+      }catch(e){ showNotification('error','Failed', e.message); }
+    }
+
+    // =========================
+    // NOTIFICATIONS + CONFETTI
+    // =========================
+    function showNotification(type, title, message) {
+      const notification = document.getElementById('notification');
+      const icon = document.getElementById('notificationIcon');
+      const titleEl = document.getElementById('notificationTitle');
+      const messageEl = document.getElementById('notificationMessage');
+      notification.className = 'notification ' + type + ' active';
+      icon.textContent = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      setTimeout(hideNotification, 5000);
+    }
+    function hideNotification() { document.getElementById('notification').classList.remove('active'); }
+
+    function triggerConfetti() {
+      const container = document.getElementById('confettiContainer');
+      const colors = ['#D4AF37','#F4E5B2','#e94560','#7B2D8E','#4CAF50','#2196F3'];
+      for (let i = 0; i < 80; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 1.5 + 's';
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        container.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 4500);
+      }
+    }
+
+    // =========================
+    // UTILS
+    // =========================
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes','KB','MB','GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    function timeAgo(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+      const intervals = [
+        { label: 'year', seconds: 31536000 },
+        { label: 'month', seconds: 2592000 },
+        { label: 'week', seconds: 604800 },
+        { label: 'day', seconds: 86400 },
+        { label: 'hour', seconds: 3600 },
+        { label: 'minute', seconds: 60 }
+      ];
+      for (const interval of intervals) {
+        const count = Math.floor(seconds / interval.seconds);
+        if (count >= 1) return `${count} ${interval.label}${count > 1 ? 's' : ''} ago`;
+      }
+      return 'Just now';
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text ?? '';
+      return div.innerHTML;
+    }
+    function escapeAttr(text) {
+      return String(text ?? '').replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => { clearTimeout(timeout); func(...args); };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    function getInitials(name) {
+      const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+      if (parts.length === 0) return 'T';
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+    }
+
+    function setVal(id, val) { const el = document.getElementById(id); if (el) el.value = val ?? ''; }
+    function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function mergeDeep(target, source) {
+      if (typeof target !== 'object' || target === null) return source;
+      if (typeof source !== 'object' || source === null) return target;
+      for (const key of Object.keys(source)) {
+        if (Array.isArray(source[key])) target[key] = source[key];
+        else if (typeof source[key] === 'object' && source[key] !== null) target[key] = mergeDeep(target[key] ?? {}, source[key]);
+        else target[key] = source[key];
+      }
+      return target;
+    }
+  </script>
+</body>
+</html>
