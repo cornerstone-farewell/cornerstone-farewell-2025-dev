@@ -45,12 +45,13 @@
     }
 
     /* Theme overrides injected from settings.theme */
-    :root[data-theme="custom"]{
       /* these are updated dynamically via JS by setting style props on documentElement */
-    }
+    
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+   html {
+  scroll-behavior: auto;
+}
     body {
       font-family: var(--font-body);
       background: var(--navy-dark);
@@ -269,32 +270,7 @@
     .btn-secondary:hover { background: var(--glass-bg); border-color: var(--primary-gold); color: var(--primary-gold); }
     .btn-danger { background: rgba(244,67,54,0.2); border: 1px solid rgba(244,67,54,0.6); color: #ffb3ad; }
     .btn-danger:hover { background: rgba(244,67,54,0.35); }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      animation: float 3s infinite ease-in-out;
-    }
-    .scroll-indicator { width: 30px; height: 50px; border: 2px solid var(--glass-border); border-radius: 20px; position: relative; }
-    .scroll-indicator::before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 6px; height: 10px;
-      background: var(--primary-gold);
-      border-radius: 3px;
-      animation: pulse 2s infinite;
-    }
+      
 
     section { padding: var(--section-padding) 20px; position: relative; }
     .container { max-width: var(--container-width); margin: 0 auto; }
@@ -544,10 +520,7 @@
         <a href="#memories" class="btn btn-secondary">View Memory Wall</a>
       </div>
     </div>
-    <div class="hero-scroll">
-      <span>Scroll to explore</span>
-      <div class="scroll-indicator"></div>
-    </div>
+   
   </section>
 
   <section id="countdown">
@@ -1307,7 +1280,11 @@
 
     .admin-memory-info { padding: 15px; }
     .admin-memory-name { font-weight: 800; margin-bottom: 5px; }
-    .admin-memory-caption { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .admin-memory-caption { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; display: -webkit-box; line-clamp: 2;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
+}
     .admin-memory-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; gap: 10px; }
     .admin-memory-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
     .admin-memory-actions button {
