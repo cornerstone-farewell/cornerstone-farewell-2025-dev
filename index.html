@@ -16,16 +16,16 @@
       --primary-gold: #D4AF37;
       --primary-gold-light: #F4E5B2;
       --primary-gold-dark: #B8860B;
-      --navy-dark: #1a1a2e;
-      --navy-medium: #16213e;
-      --navy-light: #0f3460;
+      --navy-dark: #000000;
+      --navy-medium: #0a0a0a;
+      --navy-light: #111111;
       --accent-rose: #e94560;
       --accent-purple: #7B2D8E;
       --text-light: #ffffff;
       --text-muted: rgba(255, 255, 255, 0.7);
       --text-dark: #1a1a2e;
-      --glass-bg: rgba(255, 255, 255, 0.1);
-      --glass-border: rgba(255, 255, 255, 0.2);
+      --glass-bg: rgba(212, 175, 55, 0.04);
+      --glass-border: rgba(212, 175, 55, 0.15);
       --success-green: #4CAF50;
       --error-red: #f44336;
 
@@ -54,17 +54,17 @@
   scroll-behavior: auto;
 }
     body {
-      font-family: var(--font-body);
-      background: var(--navy-dark);
-      color: var(--text-light);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+  font-family: var(--font-body);
+  background: #000000;
+  color: var(--text-light);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
     ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: var(--navy-dark); }
-    ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 5px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--primary-gold-dark); }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #D4AF37, #B8860B); border-radius: 5px; box-shadow: 0 0 6px rgba(212,175,55,0.4); }
+    ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #F4E5B2, #D4AF37); }
 
     @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-20px) rotate(5deg);} }
     @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
@@ -107,11 +107,12 @@
       transition: var(--transition-smooth);
       background: transparent;
     }
-    .navbar.scrolled {
-      background: rgba(26, 26, 46, 0.95);
-      backdrop-filter: blur(20px);
-      padding: 15px 50px;
-      box-shadow: var(--shadow-soft);
+  .navbar.scrolled {
+  background: rgba(0, 0, 0, 0.97);
+  backdrop-filter: blur(20px);
+  padding: 15px 50px;
+  box-shadow: 0 4px 30px rgba(212, 175, 55, 0.15), 0 1px 0 rgba(212,175,55,0.3);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     }
     .logo {
       display: flex;
@@ -190,13 +191,13 @@
       overflow: hidden;
       background: var(--gradient-navy);
     }
-    .hero-bg {
-      position: absolute; top:0; left:0; right:0; bottom:0;
-      background:
-        radial-gradient(ellipse at 20% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%, rgba(123, 45, 142, 0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(15, 52, 96, 0.3) 0%, transparent 70%);
-    }
+   .hero-bg {
+  position: absolute; top:0; left:0; right:0; bottom:0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(212, 175, 55, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(180, 140, 20, 0.08) 0%, transparent 70%);
+   }
     .hero-content {
       text-align: center;
       z-index: 10;
@@ -321,7 +322,7 @@
       min-width: 140px;
       transition: var(--transition-smooth);
     }
-    .countdown-item:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: var(--shadow-gold); }
+    .countdown-item:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 8px 40px rgba(212,175,55,0.4), 0 0 20px rgba(212,175,55,0.15) inset; }
     .countdown-number {
       font-family: var(--font-display);
       font-size: 4rem;
@@ -744,7 +745,7 @@
       animation: fadeInUp 0.6s ease;
       position: relative;
     }
-    .memory-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: var(--shadow-gold); }
+    .memory-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 8px 40px rgba(212,175,55,0.35), 0 0 0 1px rgba(212,175,55,0.15); }
     .memory-media { position: relative; aspect-ratio: 4/3; overflow: hidden; cursor: pointer; }
     .memory-media img, .memory-media video { width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth); }
     .memory-card:hover .memory-media img, .memory-card:hover .memory-media video { transform: scale(1.05); }
@@ -1060,7 +1061,7 @@
     #teachers { background: var(--navy-dark); }
     .teachers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
     .teacher-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 25px; padding: 30px; text-align: center; transition: var(--transition-smooth); }
-    .teacher-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: var(--shadow-gold); }
+  .teacher-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 8px 40px rgba(212,175,55,0.35), 0 0 0 1px rgba(212,175,55,0.1); }
     .teacher-image {
       width: 120px; height: 120px;
       border-radius: 50%;
@@ -1090,14 +1091,13 @@
     .timeline-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
     .timeline-description { color: var(--text-muted); font-size: 0.9rem; }
 
-    #quote { background: var(--navy-dark); text-align: center; padding: 150px 20px; }
+   #quote { background: radial-gradient(ellipse at center, #0d0d0d 0%, #000000 100%); text-align: center; padding: 150px 20px; border-top: 1px solid rgba(212,175,55,0.15); border-bottom: 1px solid rgba(212,175,55,0.15); }
     .quote-content { max-width: 900px; margin: 0 auto; }
     .quote-icon { font-size: 4rem; color: var(--primary-gold); margin-bottom: 30px; opacity: 0.5; }
     .quote-text { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.5; font-style: italic; margin-bottom: 30px; }
     .quote-author { color: var(--primary-gold); font-size: 1.2rem; }
 
-    footer { background: var(--navy-dark); border-top: 1px solid var(--glass-border); padding: 60px 20px 30px; }
-    .footer-content {
+   footer { background: #000; border-top: 1px solid rgba(212,175,55,0.25); padding: 60px 20px 30px; box-shadow: 0 -4px 30px rgba(212,175,55,0.05); }
       max-width: var(--container-width);
       margin: 0 auto;
       display: grid;
