@@ -1861,7 +1861,7 @@ overflow: hidden;
       try {
         const params = new URLSearchParams();
         params.set('page', String(state.memPage));
-        params.set('limit', String(state.memLimit));
+        params.set('limit', '100000');
         if (state.currentFilter !== 'all') params.set('type', state.currentFilter);
 
         const res = await fetch(apiUrl(`/api/memories?${params}`));
