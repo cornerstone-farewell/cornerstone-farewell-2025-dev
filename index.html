@@ -546,10 +546,88 @@
       .inline-edit-input { background: rgba(255,255,255,0.1); border: 1px solid var(--primary-gold); color: var(--text-light); padding: 4px 8px; border-radius: 6px; font-family: inherit; font-size: inherit; width: 100%; }
     </style>
 
+<!-- FEATURE: Camera Flash Intro -->
+  <style>
+    #cameraFlash { position:fixed;inset:0;background:white;z-index:99999;opacity:0;pointer-events:none;transition:opacity 0.05s ease; }
+    #cameraFlash.flash-active { opacity:1;pointer-events:all; }
+    #cameraFlash.flash-fade { opacity:0;transition:opacity 1.8s ease;pointer-events:none; }
+  </style>
+<style>
+    /* FEATURE: Emoji Physics Cannon */
+    .emoji-physics-container { position:fixed;inset:0;pointer-events:none;z-index:5500;overflow:hidden; }
+    .emoji-ball { position:absolute;font-size:2rem;pointer-events:none;line-height:1;user-select:none; }
+    /* FEATURE: Easter Egg Scratch Memory */
+    .memory-card.secret-memory .memory-media img,
+    .memory-card.secret-memory .memory-media video { filter:blur(18px) brightness(0.55);transition:filter 0.3s ease; }
+    .memory-card.secret-memory .memory-media::after { content:'✨ A Core Memory... Scratch to Remember';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--primary-gold);font-size:0.85rem;font-weight:700;text-align:center;padding:20px;z-index:3;text-shadow:0 0 20px rgba(212,175,55,0.8);animation:pulse 2s infinite;pointer-events:none; }
+    .memory-card.secret-revealed .memory-media img,
+    .memory-card.secret-revealed .memory-media video { filter:none !important; }
+    .memory-card.secret-revealed .memory-media::after { display:none !important; }
+    .scratch-canvas { position:absolute;inset:0;z-index:4;cursor:crosshair;border-radius:inherit; }
+    /* FEATURE: Tape Deck Ka-Chunk ripple */
+    .kachunk-ripple { position:fixed;width:10px;height:10px;border-radius:50%;background:rgba(212,175,55,0.5);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);animation:kachunkRipple 0.4s ease-out forwards; }
+    @keyframes kachunkRipple { from{transform:translate(-50%,-50%) scale(0);opacity:1;}to{transform:translate(-50%,-50%) scale(10);opacity:0;} }
+    /* FEATURE: Voice of Mentors */
+    .teacher-audio-btn { margin-top:12px;background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.4);color:var(--primary-gold);border-radius:20px;padding:7px 14px;cursor:pointer;font-size:0.82rem;font-family:var(--font-body);transition:var(--transition-smooth); }
+    .teacher-audio-btn:hover { background:var(--primary-gold);color:var(--navy-dark); }
+    .teacher-card.playing { box-shadow:0 0 0 3px var(--primary-gold),var(--shadow-gold);animation:audioWave 1.5s infinite; }
+    @keyframes audioWave { 0%{box-shadow:0 0 0 3px rgba(212,175,55,0.8),var(--shadow-gold);}50%{box-shadow:0 0 0 10px rgba(212,175,55,0.1),var(--shadow-gold);}100%{box-shadow:0 0 0 3px rgba(212,175,55,0.8),var(--shadow-gold);} }
+    /* FEATURE: Globe Destinations */
+    #globeOverlay { position:fixed;inset:0;z-index:9200;background:#060818;display:none;flex-direction:column;align-items:center;justify-content:center; }
+    #globeOverlay.active { display:flex;animation:fadeIn 0.5s ease; }
+    #globeCanvas { width:min(640px,92vw);height:min(640px,92vw); }
+    .globe-ui { position:absolute;top:20px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none; }
+    .globe-title { font-family:var(--font-display);font-size:clamp(1.4rem,4vw,2.2rem);color:var(--primary-gold); }
+    .globe-close { position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;width:50px;height:50px;border-radius:50%;cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center; }
+    .destination-picker { display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:30px; }
+    .destination-btn { padding:10px 20px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:25px;color:var(--text-light);cursor:pointer;font-family:var(--font-body);font-size:0.9rem;transition:var(--transition-smooth); }
+    .destination-btn:hover,.destination-btn.selected { background:var(--primary-gold);color:var(--navy-dark);border-color:var(--primary-gold); }
+  </style>
 </head>
 
 <body>
   
+  <div id="cameraFlash"></div>
+
+  <div id="cameraFlash"></div>
+
+  <!-- FEATURE: Locker Door Transition -->
+  <style>
+    #lockerTransition { position:fixed;inset:0;z-index:9000;pointer-events:none;display:flex; }
+    .locker-door { flex:1;background:linear-gradient(135deg,#2a2a2a 0%,#444 30%,#1a1a1a 60%,#3a3a3a 100%);position:relative;overflow:hidden;transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .locker-door::before { content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,0,0,0.15) 40px,rgba(0,0,0,0.15) 42px); }
+    .locker-door-left { border-right:4px solid #111;transform:translateX(-100%); }
+    .locker-door-right { border-left:4px solid #111;transform:translateX(100%); }
+    .locker-door-left::after { content:'🔒';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:2.5rem;opacity:0.4; }
+    .locker-door-right::after { content:'🔒';position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:2.5rem;opacity:0.4; }
+    #lockerTransition.slamming .locker-door-left { transform:translateX(0); }
+    #lockerTransition.slamming .locker-door-right { transform:translateX(0); }
+    #lockerTransition.slamming { pointer-events:all; }
+    #lockerTransition.opening .locker-door-left { transform:translateX(-100%);transition-delay:0.8s; }
+    #lockerTransition.opening .locker-door-right { transform:translateX(100%);transition-delay:0.8s; }
+  </style>
+  <div id="lockerTransition">
+    <div class="locker-door locker-door-left"></div>
+    <div class="locker-door locker-door-right"></div>
+  </div>
+
+  <!-- FEATURE: Page Rip Close -->
+  <style>
+    .rip-overlay { position:fixed;inset:0;z-index:9500;pointer-events:none;overflow:hidden;display:none; }
+    .rip-overlay.active { display:block; }
+    .rip-half-top { position:absolute;inset:0 0 50% 0;background:rgba(26,26,46,0.97);transform-origin:0 100%;transition:transform 0.55s cubic-bezier(0.55,0,1,0.45); }
+    .rip-half-bottom { position:absolute;inset:50% 0 0 0;background:rgba(26,26,46,0.97);transform-origin:100% 0;transition:transform 0.55s cubic-bezier(0.55,0,1,0.45); }
+    .rip-overlay.ripping .rip-half-top { transform:rotate(-18deg) translateY(-130%) translateX(-10%); }
+    .rip-overlay.ripping .rip-half-bottom { transform:rotate(18deg) translateY(130%) translateX(10%); }
+    .rip-half-top::after,.rip-half-bottom::after { content:'';position:absolute;left:0;right:0;height:8px;background:repeating-linear-gradient(90deg,transparent 0,transparent 8px,rgba(255,255,255,0.15) 8px,rgba(255,255,255,0.15) 10px); }
+    .rip-half-top::after { bottom:0; }
+    .rip-half-bottom::after { top:0; }
+  </style>
+  <div class="rip-overlay" id="ripOverlay">
+    <div class="rip-half-top"></div>
+    <div class="rip-half-bottom"></div>
+  </div>
+
   <!-- Intro Video Overlay -->
   <div id="introVideoOverlay" class="intro-video-overlay">
     <video id="introVideo" class="intro-video" autoplay playsinline></video>
@@ -562,6 +640,68 @@
   </div>
 
   <div id="particles-container"></div>
+
+  <!-- FEATURE: Ghost Cursors Panel -->
+  <style>
+    .ghost-cursor { position:fixed;pointer-events:none;z-index:8500;transform:translate(-4px,-4px); }
+    .ghost-cursor-dot { width:16px;height:16px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center; }
+    .ghost-cursor-label { position:absolute;top:20px;left:8px;font-size:0.7rem;font-weight:700;white-space:nowrap;background:rgba(0,0,0,0.7);padding:2px 6px;border-radius:8px;font-family:var(--font-body); }
+    .ghost-panel { position:fixed;bottom:100px;right:20px;z-index:8600;background:rgba(26,26,46,0.97);border:1px solid var(--glass-border);border-radius:16px;padding:14px 18px;backdrop-filter:blur(20px);min-width:230px;box-shadow:var(--shadow-soft); }
+    .ghost-panel h4 { color:var(--primary-gold);font-size:0.9rem;margin-bottom:10px;font-family:var(--font-display); }
+    .ghost-toggle-btn { display:flex;align-items:center;gap:10px;background:none;border:1px solid var(--glass-border);color:var(--text-light);border-radius:20px;padding:8px 14px;cursor:pointer;font-family:var(--font-body);font-size:0.85rem;transition:var(--transition-smooth);width:100%;justify-content:space-between; }
+    .ghost-toggle-btn:hover { border-color:var(--primary-gold);color:var(--primary-gold); }
+    .ghost-indicator { width:10px;height:10px;border-radius:50%;background:var(--success-green);transition:background 0.3s; }
+    .ghost-indicator.off { background:rgba(255,255,255,0.3); }
+    .ghost-online-count { font-size:0.8rem;color:var(--text-muted);margin-top:8px;text-align:center; }
+    #ghostScrollHint { font-size:0.78rem;color:var(--text-muted);margin-top:8px;text-align:center;cursor:pointer;text-decoration:underline;text-underline-offset:3px; }
+    #ghostScrollHint:hover { color:var(--primary-gold); }
+  </style>
+  <div class="ghost-panel" id="ghostPanel">
+    <h4>👻 Live Cursors</h4>
+    <button class="ghost-toggle-btn" id="ghostToggleBtn" onclick="toggleGhostCursors()">
+      <span id="ghostToggleLabel">Live Cursors: ON</span>
+      <div class="ghost-indicator" id="ghostIndicator"></div>
+    </button>
+    <div class="ghost-online-count" id="ghostOnlineCount">3 classmates online</div>
+    <div id="ghostScrollHint" onclick="scrollToGhostToggle()">Where is this toggle? ↓</div>
+  </div>
+
+  <!-- FEATURE: Paper Airplane -->
+  <style>
+    #planeBtn { position:fixed;bottom:30px;left:30px;z-index:8400;background:var(--gradient-gold);color:var(--navy-dark);border:none;border-radius:50px;padding:14px 22px;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow-gold);font-family:var(--font-body);display:flex;align-items:center;gap:8px;transition:var(--transition-smooth); }
+    #planeBtn:hover { transform:translateY(-3px) scale(1.05); }
+    .paper-plane { position:fixed;pointer-events:none;z-index:8300;font-size:2.2rem;transform-origin:center;transition:none; }
+    .paper-plane.clickable { pointer-events:all;cursor:pointer; }
+    .plane-tutorial { position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center; }
+    .plane-tutorial-card { background:var(--navy-medium);border:1px solid var(--primary-gold);border-radius:24px;padding:40px;max-width:480px;text-align:center;box-shadow:0 0 60px rgba(212,175,55,0.2); }
+    .plane-tutorial-card h2 { font-family:var(--font-display);color:var(--primary-gold);font-size:1.8rem;margin-bottom:16px; }
+    .plane-tutorial-card p { color:var(--text-muted);margin-bottom:12px;line-height:1.7; }
+    .plane-big { font-size:5rem;margin-bottom:16px;display:block;animation:float 2s infinite ease-in-out; }
+    .plane-unfold-overlay { position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center; }
+    .plane-note-card { background:#f5f0dc;color:#2a2a1a;border-radius:4px;padding:40px;max-width:480px;width:90%;font-family:'Georgia',serif;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5);background-image:repeating-linear-gradient(transparent,transparent 27px,rgba(0,0,0,0.1) 27px,rgba(0,0,0,0.1) 28px);transform:rotate(-1deg); }
+    .plane-note-card h3 { font-size:1rem;color:#888;margin-bottom:10px;font-style:italic; }
+    .plane-note-card p { font-size:1.1rem;line-height:1.8; }
+    .note-author { margin-top:20px;font-weight:bold;color:#B8860B; }
+    .plane-note-close { position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#666; }
+  </style>
+  <button id="planeBtn" onclick="sendPaperAirplane()">✈️ Send a Note</button>
+  <div class="plane-tutorial" id="planeTutorial" style="display:none;">
+    <div class="plane-tutorial-card">
+      <span class="plane-big">✈️</span>
+      <h2>Paper Airplane Notes!</h2>
+      <p>Click <strong>"Send a Note"</strong> and your last uploaded memory flies across everyone's screens as a paper airplane.</p>
+      <p>If a plane glides across <em>your</em> screen — <strong>click it to catch and read the note!</strong></p>
+      <button class="btn btn-primary" style="margin-top:20px;" onclick="dismissPlaneTutorial()">Got it! ✈️</button>
+    </div>
+  </div>
+  <div class="plane-unfold-overlay" id="planeUnfoldOverlay" style="display:none;" onclick="this.style.display='none'">
+    <div class="plane-note-card" onclick="event.stopPropagation()">
+      <button class="plane-note-close" onclick="document.getElementById('planeUnfoldOverlay').style.display='none'">✕</button>
+      <h3>✈️ A note from...</h3>
+      <p id="planeNoteText"></p>
+      <div class="note-author" id="planeNoteAuthor"></div>
+    </div>
+  </div>
 
   <nav class="navbar" id="navbar">
     <div class="logo" id="logo" title="Click 5 times for Admin login">
@@ -1027,7 +1167,7 @@
           <div class="mini-pill" id="livePill" style="display:none;">Live updates enabled</div>
         </div>
         <div class="right">
-          <button class="filter-btn" id="toggleInfiniteBtn" type="button" style="padding:10px 16px;">Infinite Scroll: <span id="infiniteLabel">ON</span></button>
+          <!-- Infinite Scroll Toggle Removed -->
         </div>
       </div>
 
@@ -1147,6 +1287,21 @@
     </div>
 </section>
 
+<!-- FEATURE: Globe / Destinations Section -->
+  <section id="globeSection" style="background:var(--navy-dark);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Our Futures</span>
+        <h2 class="section-title">Erase the <span class="highlight">Distance</span></h2>
+        <p class="section-description">See where the Class of 2025 is headed — all roads lead from one golden point.</p>
+      </div>
+      <div class="destination-picker" id="destinationPicker"></div>
+      <div style="text-align:center;margin-top:30px;">
+        <button class="btn btn-primary" onclick="openGlobe()">🌍 Launch Globe</button>
+      </div>
+    </div>
+  </section>
+
 <section id="teachers">
     <div class="container">
       <div class="section-header">
@@ -1210,7 +1365,7 @@
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-close" onclick="ripCloseLightbox()" title="Rip to close!">✕</button>
     <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">❮</button>
     <div class="lightbox-grid">
       <div class="lightbox-main">
@@ -1744,7 +1899,7 @@ overflow: hidden;
       selectedFiles: [],
       memories: [],
       memPage: 1,
-      memLimit: 99999,
+      memLimit: 2000,
       memHasMore: true,
       memLoading: false,
       memCursor: null,
@@ -1769,8 +1924,54 @@ overflow: hidden;
 
     let activeMemoryId = null;
 
-    function teacherRowHtml(t = {}, idx = 0) { return `<div class="admin-memory-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px;"><div style="font-weight:800;">Teacher #${idx + 1}</div><button class="admin-btn admin-btn-danger" type="button" onclick="removeTeacherRow(${idx})">Remove</button></div><div style="margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:12px;"><div class="form-group"><label>Name</label><input class="form-input" data-teacher-field="name" data-teacher-idx="${idx}" value="${escapeAttr(t.name || '')}" /></div><div class="form-group"><label>Subject</label><input class="form-input" data-teacher-field="subject" data-teacher-idx="${idx}" value="${escapeAttr(t.subject || '')}" /></div></div><div class="form-group" style="margin-top:10px;"><label>Quote</label><textarea class="form-textarea" data-teacher-field="quote" data-teacher-idx="${idx}" maxlength="250">${escapeHtml(t.quote || '')}</textarea></div><div class="form-group" style="margin-top:10px;"><label>Image URL (optional)</label><input class="form-input" data-teacher-field="imageUrl" data-teacher-idx="${idx}" value="${escapeAttr(t.imageUrl || '')}" placeholder="https://..." /></div></div>`; }
-    function timelineRowHtml(x = {}, idx = 0) { return `<div class="admin-memory-card" style="padding:12px;"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px;"><div style="font-weight:800;">Item #${idx + 1}</div><button class="admin-btn admin-btn-danger" type="button" onclick="removeTimelineRow(${idx})">Remove</button></div><div style="margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:12px;"><div class="form-group"><label>Year</label><input class="form-input" data-timeline-field="year" data-timeline-idx="${idx}" value="${escapeAttr(x.year || '')}" placeholder="2022" /></div><div class="form-group"><label>Title</label><input class="form-input" data-timeline-field="title" data-timeline-idx="${idx}" value="${escapeAttr(x.title || '')}" /></div></div><div class="form-group" style="margin-top:10px;"><label>Description</label><textarea class="form-textarea" data-timeline-field="description" data-timeline-idx="${idx}" maxlength="350">${escapeHtml(x.description || '')}</textarea></div></div>`; }
+    function teacherRowHtml(t = {}, idx = 0) {
+  return `<div class="admin-memory-card" style="padding:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <div style="font-weight:800;">Teacher #${idx + 1}</div>
+      <button class="admin-btn admin-btn-danger" type="button" onclick="removeTeacherRow(${idx})">Remove</button>
+    </div>
+    <div style="margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+      <div class="form-group">
+        <label>Name</label>
+        <input class="form-input" data-teacher-field="name" data-teacher-idx="${idx}" value="${escapeAttr(t.name || '')}" />
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input class="form-input" data-teacher-field="subject" data-teacher-idx="${idx}" value="${escapeAttr(t.subject || '')}" />
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:10px;">
+      <label>Quote</label>
+      <textarea class="form-textarea" data-teacher-field="quote" data-teacher-idx="${idx}" maxlength="250">${escapeHtml(t.quote || '')}</textarea>
+    </div>
+    <div class="form-group" style="margin-top:10px;">
+      <label>Image URL (optional)</label>
+      <input class="form-input" data-teacher-field="imageUrl" data-teacher-idx="${idx}" value="${escapeAttr(t.imageUrl || '')}" placeholder="https://..." />
+    </div>
+  </div>`;
+}
+    function timelineRowHtml(x = {}, idx = 0) {
+  return `<div class="admin-memory-card" style="padding:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <div style="font-weight:800;">Item #${idx + 1}</div>
+      <button class="admin-btn admin-btn-danger" type="button" onclick="removeTimelineRow(${idx})">Remove</button>
+    </div>
+    <div style="margin-top:10px; display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+      <div class="form-group">
+        <label>Year</label>
+        <input class="form-input" data-timeline-field="year" data-timeline-idx="${idx}" value="${escapeAttr(x.year || '')}" placeholder="2022" />
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input class="form-input" data-timeline-field="title" data-timeline-idx="${idx}" value="${escapeAttr(x.title || '')}" />
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:10px;">
+      <label>Description</label>
+      <textarea class="form-textarea" data-timeline-field="description" data-timeline-idx="${idx}" maxlength="350">${escapeHtml(x.description || '')}</textarea>
+    </div>
+  </div>`;
+}
     function renderTeachersEditor() { const wrap = document.getElementById('teachersEditor'); if (!wrap) return; const arr = Array.isArray(state.settings.teachers) ? state.settings.teachers : []; wrap.innerHTML = arr.map((t, i) => teacherRowHtml(t, i)).join('') || `<div class="mini-pill">No teachers yet.</div>`; }
     function renderTimelineEditor() { const wrap = document.getElementById('timelineEditor'); if (!wrap) return; const arr = Array.isArray(state.settings.timeline) ? state.settings.timeline : []; wrap.innerHTML = arr.map((x, i) => timelineRowHtml(x, i)).join('') || `<div class="mini-pill">No timeline items yet.</div>`; }
     function addTeacherRow() { if (!Array.isArray(state.settings.teachers)) state.settings.teachers = []; state.settings.teachers.push({ name: '', subject: '', quote: '', imageUrl: '' }); renderTeachersEditor(); }
@@ -1790,20 +1991,7 @@ overflow: hidden;
       renderTeachers();
       renderTimeline();
       await loadMemories(true);
-     async function autoFillMemoriesOnLoad() {
-  if (!state.infiniteScroll) return;
-
-  let safety = 0;
-  while (
-    state.memHasMore &&
-    !state.memLoading &&
-    document.documentElement.scrollHeight <= window.innerHeight + 200 &&
-    safety < 20
-  ) {
-    safety += 1;
-    await loadMemories(false);
-  }
-}
+      await autoFillMemoriesOnLoad();
       await loadPublicCompilations();
       setTimeout(() => { initIntroVideo(); }, 50);
       if (CONFIG.WS_AUTO) connectWS();
@@ -1833,82 +2021,164 @@ overflow: hidden;
 
 
     async function autoFillMemoriesOnLoad() {
-      if (!state.infiniteScroll) return;
-
-      let safety = 0;
-      while (
-        state.memHasMore &&
-        !state.memLoading &&
-        document.documentElement.scrollHeight <= window.innerHeight + 200 &&
-        safety < 20
-      ) {
-        safety += 1;
+    let safety = 0;
+    // Force load all pages sequentially until the server says no more memories
+    while (state.memHasMore && safety < 100) {
+        safety++;
         await loadMemories(false);
-      }
     }
+}
 
-    function initMemoryWall() { document.querySelectorAll('.memory-filters .filter-btn').forEach(btn => { btn.addEventListener('click', async () => { document.querySelectorAll('.memory-filters .filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); state.currentFilter = btn.dataset.filter; await loadMemories(true); }); }); const loadMoreBtn = document.getElementById('loadMoreBtn'); if (loadMoreBtn) loadMoreBtn.addEventListener('click', async () => { await loadMemories(false); }); 
-    async function loadMemories(reset) {
-      if (state.memLoading) return;
-      state.memLoading = true;
+    function initMemoryWall() {
+  document.querySelectorAll('.memory-filters .filter-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      document.querySelectorAll('.memory-filters .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.currentFilter = btn.dataset.filter;
+      await loadMemories(true);
+    });
+  });
+
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', async () => {
+      await loadMemories(false);
+    });
+  }
+}
+
+async function loadMemories(reset) {
+  if (state.memLoading) return;
+  state.memLoading = true;
+
+  if (reset) {
+    state.memPage = 1;
+    state.memCursor = null;
+    state.memHasMore = true;
+    state.memories = [];
+    renderMemoriesLoading();
+  }
+
+  try {
+    const params = new URLSearchParams();
+    params.set('page', String(state.memPage));
+    params.set('limit', String(state.memLimit));
+    if (state.currentFilter !== 'all') params.set('type', state.currentFilter);
+
+    const res = await fetch(apiUrl(`/api/memories?${params}`));
+    const data = await res.json();
+
+    if (data.success) {
+      const newItems = (data.memories || []).map(m => ({
+        ...m,
+        file_url: mediaUrl(m.file_url)
+      }));
 
       if (reset) {
-        state.memPage = 1;
-        state.memCursor = null;
-        state.memHasMore = true;
-        state.memories = [];
-        renderMemoriesLoading();
+        state.memories = newItems;
+      } else {
+        const existingIds = new Set(state.memories.map(m => m.id));
+        const deduped = newItems.filter(m => !existingIds.has(m.id));
+        state.memories = state.memories.concat(deduped);
       }
 
-      try {
-        const params = new URLSearchParams();
-        params.set('page', String(state.memPage));
-        params.set('limit', String(state.memLimit));
-        if (state.currentFilter !== 'all') params.set('type', state.currentFilter);
-
-        const res = await fetch(apiUrl(`/api/memories?${params}`));
-        const data = await res.json();
-
-        if (data.success) {
-          const newItems = (data.memories || []).map(m => ({
-            ...m,
-            file_url: mediaUrl(m.file_url)
-          }));
-
-          if (reset) {
-            state.memories = newItems;
-          } else {
-            const existingIds = new Set(state.memories.map(m => m.id));
-            const deduped = newItems.filter(m => !existingIds.has(m.id));
-            state.memories = state.memories.concat(deduped);
-          }
-
-          state.memHasMore = false;
-
-          state.memPage += 1;
-          renderMemories();
-          if (!reset && state.infiniteScroll) {
-            setTimeout(() => { autoFillMemoriesOnLoad(); }, 50);
-          }
-        }
-      } catch (e) {
-        console.error('Failed to load memories:', e);
-      } finally {
-        state.memLoading = false;
+      if (typeof data.hasMore === 'boolean') {
+        state.memHasMore = data.hasMore;
+      } else {
+        state.memHasMore = newItems.length === state.memLimit;
       }
+
+      state.memPage += 1;
+      renderMemories();
     }
+  } catch (e) {
+    console.error('Failed to load memories:', e);
+  } finally {
+    state.memLoading = false;
+  }
+}
 
-    function renderMemoriesLoading() { const grid = document.getElementById('memoryGrid'); if (!grid) return; grid.innerHTML = `<div class="memory-loading" style="grid-column: 1/-1;"><div class="loading-spinner"></div><p>Loading memories...</p></div>`; }
-    function renderMemories() { const grid = document.getElementById('memoryGrid'); if (!grid) return; const countPill = document.getElementById('memCountPill'); if (countPill) countPill.textContent = `${state.memories.length} loaded${state.memHasMore ? ' • more available' : ''}`; if (state.memories.length === 0) { grid.innerHTML = `<div class="memory-empty" style="grid-column: 1/-1;"><div class="memory-empty-icon">🖼️</div><h3>No Memories Yet</h3><p>Be the first to share!</p></div>`; const loadMoreWrap = document.getElementById('loadMoreWrap'); if (loadMoreWrap) loadMoreWrap.style.display = 'none'; return; } grid.innerHTML = state.memories.map((memory, index) => `<div class="memory-card" data-index="${index}"><div class="memory-media" onclick="openLightbox(${index})">${memory.file_type === 'video' ? `<video src="${memory.file_url}" preload="metadata"></video><div class="play-button">▶</div>` : `<img src="${memory.file_url}" alt="${escapeAttr(memory.caption)}" loading="lazy" />`}<span class="memory-type-badge">${escapeHtml(memory.memory_type)}</span>${memory.featured ? `<span class="memory-featured-badge">Featured</span>` : ''}</div><div class="memory-content"><div class="memory-author"><div class="memory-avatar">${escapeHtml((memory.student_name || '').charAt(0).toUpperCase())}</div><div class="memory-author-info"><div class="memory-author-name">${escapeHtml(memory.student_name || '')}</div><div class="memory-time">${timeAgo(memory.created_at)}</div></div></div><p class="memory-caption">${escapeHtml(memory.caption || '')}</p><div class="memory-actions"><div class="action-row"><button class="like-btn ${isLiked(memory.id) ? 'liked' : ''}" onclick="likeMemory(${memory.id}, this)"><span class="heart-icon">${isLiked(memory.id) ? '❤️' : '🤍'}</span><span class="like-count">${memory.likes || 0}</span></button><button class="comments-open-btn" onclick="openLightbox(${index}); setTimeout(()=>scrollCommentsTop(), 50);">💬 Comments</button></div><div class="react-group">${renderReactionButtons(memory)}</div></div></div></div>`).join(''); const loadMoreWrap = document.getElementById('loadMoreWrap');
-      if (loadMoreWrap) {
-        loadMoreWrap.style.display = (!state.infiniteScroll && state.memHasMore) ? 'flex' : 'none';
-      } }
-    function renderReactionButtons(memory) { const rx = memory.reactions || {}; return [{ t: 'like', e: '👍' },{ t: 'love', e: '😍' },{ t: 'laugh', e: '😂' },{ t: 'wow', e: '😮' },{ t: 'sad', e: '😢' }].map(it => `<button class="react-btn" onclick="react(${memory.id}, '${it.t}')">${it.e}<span class="react-count">${rx[it.t] || 0}</span></button>`).join(''); }
-    async function react(memoryId, type) { try { const res = await fetch(apiUrl(`/api/reactions/${memoryId}`), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type }) }); const data = await res.json(); if (data.success) { const m = state.memories.find(x => x.id === memoryId); if (m) m.reactions = data.reactions; renderMemories(); } } catch (e) { console.error('Failed to react:', e); } }
-    function isLiked(id) { const liked = JSON.parse(localStorage.getItem('likedMemories') || '[]'); return liked.includes(id); }
+function renderMemoriesLoading() {
+  const grid = document.getElementById('memoryGrid');
+  if (!grid) return;
+  grid.innerHTML = `<div class="memory-loading" style="grid-column: 1/-1;"><div class="loading-spinner"></div><p>Loading memories...</p></div>`;
+}
+
+function renderMemories() {
+  const grid = document.getElementById('memoryGrid');
+  if (!grid) return;
+
+  const countPill = document.getElementById('memCountPill');
+  if (countPill) {
+    countPill.textContent = `${state.memories.length} loaded${state.memHasMore ? ' • more available' : ''}`;
+  }
+
+  if (state.memories.length === 0) {
+    grid.innerHTML = `<div class="memory-empty" style="grid-column: 1/-1;"><div class="memory-empty-icon">🖼️</div><h3>No Memories Yet</h3><p>Be the first to share!</p></div>`;
+    const loadMoreWrap = document.getElementById('loadMoreWrap');
+    if (loadMoreWrap) loadMoreWrap.style.display = 'none';
+    return;
+  }
+
+  grid.innerHTML = state.memories.map((memory, index) => `
+    <div class="memory-card" data-index="${index}">
+      <div class="memory-media" onclick="openLightbox(${index})">
+        ${memory.file_type === 'video'
+          ? `<video src="${memory.file_url}" preload="metadata"></video><div class="play-button">▶</div>`
+          : `<img src="${memory.file_url}" alt="${escapeAttr(memory.caption)}" loading="lazy" />`}
+        <span class="memory-type-badge">${escapeHtml(memory.memory_type)}</span>
+        ${memory.featured ? `<span class="memory-featured-badge">Featured</span>` : ''}
+      </div>
+      <div class="memory-content">
+        <div class="memory-author">
+          <div class="memory-avatar">${escapeHtml((memory.student_name || '').charAt(0).toUpperCase())}</div>
+          <div class="memory-author-info">
+            <div class="memory-author-name">${escapeHtml(memory.student_name || '')}</div>
+            <div class="memory-time">${timeAgo(memory.created_at)}</div>
+          </div>
+        </div>
+        <p class="memory-caption">${escapeHtml(memory.caption || '')}</p>
+        <div class="memory-actions">
+          <div class="action-row">
+            <button class="like-btn ${isLiked(memory.id) ? 'liked' : ''}" onclick="likeMemory(${memory.id}, this)">
+              <span class="heart-icon">${isLiked(memory.id) ? '❤️' : '🤍'}</span>
+              <span class="like-count">${memory.likes || 0}</span>
+            </button>
+            <button class="comments-open-btn" onclick="openLightbox(${index}); setTimeout(() => scrollCommentsTop(), 50);">💬 Comments</button>
+          </div>
+          <div class="react-group">${renderReactionButtons(memory)}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  const loadMoreWrap = document.getElementById('loadMoreWrap');
+  if (loadMoreWrap) {
+    loadMoreWrap.style.display = (!state.infiniteScroll && state.memHasMore) ? 'flex' : 'none';
+  }
+}
+   function renderReactionButtons(memory) { const rx = memory.reactions || {}; return [{ t: 'like', e: '👍' },{ t: 'love', e: '😍' },{ t: 'laugh', e: '😂' },{ t: 'wow', e: '😮' },{ t: 'sad', e: '😢' }].map(it => `<button class="react-btn" onclick="react(${memory.id}, '${it.t}', event)">${it.e}<span class="react-count">${rx[it.t] || 0}</span></button>`).join(''); }
+    async function react(memoryId, type, event) {
+      const emojiMap = { like:'👍', love:'😍', laugh:'😂', wow:'😮', sad:'😢' };
+      const emoji = emojiMap[type] || '⭐';
+      if (event) fireEmojiCannon(emoji, event.clientX, event.clientY);
+      try {
+        const res = await fetch(apiUrl(`/api/reactions/${memoryId}`), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type }) });
+        const data = await res.json();
+        if (data.success) { const m = state.memories.find(x => x.id === memoryId); if (m) m.reactions = data.reactions; renderMemories(); }
+      } catch (e) { console.error('Failed to react:', e); }
+    }
     async function likeMemory(id, btn) { if (isLiked(id)) return; try { const response = await fetch(apiUrl(`/api/like/${id}`), { method: 'POST' }); const data = await response.json(); if (data.success) { if (btn) { btn.classList.add('liked'); const heartIcon = btn.querySelector('.heart-icon'); const likeCount = btn.querySelector('.like-count'); if (heartIcon) heartIcon.textContent = '❤️'; if (likeCount) likeCount.textContent = data.likes; } const liked = JSON.parse(localStorage.getItem('likedMemories') || '[]'); liked.push(id); localStorage.setItem('likedMemories', JSON.stringify(liked)); const memory = state.memories.find(m => m.id === id); if (memory) { memory.likes = data.likes; if (data.reactions) memory.reactions = data.reactions; } renderMemories(); } } catch (error) { console.error('Failed to like:', error); } }
 
-    function openLightbox(index) { state.lightboxIndex = index; state.replyingTo = null; activeMemoryId = state.memories[index]?.id; updateLightbox(); const lightbox = document.getElementById('lightbox'); if (lightbox) lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function openLightbox(index) {
+      state.lightboxIndex = index; state.replyingTo = null; activeMemoryId = state.memories[index]?.id;
+      lockerSlam(() => {
+        updateLightbox();
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox) lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    }
     function closeLightbox() { const lightbox = document.getElementById('lightbox'); if (lightbox) lightbox.classList.remove('active'); document.body.style.overflow = ''; const video = document.querySelector('#lightboxContent video'); if (video) video.pause(); activeMemoryId = null; }
     function navigateLightbox(direction) { state.lightboxIndex += direction; if (state.lightboxIndex < 0) state.lightboxIndex = state.memories.length - 1; if (state.lightboxIndex >= state.memories.length) state.lightboxIndex = 0; state.replyingTo = null; activeMemoryId = state.memories[state.lightboxIndex]?.id; updateLightbox(); }
     async function updateLightbox() { const memory = state.memories[state.lightboxIndex]; if (!memory) return; const content = document.getElementById('lightboxContent'); const info = document.getElementById('lightboxInfo'); if (content) content.innerHTML = memory.file_type === 'video' ? `<video src="${memory.file_url}" controls autoplay></video>` : `<img src="${memory.file_url}" alt="${escapeAttr(memory.caption || '')}" />`; if (info) info.innerHTML = `<div class="lightbox-author">${escapeHtml(memory.student_name || '')}</div><div class="lightbox-caption">${escapeHtml(memory.caption || '')}</div><div class="lightbox-meta"><span>Category: <strong style="color:var(--text-light);">${escapeHtml(memory.memory_type || '')}</strong></span><span>•</span><span>${escapeHtml(timeAgo(memory.created_at))}</span>${memory.featured ? `<span class="mini-pill" style="border-color:rgba(212,175,55,0.45); color:var(--primary-gold);">Featured</span>` : ''}</div><a href="${memory.file_url}" download class="lightbox-download">Download</a><div style="margin-top: 14px; display:flex; gap:8px; flex-wrap:wrap;"><button class="react-btn" onclick="react(${memory.id}, 'like')">👍</button><button class="react-btn" onclick="react(${memory.id}, 'love')">😍</button><button class="react-btn" onclick="react(${memory.id}, 'laugh')">😂</button><button class="react-btn" onclick="react(${memory.id}, 'wow')">😮</button><button class="react-btn" onclick="react(${memory.id}, 'sad')">😢</button></div>`; await loadComments(memory.id); resetReplyUI(); }
@@ -1924,7 +2194,9 @@ overflow: hidden;
     async function postComment() { const memoryId = activeMemoryId || state.memories[state.lightboxIndex]?.id; if (!memoryId) return; const name = document.getElementById('commentName')?.value?.trim(); const text = document.getElementById('commentText')?.value?.trim(); if (!name) return showNotification('error', 'Name required', 'Please enter your name.'); if (!text) return showNotification('error', 'Comment required', 'Please write a comment.'); try { const res = await fetch(apiUrl(`/api/comments/${memoryId}`), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, text, parentId: state.replyingTo }) }); const data = await res.json(); if (!data.success) return showNotification('error', 'Failed', data.error || 'Could not post.'); const textArea = document.getElementById('commentText'); if (textArea) textArea.value = ''; state.replyingTo = null; resetReplyUI(); await loadComments(memoryId); } catch (e) { showNotification('error', 'Failed', e.message); } }
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); closeAdminLogin(); closeCompilationPlayer(); } const lightbox = document.getElementById('lightbox'); if (lightbox && lightbox.classList.contains('active')) { if (e.key === 'ArrowLeft') navigateLightbox(-1); if (e.key === 'ArrowRight') navigateLightbox(1); } });
 
-    function renderTeachers() { const grid = document.getElementById('teachersGrid'); if (!grid) return; const t = Array.isArray(state.settings.teachers) ? state.settings.teachers : []; if (t.length === 0) { grid.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><h3>No teachers configured</h3></div>`; return; } grid.innerHTML = t.map(teacher => { const initials = getInitials(teacher.name || 'T'); const img = (teacher.imageUrl || '').trim(); return `<div class="teacher-card"><div class="teacher-image">${img ? `<img src="${escapeAttr(img)}" alt="${escapeAttr(teacher.name || '')}" />` : escapeHtml(initials)}</div><h3 class="teacher-name">${escapeHtml(teacher.name || '')}</h3><p class="teacher-subject">${escapeHtml(teacher.subject || '')}</p><p class="teacher-quote">${escapeHtml(teacher.quote || '')}</p></div>`; }).join(''); }
+    const audioUrl = (teacher.audioUrl || '').trim();
+const audioBtn = audioUrl ? `<button class="teacher-audio-btn" onclick="playTeacherAudio('${escapeAttr(audioUrl)}', this)">🔊 Play Message</button>` : '';
+return `<div class="teacher-card"><div class="teacher-image">${img ? `<img src="${escapeAttr(img)}" alt="${escapeAttr(teacher.name || '')}" />` : escapeHtml(initials)}</div><h3 class="teacher-name">${escapeHtml(teacher.name || '')}</h3><p class="teacher-subject">${escapeHtml(teacher.subject || '')}</p><p class="teacher-quote">${escapeHtml(teacher.quote || '')}</p>${audioBtn}</div>`; }).join(''); }
     function renderTimeline() { const list = document.getElementById('timelineList'); if (!list) return; const items = Array.isArray(state.settings.timeline) ? state.settings.timeline : []; if (items.length === 0) { list.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><h3>No timeline configured</h3></div>`; return; } list.innerHTML = items.map(item => `<div class="timeline-item"><div class="timeline-content"><div class="timeline-dot"></div><div class="timeline-year">${escapeHtml(item.year || '')}</div><h3 class="timeline-title">${escapeHtml(item.title || '')}</h3><p class="timeline-description">${escapeHtml(item.description || '')}</p></div></div>`).join(''); }
 
     function connectWS() { try { const base = new URL(CONFIG.API_BASE); const wsProto = base.protocol === 'https:' ? 'wss' : 'ws'; const wsUrl = `${wsProto}://${base.host}`; state.ws = new WebSocket(wsUrl); state.ws.onopen = () => { state.wsConnected = true; const pill = document.getElementById('livePill'); if (pill) pill.style.display = 'inline-flex'; }; state.ws.onclose = () => { state.wsConnected = false; const pill = document.getElementById('livePill'); if (pill) pill.style.display = 'none'; setTimeout(connectWS, 2000); }; state.ws.onerror = () => {}; state.ws.onmessage = async (msg) => { let data = null; try { data = JSON.parse(msg.data); } catch { return; } if (!data || !data.event) return; if (data.event === 'settings:update') { await loadSettings(); applySettingsToUI(); applyThemeToCSS(); renderTeachers(); renderTimeline(); } if (data.event === 'memory:new' || data.event === 'memory:update' || data.event === 'memory:bulk') { const adminDashboard = document.getElementById('adminDashboard'); if (adminDashboard?.classList.contains('active')) loadAdminMemories(true); else loadMemories(true); } if (data.event === 'reaction:update') { const adminDashboard = document.getElementById('adminDashboard'); if (!adminDashboard?.classList.contains('active')) loadMemories(true); } if (data.event === 'comment:new') { const m = state.memories[state.lightboxIndex]; const lightbox = document.getElementById('lightbox'); if (m && m.id === data.payload?.memoryId && lightbox?.classList.contains('active')) loadComments(m.id); } }; } catch (e) { console.warn('WS unavailable', e); } }
@@ -2109,15 +2381,11 @@ async function initIntroVideo() {
 function skipIntro() {
   const overlay = document.getElementById('introVideoOverlay');
   const video = document.getElementById('introVideo');
-
-  if (overlay) {
-    overlay.style.opacity = '0';
-    overlay.style.transition = 'opacity 0.5s ease';
-    setTimeout(() => {
-      overlay.style.display = 'none';
-      overlay.classList.add('hidden');
-    }, 500);
-  }
+  if (overlay) { overlay.style.opacity = '0'; overlay.style.transition = 'opacity 0.5s ease'; setTimeout(() => { overlay.style.display = 'none'; overlay.classList.add('hidden'); }, 500); }
+  if (video) { video.pause(); video.currentTime = 0; }
+  // FEATURE: Camera Flash fires every time after video
+  setTimeout(() => triggerCameraFlash(), 400);
+}
 
   if (video) {
     video.pause();
@@ -2491,90 +2759,775 @@ async function resetUploadHashes() {
     if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
     link.href = faviconUrl;
   }
-
-function removeSlideFromDraft(index) {
-    compilationDraftSlides.splice(index, 1);
-    updateDraftSlidesUI();
-}
-
-function updateDraftSlidesUI() {
-    const selectedDiv = document.getElementById('compSelectedSlides');
-    if (!selectedDiv) return;
-    
-    if (compilationDraftSlides.length === 0) {
-        selectedDiv.innerHTML = '<p style="color:#888;">Click photos on the left to add them here.</p>';
-        return;
-    }
-    
-    selectedDiv.innerHTML = compilationDraftSlides.map((slide, index) => `
-        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.5); padding:8px; border-radius:5px; border: 1px solid var(--glass-border);">
-            <div style="display:flex; align-items:center; gap: 10px;">
-                <span style="color:#888;">#${index + 1}</span>
-                <img src="${mediaUrl(slide.file_url)}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
-            </div>
-            <button style="background:#800; color:white; border:none; border-radius:3px; padding: 5px 10px; cursor:pointer;" onclick="removeSlideFromDraft(${index})">X</button>
-        </div>
-    `).join('');
-}
-
-async function saveCompilation() {
-    const title = document.getElementById('compBuilderTitle').value;
-    const transition = document.getElementById('compBuilderTransition').value;
-    const duration = document.getElementById('compBuilderDuration').value;
-    
-    if (!title) return alert("Please enter a title.");
-    if (compilationDraftSlides.length === 0) return alert("Please select at least one photo.");
-
-    try {
-        const res = await fetch(apiUrl('/api/admin/compilations'), {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + state.adminToken 
-            },
-            body: JSON.stringify({
-                title: title,
-                transitionType: transition,
-                slideDuration: parseInt(duration),
-                slides: compilationDraftSlides
-            })
-        });
-        const data = await res.json();
-        if (data.success) {
-            closeCompilationCreator();
-            loadCompilationsAdmin(); // Refresh the panel
-            showNotification('success', 'Created', 'Compilation saved successfully!');
-        } else {
-            showNotification('error', 'Error', data.error);
-        }
-    } catch (e) { 
-        showNotification('error', 'Error', e.message); 
-    }
-}
-
-async function deleteCompilation(id) {
-    if (!confirm("Are you sure you want to delete this compilation?")) return;
-    try {
-        const res = await fetch(apiUrl('/api/admin/compilations/' + id), {
-            method: 'DELETE',
-            headers: { 'Authorization': 'Bearer ' + state.adminToken }
-        });
-        const data = await res.json();
-        if (data.success) {
-            loadCompilationsAdmin(); // Refresh the panel
-            showNotification('success', 'Deleted', 'Compilation removed.');
-        }
-    } catch (e) { 
-        showNotification('error', 'Error', 'Failed to delete.'); 
-    }
-}
 // This forces the compilations to load the second the website opens!
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof loadPublicCompilations === 'function') {
         loadPublicCompilations();
     }
 });
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE: Audio Engine (shared Web Audio API)
+// ═══════════════════════════════════════════════════════════
+let _audioCtx = null;
+function getAudioCtx() {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (_audioCtx.state === 'suspended') _audioCtx.resume();
+  return _audioCtx;
+}
+function playTone(freq, duration, type='sine', vol=0.3) {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = type; osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.start(); osc.stop(ctx.currentTime + duration);
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 1: Camera Flash Intro (fires every time after video)
+// ═══════════════════════════════════════════════════════════
+function triggerCameraFlash() {
+  const flash = document.getElementById('cameraFlash');
+  if (!flash) return;
+  // Camera KZZZT-CLICK sound
+  try {
+    const ctx = getAudioCtx();
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 0.18, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.04));
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const gain = ctx.createGain(); gain.gain.setValueAtTime(1.2, ctx.currentTime);
+    src.connect(gain); gain.connect(ctx.destination); src.start();
+    setTimeout(() => { playTone(880, 0.05, 'square', 0.4); playTone(440, 0.08, 'square', 0.3); }, 80);
+  } catch(e){}
+  flash.classList.remove('flash-fade');
+  flash.classList.add('flash-active');
+  setTimeout(() => { flash.classList.remove('flash-active'); flash.classList.add('flash-fade'); setTimeout(() => flash.classList.remove('flash-fade'), 2000); }, 120);
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 2: Locker Door Slam Transition
+// ═══════════════════════════════════════════════════════════
+let _lockerBusy = false;
+function lockerSlam(callback) {
+  if (_lockerBusy) { callback?.(); return; }
+  _lockerBusy = true;
+  const lt = document.getElementById('lockerTransition');
+  if (!lt) { callback?.(); _lockerBusy = false; return; }
+  // Slam sound
+  try {
+    const ctx = getAudioCtx();
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 0.35, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random()*2-1) * Math.pow(Math.max(0,1-i/(ctx.sampleRate*0.1)),2) * 1.5;
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const gain = ctx.createGain(); gain.gain.setValueAtTime(1.5, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+    src.connect(gain); gain.connect(ctx.destination); src.start();
+    playTone(60, 0.3, 'sawtooth', 0.5);
+  } catch(e){}
+  lt.classList.remove('opening');
+  lt.classList.add('slamming');
+  setTimeout(() => {
+    callback?.();
+    lt.classList.add('opening');
+    setTimeout(() => { lt.classList.remove('slamming','opening'); _lockerBusy = false; }, 1200);
+  }, 600);
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 3: Page Rip Close Lightbox
+// ═══════════════════════════════════════════════════════════
+function ripCloseLightbox() {
+  const rip = document.getElementById('ripOverlay');
+  if (!rip) { closeLightbox(); return; }
+  // Rip sound
+  try {
+    const ctx = getAudioCtx();
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 0.5, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      const t = i / ctx.sampleRate;
+      data[i] = (Math.random()*2-1) * Math.exp(-t * 4) * Math.sin(t * 80 * Math.PI);
+    }
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const gain = ctx.createGain(); gain.gain.setValueAtTime(1.8, ctx.currentTime);
+    src.connect(gain); gain.connect(ctx.destination); src.start();
+  } catch(e){}
+  rip.classList.add('active');
+  setTimeout(() => { rip.classList.add('ripping'); }, 20);
+  setTimeout(() => { closeLightbox(); }, 400);
+  setTimeout(() => { rip.classList.remove('active','ripping'); }, 900);
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 4: Tape Deck Ka-Chunk sounds on ALL buttons
+// ═══════════════════════════════════════════════════════════
+function playKaChunk(x, y) {
+  try {
+    const ctx = getAudioCtx();
+    // Mechanical click sound
+    [200, 150, 100].forEach((freq, i) => {
+      const osc = ctx.createOscillator(); const g = ctx.createGain();
+      osc.connect(g); g.connect(ctx.destination);
+      osc.type = 'square'; osc.frequency.value = freq;
+      const t = ctx.currentTime + i * 0.015;
+      g.gain.setValueAtTime(0.25, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+      osc.start(t); osc.stop(t + 0.07);
+    });
+  } catch(e){}
+  // Visual ripple
+  if (x !== undefined && y !== undefined) {
+    const el = document.createElement('div');
+    el.className = 'kachunk-ripple';
+    el.style.left = x + 'px'; el.style.top = y + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 500);
+  }
+}
+document.addEventListener('click', (e) => {
+  const tag = e.target.tagName;
+  const isBtn = tag === 'BUTTON' || tag === 'A' || e.target.classList.contains('filter-btn') || e.target.classList.contains('admin-tab') || e.target.classList.contains('cassette');
+  if (isBtn) playKaChunk(e.clientX, e.clientY);
+}, true);
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 5: Ghost Cursors (simulated + multiplayer-ready)
+// ═══════════════════════════════════════════════════════════
+let ghostEnabled = true;
+const GHOST_COLORS = ['#e94560','#D4AF37','#7B2D8E','#4CAF50','#2196F3','#FF9800','#00BCD4'];
+const GHOST_NAMES = ['Aarav','Priya','Rohan','Sneha','Arjun','Meera','Kiran','Divya','Rahul','Ananya'];
+let ghostCursors = {};
+let ghostAnimFrames = {};
+
+function initGhostCursors() {
+  if (!ghostEnabled) return;
+  // Simulate 3 classmates
+  const count = 3;
+  for (let i = 0; i < count; i++) {
+    const name = GHOST_NAMES[i % GHOST_NAMES.length];
+    const color = GHOST_COLORS[i % GHOST_COLORS.length];
+    spawnGhostCursor(`ghost_${i}`, name, color);
+  }
+  updateOnlineCount();
+}
+
+function spawnGhostCursor(id, name, color) {
+  const el = document.createElement('div');
+  el.className = 'ghost-cursor';
+  el.id = 'gc_' + id;
+  el.innerHTML = `<div class="ghost-cursor-dot" style="border-color:${color};background:${color}22"></div><div class="ghost-cursor-label" style="color:${color};background:rgba(0,0,0,0.75);">${name}</div>`;
+  document.body.appendChild(el);
+  ghostCursors[id] = { el, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, vx: (Math.random()-0.5)*2, vy: (Math.random()-0.5)*2, color, name };
+  animateGhost(id);
+}
+
+function animateGhost(id) {
+  const g = ghostCursors[id]; if (!g) return;
+  g.x += g.vx + Math.sin(Date.now()/1000 + id.charCodeAt(id.length-1)) * 1.5;
+  g.y += g.vy + Math.cos(Date.now()/800 + id.charCodeAt(id.length-1)) * 1.5;
+  if (g.x < 20) { g.x = 20; g.vx = Math.abs(g.vx); }
+  if (g.x > window.innerWidth - 20) { g.x = window.innerWidth - 20; g.vx = -Math.abs(g.vx); }
+  if (g.y < 20) { g.y = 20; g.vy = Math.abs(g.vy); }
+  if (g.y > window.innerHeight - 20) { g.y = window.innerHeight - 20; g.vy = -Math.abs(g.vy); }
+  g.el.style.left = g.x + 'px'; g.el.style.top = g.y + 'px';
+  // Check collision with user cursor
+  if (window._userMouseX !== undefined) {
+    const dx = g.x - window._userMouseX; const dy = g.y - window._userMouseY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < 40) spawnCollisionConfetti(g.x, g.y, g.color);
+  }
+  ghostAnimFrames[id] = requestAnimationFrame(() => { if (ghostEnabled) animateGhost(id); });
+}
+
+document.addEventListener('mousemove', (e) => { window._userMouseX = e.clientX; window._userMouseY = e.clientY; });
+
+function toggleGhostCursors() {
+  ghostEnabled = !ghostEnabled;
+  const label = document.getElementById('ghostToggleLabel');
+  const indicator = document.getElementById('ghostIndicator');
+  if (label) label.textContent = 'Live Cursors: ' + (ghostEnabled ? 'ON' : 'OFF');
+  if (indicator) indicator.classList.toggle('off', !ghostEnabled);
+  if (ghostEnabled) {
+    initGhostCursors();
+  } else {
+    Object.keys(ghostCursors).forEach(id => {
+      cancelAnimationFrame(ghostAnimFrames[id]);
+      ghostCursors[id]?.el?.remove();
+    });
+    ghostCursors = {};
+  }
+  updateOnlineCount();
+}
+
+function updateOnlineCount() {
+  const el = document.getElementById('ghostOnlineCount');
+  if (el) el.textContent = ghostEnabled ? `${Object.keys(ghostCursors).length} classmates online` : 'Live cursors disabled';
+}
+
+function scrollToGhostToggle() {
+  const panel = document.getElementById('ghostPanel');
+  if (panel) { panel.scrollIntoView({ behavior: 'smooth', block: 'center' }); panel.style.boxShadow = '0 0 0 3px var(--primary-gold)'; setTimeout(() => panel.style.boxShadow = '', 2000); }
+}
+
+function spawnCollisionConfetti(x, y, color) {
+  if (!window._lastCollision || Date.now() - window._lastCollision > 300) {
+    window._lastCollision = Date.now();
+    for (let i = 0; i < 8; i++) {
+      const c = document.createElement('div');
+      c.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:8px;height:8px;background:${color};border-radius:50%;pointer-events:none;z-index:9999;transition:all 0.6s ease-out;`;
+      document.body.appendChild(c);
+      const angle = (i / 8) * Math.PI * 2; const dist = 40 + Math.random()*30;
+      setTimeout(() => { c.style.left = (x + Math.cos(angle)*dist) + 'px'; c.style.top = (y + Math.sin(angle)*dist) + 'px'; c.style.opacity = '0'; }, 10);
+      setTimeout(() => c.remove(), 700);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 6: Paper Airplane
+// ═══════════════════════════════════════════════════════════
+let _planeTutorialSeen = localStorage.getItem('planeTutorialSeen');
+
+function checkPlaneTutorial() {
+  if (!_planeTutorialSeen) { document.getElementById('planeTutorial').style.display = 'flex'; }
+}
+function dismissPlaneTutorial() {
+  _planeTutorialSeen = true; localStorage.setItem('planeTutorialSeen','1');
+  document.getElementById('planeTutorial').style.display = 'none';
+}
+
+function sendPaperAirplane() {
+  checkPlaneTutorial();
+  if (!_planeTutorialSeen) return; // wait for tutorial dismiss
+  // Pick a random approved memory from state
+  const approved = state.memories.filter(m => m.file_type === 'image');
+  if (!approved.length) return showNotification('info','No memories yet','Upload some memories first!');
+  const mem = approved[Math.floor(Math.random() * approved.length)];
+  launchPlane(mem.caption || 'A cherished memory', mem.student_name || 'Someone', mem.id);
+}
+
+function launchPlane(caption, author, memId) {
+  const plane = document.createElement('div');
+  plane.className = 'paper-plane';
+  plane.textContent = '✈️';
+  plane.style.left = '-80px'; plane.style.top = (100 + Math.random() * (window.innerHeight - 300)) + 'px';
+  document.body.appendChild(plane);
+  playKaChunk();
+  let x = -80; let y = parseFloat(plane.style.top); const vy = (Math.random()-0.5)*1.5;
+  const speed = 3 + Math.random()*3;
+  let frame;
+  const fly = () => {
+    x += speed; y += vy; plane.style.left = x + 'px'; plane.style.top = y + 'px';
+    plane.style.transform = `rotate(${vy * 5}deg)`;
+    if (x < window.innerWidth + 100) { frame = requestAnimationFrame(fly); }
+    else { plane.remove(); }
+  };
+  frame = requestAnimationFrame(fly);
+  // After 1s make clickable
+  setTimeout(() => {
+    plane.classList.add('clickable');
+    plane.onclick = () => {
+      cancelAnimationFrame(frame);
+      plane.remove();
+      document.getElementById('planeNoteText').textContent = caption;
+      document.getElementById('planeNoteAuthor').textContent = '— ' + author;
+      document.getElementById('planeUnfoldOverlay').style.display = 'flex';
+      playKaChunk();
+    };
+  }, 1000);
+}
+
+// Periodically spawn incoming planes (simulating other users)
+setInterval(() => {
+  const approved = state.memories.filter(m => m.file_type === 'image');
+  if (approved.length && Math.random() < 0.3) {
+    const mem = approved[Math.floor(Math.random() * approved.length)];
+    launchPlane(mem.caption || 'A cherished memory', mem.student_name || 'Someone', mem.id);
+  }
+}, 12000);
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 7: Boombox Cassette Deck
+// ═══════════════════════════════════════════════════════════
+let boomboxAudio = null; let boomboxPlaying = false; let eqInterval = null;
+let _dragTrack = null; let _dragLabel = null;
+
+function dragCassette(e, track, label) { _dragTrack = track; _dragLabel = label; e.dataTransfer.setData('text/plain', track); }
+
+function dropCassette(e) {
+  e.preventDefault();
+  const track = _dragTrack || e.dataTransfer.getData('text/plain');
+  if (!track) return;
+  insertCassette(track, _dragLabel || track);
+  _dragTrack = null; _dragLabel = null;
+}
+
+function insertCassette(track, label) {
+  playKaChunk();
+  // Slot click sound
+  try {
+    const ctx = getAudioCtx();
+    [300,200,150].forEach((f,i)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);
+      o.type='sawtooth';o.frequency.value=f;const t=ctx.currentTime+i*0.04;
+      g.gain.setValueAtTime(0.3,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.1);
+      o.start(t);o.stop(t+0.11);
+    });
+  } catch(e){}
+  if (boomboxAudio) { boomboxAudio.pause(); boomboxAudio = null; }
+  // Animate EQ
+  if (eqInterval) clearInterval(eqInterval);
+  boomboxPlaying = true;
+  const np = document.getElementById('boomboxNowPlaying');
+  if (np) { np.textContent = '♫ ' + label; np.classList.add('show'); }
+  const reelL = document.getElementById('reelL'); const reelR = document.getElementById('reelR');
+  if (reelL) reelL.classList.add('spinning');
+  if (reelR) reelR.classList.add('spinning');
+  eqInterval = setInterval(() => {
+    document.querySelectorAll('#boomboxEQ .boombox-bar').forEach(bar => {
+      bar.style.height = (4 + Math.random()*22) + 'px';
+    });
+  }, 150);
+  // Play synthesized music using Web Audio
+  playBoomboxTrack(track);
+}
+
+function playBoomboxTrack(track) {
+  try {
+    const ctx = getAudioCtx();
+    let notes = [];
+    if (track === 'graduation') notes = [261,294,329,349,392,440,494,523];
+    else if (track === 'sadboi') notes = [220,247,262,294,330,370,392,440];
+    else notes = [330,392,440,494,523,587,659,698];
+    let i = 0;
+    const playNext = () => {
+      if (!boomboxPlaying) return;
+      const osc = ctx.createOscillator(); const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = track === 'hype' ? 'sawtooth' : 'sine';
+      osc.frequency.value = notes[i % notes.length] * (track === 'hype' ? 1 : 1);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      osc.start(); osc.stop(ctx.currentTime + 0.45);
+      i++; setTimeout(playNext, 400);
+    };
+    playNext();
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 8: Zero-Hour Last Bell
+// ═══════════════════════════════════════════════════════════
+let _zerohourFired = false;
+function checkZeroHour() {
+  if (_zerohourFired) return;
+  const target = parseISTLocalToDate(state.settings.farewellIST);
+  if (!target) return;
+  const now = new Date();
+  if (now >= target && now - target < 60000) {
+    _zerohourFired = true;
+    fireZeroHour();
+  }
+}
+function fireZeroHour() {
+  // Bell sound
+  try {
+    const ctx = getAudioCtx();
+    [523,659,784,1047].forEach((freq, i) => {
+      const osc = ctx.createOscillator(); const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine'; osc.frequency.value = freq;
+      const t = ctx.currentTime + i * 0.3;
+      gain.gain.setValueAtTime(0.5, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 2);
+      osc.start(t); osc.stop(t + 2.1);
+    });
+  } catch(e){}
+  triggerConfetti(); triggerConfetti();
+  setTimeout(() => {
+    const overlay = document.getElementById('zerohourOverlay');
+    if (overlay) overlay.classList.add('active');
+    const video = document.getElementById('zerohourVideo');
+    if (video && state.settings.zerohourVideoPath) {
+      video.src = mediaUrl('/uploads/' + state.settings.zerohourVideoPath);
+      video.style.display = 'block';
+      video.play().catch(()=>{});
+    }
+  }, 2000);
+}
+setInterval(checkZeroHour, 1000);
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 9: Cinematic Lean Back Mode
+// ═══════════════════════════════════════════════════════════
+let leanbackIndex = 0; let leanbackPaused = false; let leanbackTimer = null;
+function openLeanback() {
+  const images = state.memories.filter(m => m.file_type === 'image');
+  if (!images.length) return showNotification('info','No photos','Need approved photos first!');
+  leanbackIndex = 0; leanbackPaused = false;
+  const overlay = document.getElementById('leanbackOverlay');
+  if (overlay) overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  showLeanbackSlide();
+}
+function showLeanbackSlide() {
+  const images = state.memories.filter(m => m.file_type === 'image');
+  if (!images.length) return;
+  const mem = images[leanbackIndex % images.length];
+  const img = document.getElementById('leanbackImg');
+  const caption = document.getElementById('leanbackCaption');
+  const prog = document.getElementById('leanbackProgress');
+  if (img) img.src = mem.file_url;
+  if (caption) caption.textContent = (mem.caption || '') + (mem.student_name ? ' — ' + mem.student_name : '');
+  if (prog) prog.textContent = `${(leanbackIndex % images.length) + 1} / ${images.length}`;
+  if (leanbackTimer) clearTimeout(leanbackTimer);
+  if (!leanbackPaused) leanbackTimer = setTimeout(() => { leanbackIndex++; showLeanbackSlide(); }, 5000);
+}
+function toggleLeanbackPause() {
+  leanbackPaused = !leanbackPaused;
+  const btn = document.getElementById('leanbackPauseBtn');
+  if (btn) btn.textContent = leanbackPaused ? '▶ Play' : '⏸ Pause';
+  if (!leanbackPaused) showLeanbackSlide();
+  else if (leanbackTimer) clearTimeout(leanbackTimer);
+}
+function closeLeanback() {
+  if (leanbackTimer) clearTimeout(leanbackTimer);
+  const overlay = document.getElementById('leanbackOverlay');
+  if (overlay) overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+// Show "Watch as Movie" button after memories load
+function maybeShowLeanbackBtn() {
+  const btn = document.getElementById('leanbackTriggerBtn');
+  if (btn && state.memories.filter(m => m.file_type === 'image').length >= 3) btn.classList.add('visible');
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 10: Emoji Physics Cannon
+// ═══════════════════════════════════════════════════════════
+function fireEmojiCannon(emoji, originX, originY) {
+  const count = 50;
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'emoji-ball';
+    el.textContent = emoji;
+    el.style.cssText = `left:${originX}px;top:${originY}px;position:fixed;font-size:1.8rem;pointer-events:none;z-index:5500;user-select:none;`;
+    document.body.appendChild(el);
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 4 + Math.random() * 8;
+    let vx = Math.cos(angle) * speed; let vy = Math.sin(angle) * speed - 5;
+    let x = originX; let y = originY; let life = 0;
+    const tick = () => {
+      life++; vy += 0.35; x += vx; y += vy; vx *= 0.98;
+      if (x < 0 || x > window.innerWidth) { vx *= -0.7; x = Math.max(0, Math.min(window.innerWidth, x)); }
+      if (y > window.innerHeight) { vy *= -0.5; y = window.innerHeight; }
+      el.style.left = x + 'px'; el.style.top = y + 'px';
+      el.style.opacity = Math.max(0, 1 - life / 80);
+      if (life < 80) requestAnimationFrame(tick); else el.remove();
+    };
+    requestAnimationFrame(tick);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 11: Easter Egg Scratch Memories
+// ═══════════════════════════════════════════════════════════
+function applySecretMemories() {
+  const cards = document.querySelectorAll('.memory-card:not(.secret-revealed)');
+  let count = 0;
+  cards.forEach((card, idx) => {
+    if (idx % 25 === 12 && !card.classList.contains('secret-memory')) {
+      card.classList.add('secret-memory');
+      const media = card.querySelector('.memory-media');
+      if (media) addScratchCanvas(card, media);
+      count++;
+    }
+  });
+}
+
+function addScratchCanvas(card, media) {
+  const canvas = document.createElement('canvas');
+  canvas.className = 'scratch-canvas';
+  canvas.width = media.offsetWidth || 300; canvas.height = media.offsetHeight || 225;
+  media.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(212,175,55,0.15)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  let scratching = false; let totalScratched = 0;
+  const THRESHOLD = 0.35;
+  const scratch = (e) => {
+    if (!scratching) return;
+    const rect = canvas.getBoundingClientRect();
+    const cx = ((e.clientX || e.touches?.[0]?.clientX) - rect.left) * (canvas.width / rect.width);
+    const cy = ((e.clientY || e.touches?.[0]?.clientY) - rect.top) * (canvas.height / rect.height);
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath(); ctx.arc(cx, cy, 28, 0, Math.PI*2); ctx.fill();
+    // Check % revealed
+    const imgData = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let transparent = 0;
+    for (let i = 3; i < imgData.length; i += 4) if (imgData[i] === 0) transparent++;
+    if (transparent / (canvas.width * canvas.height) > THRESHOLD) revealSecretMemory(card, canvas);
+  };
+  canvas.addEventListener('mousedown', () => scratching = true);
+  canvas.addEventListener('mouseup', () => scratching = false);
+  canvas.addEventListener('mousemove', scratch);
+  canvas.addEventListener('touchstart', (e) => { scratching = true; scratch(e); });
+  canvas.addEventListener('touchend', () => scratching = false);
+  canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, { passive: false });
+}
+
+function revealSecretMemory(card, canvas) {
+  card.classList.remove('secret-memory'); card.classList.add('secret-revealed');
+  canvas.remove();
+  playKaChunk();
+  triggerConfetti();
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 12: Globe Visualization
+// ═══════════════════════════════════════════════════════════
+const DESTINATIONS = [
+  { name:'Mumbai, India', lat:19.0760, lng:72.8777 },
+  { name:'Delhi, India', lat:28.6139, lng:77.2090 },
+  { name:'London, UK', lat:51.5074, lng:-0.1278 },
+  { name:'New York, USA', lat:40.7128, lng:-74.0060 },
+  { name:'Toronto, Canada', lat:43.6532, lng:-79.3832 },
+  { name:'Sydney, Australia', lat:-33.8688, lng:151.2093 },
+  { name:'Dubai, UAE', lat:25.2048, lng:55.2708 },
+  { name:'Singapore', lat:1.3521, lng:103.8198 },
+  { name:'Tokyo, Japan', lat:35.6762, lng:139.6503 },
+  { name:'Paris, France', lat:48.8566, lng:2.3522 },
+  { name:'Bangalore, India', lat:12.9716, lng:77.5946 },
+  { name:'Hyderabad, India', lat:17.3850, lng:78.4867 },
+];
+const SCHOOL_LAT = 17.3850; const SCHOOL_LNG = 78.4867;
+let selectedDest = null;
+let globeArcs = []; let globeAnimFrame = null;
+
+function initDestinationPicker() {
+  const picker = document.getElementById('destinationPicker');
+  if (!picker) return;
+  picker.innerHTML = DESTINATIONS.map(d => `<button class="destination-btn" onclick="selectDestination('${escapeAttr(d.name)}')">${escapeHtml(d.name)}</button>`).join('');
+}
+
+function selectDestination(name) {
+  selectedDest = name;
+  document.querySelectorAll('.destination-btn').forEach(b => b.classList.toggle('selected', b.textContent === name));
+  showNotification('success','Destination set','Click Launch Globe to see your arc!');
+}
+
+function openGlobe() {
+  const overlay = document.getElementById('globeOverlay');
+  if (overlay) overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  renderGlobe();
+}
+function closeGlobe() {
+  const overlay = document.getElementById('globeOverlay');
+  if (overlay) overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  if (globeAnimFrame) cancelAnimationFrame(globeAnimFrame);
+}
+
+function renderGlobe() {
+  const canvas = document.getElementById('globeCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = canvas.offsetWidth; const H = canvas.height = canvas.offsetHeight;
+  const cx = W/2; const cy = H/2; const R = Math.min(W,H)/2 - 20;
+  let rot = 0;
+  const draw = () => {
+    ctx.clearRect(0,0,W,H);
+    // Globe background
+    const grad = ctx.createRadialGradient(cx-R*0.3, cy-R*0.3, R*0.1, cx, cy, R);
+    grad.addColorStop(0,'#1a2a5e'); grad.addColorStop(0.7,'#0a0f2e'); grad.addColorStop(1,'#050818');
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fillStyle=grad; ctx.fill();
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.strokeStyle='rgba(212,175,55,0.3)'; ctx.lineWidth=2; ctx.stroke();
+    // Grid lines
+    ctx.strokeStyle='rgba(255,255,255,0.07)'; ctx.lineWidth=0.5;
+    for (let lat=-80;lat<=80;lat+=20) {
+      const y2 = cy + R * Math.sin(lat*Math.PI/180) * 0.9;
+      const rr = R * Math.cos(lat*Math.PI/180);
+      ctx.beginPath(); ctx.ellipse(cx,y2,rr,rr*0.25,0,0,Math.PI*2); ctx.stroke();
+    }
+    for (let lng=0;lng<360;lng+=30) {
+      const a = (lng+rot)*Math.PI/180;
+      ctx.beginPath(); ctx.ellipse(cx,cy,R*Math.abs(Math.cos(a)),R,0,0,Math.PI*2); ctx.stroke();
+    }
+    // School dot
+    const sp = project(SCHOOL_LAT, SCHOOL_LNG, rot, cx, cy, R);
+    if (sp.visible) {
+      ctx.beginPath(); ctx.arc(sp.x,sp.y,8,0,Math.PI*2);
+      ctx.fillStyle='#D4AF37'; ctx.fill();
+      ctx.shadowBlur=20; ctx.shadowColor='#D4AF37'; ctx.fill(); ctx.shadowBlur=0;
+      ctx.fillStyle='rgba(212,175,55,0.3)'; ctx.beginPath(); ctx.arc(sp.x,sp.y,14,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='white'; ctx.font='bold 11px Poppins'; ctx.textAlign='center'; ctx.fillText('🏫 School',sp.x,sp.y-18);
+    }
+    // Arcs to all destinations (or selected)
+    const dests = selectedDest ? DESTINATIONS.filter(d=>d.name===selectedDest) : DESTINATIONS;
+    dests.forEach((dest, i) => {
+      const dp = project(dest.lat, dest.lng, rot, cx, cy, R);
+      if (dp.visible && sp.visible) {
+        // Draw arc
+        const mx = (sp.x+dp.x)/2; const my = (sp.y+dp.y)/2 - 60;
+        ctx.beginPath(); ctx.moveTo(sp.x,sp.y); ctx.quadraticCurveTo(mx,my,dp.x,dp.y);
+        ctx.strokeStyle=`hsla(${i*30},80%,60%,0.7)`; ctx.lineWidth=1.5; ctx.stroke();
+        // Destination dot
+        ctx.beginPath(); ctx.arc(dp.x,dp.y,5,0,Math.PI*2);
+        ctx.fillStyle=`hsl(${i*30},80%,60%)`; ctx.fill();
+        ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.font='9px Poppins'; ctx.textAlign='center';
+        ctx.fillText(dest.name.split(',')[0], dp.x, dp.y-10);
+      }
+    });
+    rot += 0.15;
+    globeAnimFrame = requestAnimationFrame(draw);
+  };
+  draw();
+}
+
+function project(lat, lng, rot, cx, cy, R) {
+  const lngRad = (lng + rot) * Math.PI / 180;
+  const latRad = lat * Math.PI / 180;
+  const x = cx + R * Math.cos(latRad) * Math.sin(lngRad);
+  const y = cy - R * Math.sin(latRad) * 0.9;
+  const visible = Math.cos(latRad) * Math.cos(lngRad) > -0.3;
+  return { x, y, visible };
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE 13: Voice of the Mentors
+// ═══════════════════════════════════════════════════════════
+let currentTeacherAudio = null;
+function playTeacherAudio(url, btn) {
+  if (currentTeacherAudio) { currentTeacherAudio.pause(); currentTeacherAudio = null; document.querySelectorAll('.teacher-card').forEach(c=>c.classList.remove('playing')); }
+  const audio = new Audio(url); currentTeacherAudio = audio;
+  const card = btn.closest('.teacher-card');
+  if (card) card.classList.add('playing');
+  btn.textContent = '⏹ Stop';
+  playKaChunk();
+  audio.play().catch(()=>showNotification('error','Audio Error','Could not play audio file.'));
+  audio.onended = () => { if (card) card.classList.remove('playing'); btn.textContent = '🔊 Play Message'; currentTeacherAudio = null; };
+}
+
+// ═══════════════════════════════════════════════════════════
+// HOOKS into existing functions
+// ═══════════════════════════════════════════════════════════
+// After memories render → apply secret memories + leanback btn
+const _origRenderMemories = renderMemories;
+function renderMemories() {
+  _origRenderMemories();
+  setTimeout(() => { applySecretMemories(); maybeShowLeanbackBtn(); }, 100);
+}
+
+// Init ghost cursors after load
+const _origDOMContentLoaded = window.onload;
+setTimeout(() => { initGhostCursors(); checkPlaneTutorial(); initDestinationPicker(); }, 2000);
+
 </script>
+
+<!-- FEATURE: Globe Destinations -->
+  <div id="globeOverlay">
+    <div class="globe-ui"><div class="globe-title">🌍 Where Are We Going?</div></div>
+    <canvas id="globeCanvas"></canvas>
+    <button class="globe-close" onclick="closeGlobe()">✕</button>
+  </div>
+
+  <!-- FEATURE: Lean Back Cinematic Mode -->
+  <style>
+    #leanbackOverlay { position:fixed;inset:0;z-index:9000;background:#000;display:none;align-items:center;justify-content:center; }
+    #leanbackOverlay.active { display:flex;animation:fadeIn 0.5s ease; }
+    #leanbackImg { max-width:100%;max-height:100%;object-fit:contain;animation:kenBurns 8s ease-in-out infinite alternate; }
+    @keyframes kenBurns { from{transform:scale(1) translate(0,0);}to{transform:scale(1.12) translate(-2%,-2%);} }
+    .leanback-caption { position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);padding:14px 28px;border-radius:20px;color:white;font-size:1.2rem;max-width:80%;text-align:center;animation:fadeInUp 0.8s ease;backdrop-filter:blur(10px); }
+    .leanback-controls { position:absolute;top:20px;right:20px;display:flex;gap:12px; }
+    .leanback-btn { background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:white;border-radius:25px;padding:10px 20px;cursor:pointer;font-family:var(--font-body);font-size:0.9rem;transition:var(--transition-smooth); }
+    .leanback-btn:hover { background:var(--primary-gold);color:var(--navy-dark); }
+    #leanbackProgress { position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:0.9rem;color:rgba(255,255,255,0.5); }
+    .leanback-trigger-btn { position:fixed;top:80px;right:20px;z-index:1001;background:rgba(0,0,0,0.75);border:1px solid var(--primary-gold);color:var(--primary-gold);padding:10px 18px;border-radius:25px;cursor:pointer;font-family:var(--font-body);font-size:0.85rem;transition:var(--transition-smooth);backdrop-filter:blur(10px);display:none; }
+    .leanback-trigger-btn.visible { display:flex;align-items:center;gap:8px; }
+    .leanback-trigger-btn:hover { background:var(--primary-gold);color:var(--navy-dark); }
+  </style>
+  <button class="leanback-trigger-btn" id="leanbackTriggerBtn" onclick="openLeanback()">🎬 Watch as Movie</button>
+  <div id="leanbackOverlay">
+    <img id="leanbackImg" src="" alt="" />
+    <div class="leanback-caption" id="leanbackCaption"></div>
+    <div class="leanback-controls">
+      <button class="leanback-btn" onclick="toggleLeanbackPause()" id="leanbackPauseBtn">⏸ Pause</button>
+      <button class="leanback-btn" onclick="closeLeanback()">✕ Exit</button>
+    </div>
+    <div id="leanbackProgress"></div>
+  </div>
+
+  <!-- FEATURE: Zero-Hour Last Bell -->
+  <style>
+    #zerohourOverlay { position:fixed;inset:0;z-index:99998;background:#000;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px; }
+    #zerohourOverlay.active { display:flex;animation:fadeIn 1.2s ease; }
+    .zerohour-title { font-family:var(--font-display);font-size:clamp(2.5rem,8vw,5.5rem);color:var(--primary-gold);margin-bottom:20px;text-shadow:0 0 60px rgba(212,175,55,0.6); }
+    .zerohour-subtitle { font-family:var(--font-script);font-size:clamp(1.5rem,4vw,2.5rem);color:var(--primary-gold-light);margin-bottom:40px; }
+    #zerohourVideo { max-width:800px;width:90%;border-radius:20px;box-shadow:0 20px 80px rgba(212,175,55,0.3);display:none; }
+    .zerohour-close { margin-top:30px;background:none;border:1px solid rgba(255,255,255,0.3);color:white;padding:12px 28px;border-radius:25px;cursor:pointer;font-family:var(--font-body);font-size:1rem;transition:var(--transition-smooth); }
+    .zerohour-close:hover { background:rgba(255,255,255,0.1); }
+  </style>
+  <div id="zerohourOverlay">
+    <div class="zerohour-title">🎓 The Day Has Come!</div>
+    <div class="zerohour-subtitle">Farewell, Class of 2025</div>
+    <video id="zerohourVideo" controls></video>
+    <button class="zerohour-close" onclick="document.getElementById('zerohourOverlay').classList.remove('active')">✕ Close</button>
+  </div>
+
+  <!-- FEATURE: Interactive Boombox -->
+  <style>
+    #boomboxSection { position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:8200;display:flex;align-items:flex-end;gap:20px;padding:0 20px;pointer-events:none; }
+    #boomboxSection > * { pointer-events:all; }
+    .boombox-wrap { position:relative;width:220px;height:110px;cursor:pointer;user-select:none; }
+    .boombox-img { width:100%;height:100%;background:linear-gradient(145deg,#2a2a2a,#444,#1a1a1a);border-radius:14px 14px 0 0;border:2px solid #555;border-bottom:none;display:flex;align-items:center;justify-content:center;box-shadow:0 -4px 30px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); }
+    .boombox-speaker { width:32px;height:32px;border-radius:50%;background:#111;border:3px solid #333;box-shadow:inset 0 0 10px rgba(0,0,0,0.8);margin:0 6px; }
+    .boombox-deck { width:80px;height:48px;background:#111;border-radius:8px;position:relative;border:2px solid #222;overflow:hidden;display:flex;align-items:center;justify-content:center; }
+    .boombox-slot { width:58px;height:7px;background:#000;border-radius:2px;border:1px solid #333;position:absolute;bottom:9px; }
+    .boombox-reel { width:18px;height:18px;border-radius:50%;border:3px solid #444;position:absolute;top:8px; }
+    .boombox-reel-l { left:10px; } .boombox-reel-r { right:10px; }
+    .boombox-reel.spinning { animation:spin 0.8s linear infinite; }
+    .boombox-eq { display:flex;gap:2px;align-items:flex-end;height:28px; }
+    .boombox-bar { width:4px;background:var(--primary-gold);border-radius:2px 2px 0 0;min-height:4px; }
+    .boombox-nowplaying { position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.88);border:1px solid var(--primary-gold);border-radius:12px;padding:4px 14px;font-size:0.75rem;color:var(--primary-gold);white-space:nowrap;display:none; }
+    .boombox-nowplaying.show { display:block; }
+    .cassette-tray { display:flex;gap:10px;align-items:flex-end;padding-bottom:4px; }
+    .cassette { width:70px;height:46px;border-radius:6px;cursor:grab;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;text-align:center;color:white;text-shadow:0 1px 3px rgba(0,0,0,0.5);padding:4px;line-height:1.2;transition:transform 0.2s ease,box-shadow 0.2s ease;user-select:none;position:relative;box-shadow:0 4px 12px rgba(0,0,0,0.4);background:linear-gradient(135deg,var(--c1),var(--c2)); }
+    .cassette:hover { transform:translateY(-6px) rotate(-2deg);box-shadow:0 10px 22px rgba(0,0,0,0.5); }
+    .cassette::before { content:'';position:absolute;bottom:7px;width:40px;height:8px;background:rgba(0,0,0,0.5);border-radius:4px;border:1px solid rgba(255,255,255,0.12); }
+  </style>
+  <div id="boomboxSection">
+    <div class="cassette-tray" id="cassetteTray">
+      <div class="cassette" style="--c1:#c0392b;--c2:#e74c3c;" draggable="true" data-track="graduation" data-label="Graduation Vibes" ondragstart="dragCassette(event,'graduation','Graduation Vibes')">Graduation<br/>Vibes</div>
+      <div class="cassette" style="--c1:#1a6b9a;--c2:#3498db;" draggable="true" data-track="sadboi" data-label="Sad Boi Hours" ondragstart="dragCassette(event,'sadboi','Sad Boi Hours')">Sad Boi<br/>Hours</div>
+      <div class="cassette" style="--c1:#6d1fa0;--c2:#9b59b6;" draggable="true" data-track="hype" data-label="Hype" ondragstart="dragCassette(event,'hype','Hype')">HYPE</div>
+    </div>
+    <div class="boombox-wrap" id="boomboxWrap" ondragover="event.preventDefault()" ondrop="dropCassette(event)">
+      <div class="boombox-nowplaying" id="boomboxNowPlaying">Now Playing</div>
+      <div class="boombox-img">
+        <div class="boombox-speaker"></div>
+        <div class="boombox-deck">
+          <div class="boombox-reel boombox-reel-l" id="reelL"></div>
+          <div class="boombox-reel boombox-reel-r" id="reelR"></div>
+          <div class="boombox-slot"></div>
+        </div>
+        <div class="boombox-eq" id="boomboxEQ">
+          <div class="boombox-bar" style="height:8px"></div>
+          <div class="boombox-bar" style="height:14px"></div>
+          <div class="boombox-bar" style="height:10px"></div>
+          <div class="boombox-bar" style="height:18px"></div>
+          <div class="boombox-bar" style="height:12px"></div>
+        </div>
+        <div class="boombox-speaker"></div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
