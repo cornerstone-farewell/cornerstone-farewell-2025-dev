@@ -577,15 +577,9 @@
       <li><a href="#countdown">Countdown</a></li>
       <li><a href="#memories">Memories</a></li>
       <li><a href="#teachers">Teachers</a></li>
-<li><a href="#gratitudeWall">Gratitude Wall</a></li>
-<li><a href="#wishJarSection">Wish Jar</a></li>
-<li><a href="#songDedicationsSection">Song Dedications</a></li>
-<li><a href="#timeCapsuleSection">Time Capsule</a></li>
       <li><a href="#timeline">Journey</a></li>
       <li><a href="#compilations">Compilations</a></li>
-        <li><a href="#gratitudeWall">Gratitude Wall</a></li>
-<li><a href="#wishJarSection">Wish Jar</a></li>
-<li><a href="#upload" class="nav-cta">Upload Memory</a></li>
+        <li><a href="#upload" class="nav-cta">Upload Memory</a></li>
     </ul>
     <div class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></div>
   </nav>
@@ -1194,8 +1188,21 @@
 .sticky-note .s-to{font-size:.8rem;opacity:.6}
 .sticky-note .s-msg{font-size:.95rem;line-height:1.55;flex:1}
 .sticky-note .s-heart{position:absolute;bottom:10px;right:14px;font-size:1.1rem}
+.ff-input{width:100%;padding:13px 16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.15);border-radius:12px;color:#fff;font-family:var(--font-body);font-size:.95rem;transition:border-color .25s;box-sizing:border-box}
+.ff-input:focus{outline:none;border-color:var(--primary-gold)}
+.ff-input::placeholder{color:rgba(255,255,255,.4)}
+textarea.ff-input{resize:vertical;min-height:90px}
+.ff-submit-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:4px;background:transparent;color:var(--primary-gold);font-weight:700;border:1.5px solid var(--primary-gold);cursor:pointer;font-family:var(--font-body);font-size:.95rem;letter-spacing:1.5px;text-transform:uppercase;transition:all .3s cubic-bezier(.34,1.56,.64,1);margin-top:14px;position:relative;overflow:hidden;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.ff-submit-btn::before{content:'';position:absolute;inset:0;background:var(--gradient-gold);opacity:0;transition:opacity .3s}
+.ff-submit-btn:hover{color:var(--navy-dark);box-shadow:0 0 24px rgba(212,175,55,.5);transform:translateY(-2px)}
+.ff-submit-btn:hover::before{opacity:1}
+.ff-submit-btn,.ff-submit-btn *{position:relative;z-index:1}
+.ff-form-box{max-width:600px;margin:0 auto 40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:28px}
+.ff-label{display:block;margin-bottom:7px;font-size:.85rem;color:rgba(255,255,255,.7)}
+.ff-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .ff-empty{text-align:center;color:rgba(255,255,255,.4);padding:40px;font-size:1rem}
 .ff-section-hidden{display:none!important}
+
 #superlativesSection{background:var(--navy-medium)}
 .superlatives-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
 .superlative-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px 20px;transition:transform .3s,border-color .3s,box-shadow .3s}
@@ -1203,10 +1210,14 @@
 .superlative-emoji{font-size:2.4rem;margin-bottom:10px;display:block}
 .superlative-title{font-family:var(--font-display);font-size:1.15rem;color:var(--primary-gold);margin-bottom:12px}
 .superlative-nominee-list{display:grid;gap:8px}
-.nominee-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.nominee-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:background .2s}
+.nominee-row:hover{background:rgba(212,175,55,.12);border-color:rgba(212,175,55,.25)}
 .nominee-name{font-size:.9rem;font-weight:600}
 .nominee-votes{font-size:.82rem;color:var(--primary-gold);min-width:32px;text-align:right}
 .nominee-bar{height:4px;border-radius:2px;background:var(--primary-gold);margin-top:4px;transition:width .5s ease}
+.superlative-add-form{margin-top:14px;display:flex;gap:8px}
+.superlative-add-form .ff-input{flex:1;padding:10px 14px}
+
 #wishJarSection{background:linear-gradient(180deg,#0a1020 0%,var(--navy-dark) 100%)}
 .jar-svg-wrap{font-size:6rem;display:inline-block;animation:jarFloat 4s ease-in-out infinite}
 @keyframes jarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
@@ -1215,6 +1226,7 @@
 .wish-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:4px solid var(--primary-gold);border-radius:0 14px 14px 0;padding:14px 16px}
 .wish-author{font-size:.75rem;color:var(--primary-gold);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px}
 .wish-text{font-size:.95rem;color:rgba(255,255,255,.88);line-height:1.55}
+
 #songDedicationsSection{background:var(--navy-dark)}
 .dedications-list{max-width:700px;margin:0 auto;display:grid;gap:14px}
 .dedication-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
@@ -1225,6 +1237,7 @@
 .dedication-song{font-weight:700;font-size:1rem;color:var(--primary-gold-light)}
 .dedication-msg{font-size:.88rem;color:rgba(255,255,255,.75);margin-top:3px}
 .dedication-meta{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:6px}
+
 #moodBoardSection{background:var(--navy-medium)}
 .mood-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:28px}
 .mood-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 22px;clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);border:none;background:rgba(255,255,255,.06);cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);font-family:var(--font-body);color:#fff;min-width:100px;min-height:100px;position:relative}
@@ -1239,6 +1252,7 @@
 .mood-bar-fill{height:100%;border-radius:5px;background:var(--gradient-gold);transition:width .7s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
 .mood-bar-fill::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:barScan 2s linear infinite}
 @keyframes barScan{to{left:200%}}
+
 #timeCapsuleSection{background:linear-gradient(180deg,var(--navy-dark) 0%,#0c1525 100%)}
 .capsule-icon{font-size:5rem;display:inline-block;filter:drop-shadow(0 10px 30px rgba(212,175,55,.35));animation:capsulePulse 3s ease-in-out infinite}
 @keyframes capsulePulse{0%,100%{filter:drop-shadow(0 10px 30px rgba(212,175,55,.35))}50%{filter:drop-shadow(0 10px 50px rgba(212,175,55,.65))}}
@@ -1248,6 +1262,7 @@
 .capsule-lock{font-size:1.6rem}
 .capsule-from{font-weight:700;font-size:.95rem}
 .capsule-open{font-size:.8rem;color:var(--primary-gold);margin-top:3px}
+
 #memoryMosaicSection{background:var(--navy-medium)}
 .mosaic-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:900px;margin:0 auto}
 .mosaic-tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);transition:transform .25s,border-color .25s}
@@ -1257,6 +1272,7 @@
 .mosaic-name{font-size:.78rem;font-weight:600;text-align:center;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mosaic-count{font-size:.7rem;color:var(--primary-gold);font-weight:700}
 .mosaic-bar{width:100%;height:4px;border-radius:2px;background:var(--primary-gold);opacity:.7}
+
 .ff-feature-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);gap:12px;flex-wrap:wrap;margin-bottom:10px}
 .ff-feature-info{flex:1}
 .ff-feature-name{font-weight:700;font-size:1rem}
@@ -1269,34 +1285,46 @@
 .ff-toggle input:checked~.ff-toggle-slider::before{transform:translateX(24px)}
 </style>
 
+<!-- GRATITUDE WALL -->
 <section id="gratitudeWall" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
       <span class="section-badge">Appreciation Corner</span>
       <h2 class="section-title">Gratitude <span class="highlight">Wall</span></h2>
-      <p class="section-description">Notes of thanks from your classmates.</p>
+      <p class="section-description">Leave a sticky note of thanks for someone who made your journey special.</p>
+    </div>
+    <div class="ff-form-box">
+      <div class="ff-grid-2">
+        <div><label class="ff-label">From</label><input class="ff-input" id="gwFrom" placeholder="Your name" maxlength="60"/></div>
+        <div><label class="ff-label">To</label><input class="ff-input" id="gwTo" placeholder="Who's this for?" maxlength="60"/></div>
+      </div>
+      <label class="ff-label">Your message</label>
+      <textarea class="ff-input" id="gwMsg" placeholder="What would you like them to know? 💛" maxlength="280"></textarea>
+      <button class="ff-submit-btn" type="button" onclick="submitGratitudeNote()">Post Sticky Note 📌</button>
     </div>
     <div class="gratitude-grid" id="gratitudeGrid"><div class="ff-empty">No sticky notes yet.</div></div>
   </div>
 </section>
 
+<!-- SUPERLATIVES -->
 <section id="superlativesSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
       <span class="section-badge">Class Awards</span>
       <h2 class="section-title">Class <span class="highlight">Superlatives</span></h2>
-      <p class="section-description">Your classmates — voted by the class.</p>
+      <p class="section-description">Nominate and vote for your classmates in these fun farewell categories.</p>
     </div>
     <div class="superlatives-grid" id="superlativesGrid"><div class="ff-empty">Loading...</div></div>
   </div>
 </section>
 
+<!-- WISH JAR -->
 <section id="wishJarSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
       <span class="section-badge">Dreams & Hopes</span>
       <h2 class="section-title">The Wish <span class="highlight">Jar</span></h2>
-      <p class="section-description">Dreams, hopes and advice from the class.</p>
+      <p class="section-description">Drop your dream, hope, or advice for the class into the jar.</p>
     </div>
     <div style="position:relative;display:inline-block;text-align:center;width:100%;margin-bottom:28px;">
       <div style="display:inline-block;position:relative;">
@@ -1306,21 +1334,50 @@
         <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:200px;border-radius:50%;border:1px solid rgba(212,175,55,.07);animation:jarRing 3s linear infinite 1.2s;pointer-events:none;"></div>
       </div>
     </div>
-    <div class="wishes-scroll" id="wishesScroll"><div class="ff-empty">The jar is empty.</div></div>
+    <div class="ff-form-box">
+      <div class="ff-grid-2">
+        <div><label class="ff-label">Your Name</label><input class="ff-input" id="wishName" placeholder="Anonymous is okay" maxlength="60"/></div>
+        <div><label class="ff-label">Category</label>
+          <select class="ff-input" id="wishCategory">
+            <option value="dream">A Dream 🌟</option>
+            <option value="advice">Advice 💡</option>
+            <option value="hope">A Hope 🕊️</option>
+            <option value="funny">Something Funny 😂</option>
+          </select>
+        </div>
+      </div>
+      <label class="ff-label">Your wish</label>
+      <textarea class="ff-input" id="wishText" placeholder="Write something meaningful, funny, or heartfelt..." maxlength="320"></textarea>
+      <button class="ff-submit-btn" type="button" onclick="submitWish()">Drop into Jar 🫙</button>
+    </div>
+    <div class="wishes-scroll" id="wishesScroll"><div class="ff-empty">The jar is empty. Be first!</div></div>
   </div>
 </section>
 
+<!-- SONG DEDICATIONS -->
 <section id="songDedicationsSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
       <span class="section-badge">Musical Moments</span>
       <h2 class="section-title">Song <span class="highlight">Dedications</span></h2>
-      <p class="section-description">Songs dedicated by your classmates.</p>
+      <p class="section-description">Dedicate a song to a friend, a memory, or the whole class.</p>
     </div>
-    <div class="dedications-list" id="dedicationsList"><div class="ff-empty">No dedications yet.</div></div>
+    <div class="ff-form-box">
+      <div class="ff-grid-2">
+        <div><label class="ff-label">From</label><input class="ff-input" id="dedFrom" placeholder="Your name" maxlength="60"/></div>
+        <div><label class="ff-label">Dedicated To</label><input class="ff-input" id="dedTo" placeholder="A person or 'The whole class'" maxlength="80"/></div>
+      </div>
+      <label class="ff-label">Song Name & Artist</label>
+      <input class="ff-input" id="dedSong" placeholder="e.g. Good Riddance – Green Day" maxlength="120" style="margin-bottom:14px;"/>
+      <label class="ff-label">Why this song? (optional)</label>
+      <textarea class="ff-input" id="dedMsg" placeholder="What does this song mean to you?" maxlength="240" style="min-height:72px;"></textarea>
+      <button class="ff-submit-btn" type="button" onclick="submitDedication()">Dedicate This Song 🎵</button>
+    </div>
+    <div class="dedications-list" id="dedicationsList"><div class="ff-empty">No dedications yet. Be first!</div></div>
   </div>
 </section>
 
+<!-- MOOD BOARD -->
 <section id="moodBoardSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1333,12 +1390,13 @@
   </div>
 </section>
 
+<!-- TIME CAPSULE -->
 <section id="timeCapsuleSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
       <span class="section-badge">Future You</span>
       <h2 class="section-title">Time <span class="highlight">Capsule</span></h2>
-      <p class="section-description">Letters sealed until their reveal date.</p>
+      <p class="section-description">Write a letter to yourself. It will be revealed on the date you choose.</p>
     </div>
     <div style="position:relative;display:inline-block;left:50%;transform:translateX(-50%);margin-bottom:28px;">
       <span class="capsule-icon">📮</span>
@@ -1349,10 +1407,23 @@
         <circle cx="100" cy="100" r="4" fill="rgba(212,175,55,.6)"/>
       </svg>
     </div>
-    <div class="capsule-sealed-list" id="capsuleSealedList"><div class="ff-empty">No capsules sealed yet.</div></div>
+    <div class="ff-form-box">
+      <div class="ff-grid-2">
+        <div><label class="ff-label">Your Name</label><input class="ff-input" id="capsuleName" placeholder="Your name" maxlength="60"/></div>
+        <div><label class="ff-label">Reveal On</label><input type="date" class="ff-input" id="capsuleRevealDate"/></div>
+      </div>
+      <label class="ff-label">Letter to Future You</label>
+      <textarea class="ff-input" id="capsuleLetter" placeholder="Dear future me..." maxlength="1200" style="min-height:160px;"></textarea>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px;">
+        <button class="ff-submit-btn" type="button" onclick="submitTimeCapsule()">Seal & Send 📮</button>
+        <span style="font-size:.82rem;color:rgba(255,255,255,.45);">Stays sealed until reveal date</span>
+      </div>
+    </div>
+    <div class="capsule-sealed-list" id="capsuleSealedList"></div>
   </div>
 </section>
 
+<!-- MEMORY MOSAIC -->
 <section id="memoryMosaicSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1379,6 +1450,7 @@
   function ffNotify(t,title,msg){if(typeof showNotification==='function')showNotification(t,title,msg)}
   function ffApi(p){if(typeof apiUrl==='function')return apiUrl(p);const b=(window.CONFIG&&window.CONFIG.API_BASE)?window.CONFIG.API_BASE.replace(/\/$/,''):'';return b+(p.startsWith('/')?p:'/'+p)}
   async function ffGet(p){const r=await fetch(ffApi(p));return r.json()}
+  async function ffPost(p,body){const r=await fetch(ffApi(p),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});return r.json()}
   async function loadFunFeatureToggles(){
     let t=Object.assign({},FF_DEFAULTS);
     try{const d=await ffGet('/api/fun/settings');if(d.success&&d.settings)t=Object.assign(t,d.settings)}catch(_){}
@@ -1390,25 +1462,64 @@
   }
   async function loadGratitudeNotes(){
     const g=document.getElementById('gratitudeGrid');if(!g)return;
-    try{const d=await ffGet('/api/fun/gratitude');if(d.success&&d.notes?.length){g.innerHTML=d.notes.map((n,i)=>{const c=STICKY_COLORS[i%STICKY_COLORS.length];const r=((i*7+3)%5)-2;return`<div class="sticky-note" style="background:${c.bg};color:${c.text};--r:${r}deg;border:1px solid ${c.border};box-shadow:0 0 18px ${c.border}44,inset 0 0 8px ${c.border}11;backdrop-filter:blur(12px);"><div class="s-from" style="color:${c.border};text-shadow:0 0 8px ${c.border};">From: ${ffEsc(n.from||n.from_name||'Anonymous')}</div><div class="s-to" style="color:${c.text}88;">For ${ffEsc(n.to||n.to_name||'Everyone')}</div><div class="s-msg">${ffEsc(n.message)}</div><div class="s-heart" style="filter:drop-shadow(0 0 6px ${c.border});">⬡</div></div>`}).join('')}else g.innerHTML='<div class="ff-empty">No sticky notes yet.</div>'}
-    catch(_){g.innerHTML='<div class="ff-empty">No sticky notes yet.</div>'}
+    try{const d=await ffGet('/api/fun/gratitude');if(d.success&&d.notes?.length){g.innerHTML=d.notes.map((n,i)=>{const c=STICKY_COLORS[i%STICKY_COLORS.length];const r=((i*7+3)%5)-2;return`<div class="sticky-note" style="background:${c.bg};color:${c.text};--r:${r}deg;border:1px solid ${c.border};box-shadow:0 0 18px ${c.border}44,inset 0 0 8px ${c.border}11;backdrop-filter:blur(12px);"><div class="s-from" style="color:${c.border};text-shadow:0 0 8px ${c.border};">From: ${ffEsc(n.from||n.from_name||'Anonymous')}</div><div class="s-to" style="color:${c.text}88;">For ${ffEsc(n.to||n.to_name||'Everyone')}</div><div class="s-msg">${ffEsc(n.message)}</div><div class="s-heart" style="filter:drop-shadow(0 0 6px ${c.border});">⬡</div></div>`}).join('')}else g.innerHTML='<div class="ff-empty">No sticky notes yet — be first! 💛</div>'}
+    catch(_){g.innerHTML='<div class="ff-empty">No sticky notes yet — be first! 💛</div>'}
   }
+  window.submitGratitudeNote=async function(){
+    const from=document.getElementById('gwFrom')?.value?.trim();const to=document.getElementById('gwTo')?.value?.trim();const msg=document.getElementById('gwMsg')?.value?.trim();
+    if(!from)return ffNotify('error','Missing','Please enter your name.');
+    if(!to)return ffNotify('error','Missing','Who is this note for?');
+    if(!msg)return ffNotify('error','Missing','Write something kind!');
+    try{const d=await ffPost('/api/fun/gratitude',{from,to,message:msg});if(d.success){document.getElementById('gwFrom').value='';document.getElementById('gwTo').value='';document.getElementById('gwMsg').value='';ffNotify('success','Posted!','Your sticky note is on the wall 📌');if(typeof triggerConfetti==='function')triggerConfetti();loadGratitudeNotes()}else ffNotify('error','Failed',d.error)}
+    catch(e){ffNotify('error','Error',e.message)}
+  };
+  let supData=[];
   async function loadSuperlatives(){
     const g=document.getElementById('superlativesGrid');if(!g)return;
-    let supData=[];
     try{const d=await ffGet('/api/fun/superlatives');supData=(d.success&&d.categories)?d.categories:DEFAULT_SUPERLATIVES}catch(_){supData=DEFAULT_SUPERLATIVES}
-    g.innerHTML=supData.map(cat=>{const noms=cat.nominees||[];const max=Math.max(1,...noms.map(n=>n.votes||0));return`<div class="superlative-card"><span class="superlative-emoji">${ffEsc(cat.emoji)}</span><div class="superlative-title">${ffEsc(cat.title)}</div><div class="superlative-nominee-list">${noms.length?noms.map(n=>`<div class="nominee-row"><div><div class="nominee-name">${ffEsc(n.name)}</div><div class="nominee-bar" style="width:${Math.round((n.votes||0)/max*100)}%"></div></div><div class="nominee-votes">${n.votes||0} votes</div></div>`).join(''):'<div style="color:rgba(255,255,255,.35);font-size:.85rem;">No nominees yet.</div>'}</div></div>`}).join('')
+    renderSuperlatives();
   }
+  function renderSuperlatives(){
+    const g=document.getElementById('superlativesGrid');if(!g)return;
+    g.innerHTML=supData.map(cat=>{const noms=cat.nominees||[];const max=Math.max(1,...noms.map(n=>n.votes||0));
+      return`<div class="superlative-card"><span class="superlative-emoji">${ffEsc(cat.emoji)}</span><div class="superlative-title">${ffEsc(cat.title)}</div><div class="superlative-nominee-list">${noms.length?noms.map(n=>`<div class="nominee-row" onclick="voteSuperlative(${cat.id},'${ffAttr(n.id||n.name)}')"><div><div class="nominee-name">${ffEsc(n.name)}</div><div class="nominee-bar" style="width:${Math.round((n.votes||0)/max*100)}%"></div></div><div class="nominee-votes">${n.votes||0} votes</div></div>`).join(''):'<div style="color:rgba(255,255,255,.35);font-size:.85rem;">No nominees yet. Add one!</div>'}</div><div class="superlative-add-form"><input class="ff-input" id="supAdd-${cat.id}" placeholder="Add a classmate..." maxlength="60"/><button class="ff-submit-btn" style="padding:10px 14px;margin-top:0;" type="button" onclick="addSuperlativeNominee(${cat.id})">+</button></div></div>`
+    }).join('')
+  }
+  window.addSuperlativeNominee=async function(catId){
+    const inp=document.getElementById(`supAdd-${catId}`);const name=inp?.value?.trim();if(!name)return;
+    try{const d=await ffPost('/api/fun/superlatives/nominee',{categoryId:catId,name});if(d.success){inp.value='';loadSuperlatives()}else ffNotify('error','Failed',d.error)}
+    catch(_){const cat=supData.find(c=>c.id===catId);if(cat){cat.nominees=cat.nominees||[];cat.nominees.push({id:Date.now(),name,votes:0});renderSuperlatives();inp.value=''}}
+  };
+  window.voteSuperlative=async function(catId,nomineeId){
+    const voted=JSON.parse(localStorage.getItem('superlativeVotes')||'{}');
+    if(voted[catId])return ffNotify('info','Already voted!','You already voted in this category.');
+    try{const d=await ffPost('/api/fun/superlatives/vote',{categoryId:catId,nomineeId});if(d.success){voted[catId]=nomineeId;localStorage.setItem('superlativeVotes',JSON.stringify(voted));loadSuperlatives()}else ffNotify('error','Failed',d.error)}
+    catch(_){const cat=supData.find(c=>c.id===catId);const nom=cat?.nominees?.find(n=>(n.id||n.name)==nomineeId);if(nom){nom.votes=(nom.votes||0)+1;voted[catId]=nomineeId;localStorage.setItem('superlativeVotes',JSON.stringify(voted));renderSuperlatives()}}
+  };
   async function loadWishes(){
     const s=document.getElementById('wishesScroll');if(!s)return;
-    try{const d=await ffGet('/api/fun/wishes');if(d.success&&d.wishes?.length){s.innerHTML=d.wishes.map(w=>`<div class="wish-item"><div class="wish-author">${WISH_ICONS[w.category]||'✨'} ${ffEsc(w.name||'Anonymous')} · ${ffAgo(w.created_at||w.createdAt)}</div><div class="wish-text">${ffEsc(w.text)}</div></div>`).join('')}else s.innerHTML='<div class="ff-empty">The jar is empty.</div>'}
-    catch(_){s.innerHTML='<div class="ff-empty">The jar is empty.</div>'}
+    try{const d=await ffGet('/api/fun/wishes');if(d.success&&d.wishes?.length){s.innerHTML=d.wishes.map(w=>`<div class="wish-item"><div class="wish-author">${WISH_ICONS[w.category]||'✨'} ${ffEsc(w.name||'Anonymous')} · ${ffAgo(w.created_at||w.createdAt)}</div><div class="wish-text">${ffEsc(w.text)}</div></div>`).join('')}else s.innerHTML='<div class="ff-empty">The jar is empty. Be first! 🫙</div>'}
+    catch(_){s.innerHTML='<div class="ff-empty">The jar is empty. Be first! 🫙</div>'}
   }
+  window.submitWish=async function(){
+    const name=document.getElementById('wishName')?.value?.trim()||'Anonymous';const category=document.getElementById('wishCategory')?.value||'dream';const text=document.getElementById('wishText')?.value?.trim();
+    if(!text)return ffNotify('error','Empty','Write your wish first!');
+    try{const d=await ffPost('/api/fun/wishes',{name,category,text});if(d.success){document.getElementById('wishText').value='';ffNotify('success','Dropped!','Your wish is in the jar ✨');loadWishes()}else ffNotify('error','Failed',d.error)}
+    catch(e){ffNotify('error','Error',e.message)}
+  };
   async function loadDedications(){
     const l=document.getElementById('dedicationsList');if(!l)return;
-    try{const d=await ffGet('/api/fun/dedications');if(d.success&&d.dedications?.length){l.innerHTML=d.dedications.map(d=>`<div class="dedication-card"><div class="dedication-vinyl">🎵</div><div class="dedication-content"><div class="dedication-song">${ffEsc(d.song)}</div>${d.message?`<div class="dedication-msg">"${ffEsc(d.message)}"</div>`:''}<div class="dedication-meta">From <strong>${ffEsc(d.from||d.from_name)}</strong> → To <strong>${ffEsc(d.to||d.to_name)}</strong> · ${ffAgo(d.created_at||d.createdAt)}</div></div></div>`).join('')}else l.innerHTML='<div class="ff-empty">No dedications yet.</div>'}
-    catch(_){l.innerHTML='<div class="ff-empty">No dedications yet.</div>'}
+    try{const d=await ffGet('/api/fun/dedications');if(d.success&&d.dedications?.length){l.innerHTML=d.dedications.map(d=>`<div class="dedication-card"><div class="dedication-vinyl">🎵</div><div class="dedication-content"><div class="dedication-song">${ffEsc(d.song)}</div>${d.message?`<div class="dedication-msg">"${ffEsc(d.message)}"</div>`:''}<div class="dedication-meta">From <strong>${ffEsc(d.from||d.from_name)}</strong> → To <strong>${ffEsc(d.to||d.to_name)}</strong> · ${ffAgo(d.created_at||d.createdAt)}</div></div></div>`).join('')}else l.innerHTML='<div class="ff-empty">No dedications yet. Be first! 🎵</div>'}
+    catch(_){l.innerHTML='<div class="ff-empty">No dedications yet. Be first! 🎵</div>'}
   }
+  window.submitDedication=async function(){
+    const from=document.getElementById('dedFrom')?.value?.trim();const to=document.getElementById('dedTo')?.value?.trim();const song=document.getElementById('dedSong')?.value?.trim();const message=document.getElementById('dedMsg')?.value?.trim();
+    if(!from)return ffNotify('error','Missing','Enter your name.');
+    if(!to)return ffNotify('error','Missing','Who is this for?');
+    if(!song)return ffNotify('error','Missing','Enter a song name.');
+    try{const d=await ffPost('/api/fun/dedications',{from,to,song,message});if(d.success){['dedFrom','dedTo','dedSong','dedMsg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});ffNotify('success','Dedicated!','Your song has been dedicated 🎵');loadDedications()}else ffNotify('error','Failed',d.error)}
+    catch(e){ffNotify('error','Error',e.message)}
+  };
   let moodData={};
   async function loadMoodBoard(){
     try{const d=await ffGet('/api/fun/mood');if(d.success&&d.votes)moodData=d.votes}catch(_){}
@@ -1423,14 +1534,24 @@
   window.voteMood=async function(key){
     if(localStorage.getItem('moodVote'))return ffNotify('info','Already voted','You already shared your mood! 😊');
     moodData[key]=(moodData[key]||0)+1;localStorage.setItem('moodVote',key);renderMoodBoard();
-    try{await fetch(ffApi('/api/fun/mood'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mood:key})})}catch(_){}
+    try{await ffPost('/api/fun/mood',{mood:key})}catch(_){}
     ffNotify('success','Vibe noted!','Your mood has been added 🌈');
   };
   async function loadTimeCapsules(){
     const list=document.getElementById('capsuleSealedList');if(!list)return;
-    try{const d=await ffGet('/api/fun/capsules');if(d.success&&d.capsules?.length){list.innerHTML=d.capsules.map(c=>`<div class="capsule-sealed-item"><div class="capsule-lock">📮</div><div><div class="capsule-from">${ffEsc(c.name)}</div><div class="capsule-open">Opens ${new Date(c.reveal_date||c.revealDate).toLocaleDateString('en-IN',{year:'numeric',month:'long',day:'numeric'})}</div></div></div>`).join('')}else list.innerHTML='<div class="ff-empty">No capsules sealed yet.</div>'}
+    const ri=document.getElementById('capsuleRevealDate');if(ri&&!ri.value){const d=new Date();d.setFullYear(d.getFullYear()+1);ri.value=d.toISOString().split('T')[0]}
+    try{const d=await ffGet('/api/fun/capsules');if(d.success&&d.capsules?.length){list.innerHTML=d.capsules.map(c=>`<div class="capsule-sealed-item"><div class="capsule-lock">📮</div><div><div class="capsule-from">${ffEsc(c.name)}</div><div class="capsule-open">Opens ${new Date(c.reveal_date||c.revealDate).toLocaleDateString('en-IN',{year:'numeric',month:'long',day:'numeric'})}</div></div></div>`).join('')}else list.innerHTML=''}
     catch(_){}
   }
+  window.submitTimeCapsule=async function(){
+    const name=document.getElementById('capsuleName')?.value?.trim();const revealDate=document.getElementById('capsuleRevealDate')?.value;const letter=document.getElementById('capsuleLetter')?.value?.trim();
+    if(!name)return ffNotify('error','Missing','Enter your name.');
+    if(!revealDate)return ffNotify('error','Missing','Pick a reveal date.');
+    if(!letter||letter.length<20)return ffNotify('error','Too short','Write at least 20 characters.');
+    if(new Date(revealDate)<=new Date())return ffNotify('error','Date in past','Choose a future date!');
+    try{const d=await ffPost('/api/fun/capsules',{name,revealDate,letter});if(d.success){['capsuleName','capsuleLetter'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});ffNotify('success','Sealed!','Your time capsule is locked 📮');if(typeof triggerConfetti==='function')triggerConfetti();loadTimeCapsules()}else ffNotify('error','Failed',d.error)}
+    catch(e){ffNotify('error','Error',e.message)}
+  };
   function loadMemoryMosaic(){
     const g=document.getElementById('mosaicGrid');if(!g)return;
     const memories=(window.state&&window.state.memories)||[];const map={};
@@ -1443,8 +1564,8 @@
   function buildFunFeaturesPanel(){
     const panel=document.getElementById('panelFunFeatures');if(!panel)return;
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
-    const features=[{key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Display sticky note thank-you messages'},{key:'superlatives',name:'🏆 Class Superlatives',desc:'Show class award voting results'},{key:'wishJar',name:'🫙 Wish Jar',desc:'Display dreams, hopes and advice from the class'},{key:'songDedications',name:'🎵 Song Dedications',desc:'Show song dedications between classmates'},{key:'moodBoard',name:'🌈 Mood Board',desc:'Collective emoji vote on Farewell feelings'},{key:'timeCapsule',name:'📮 Time Capsule',desc:'Show sealed letters and their reveal dates'},{key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Visual leaderboard of top memory contributors'}];
-    panel.innerHTML=`<div class="stat-card" style="text-align:left;"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;"><h3 style="font-family:var(--font-display);color:var(--primary-gold);font-size:1.3rem;">Fun Features</h3><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button><button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button><button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button></div></div><p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section visible or hidden for students.</p>${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}</div>`;
+    const features=[{key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Students post sticky note thank-you messages'},{key:'superlatives',name:'🏆 Class Superlatives',desc:'Students nominate and vote for classmates'},{key:'wishJar',name:'🫙 Wish Jar',desc:'Students drop dreams, hopes and advice'},{key:'songDedications',name:'🎵 Song Dedications',desc:'Students dedicate songs to friends'},{key:'moodBoard',name:'🌈 Mood Board',desc:'Students vote on how they feel about Farewell'},{key:'timeCapsule',name:'📮 Time Capsule',desc:'Students write sealed letters to their future selves'},{key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Auto leaderboard of top memory contributors'}];
+    panel.innerHTML=`<div class="stat-card" style="text-align:left;"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;"><h3 style="font-family:var(--font-display);color:var(--primary-gold);font-size:1.3rem;">Fun Features</h3><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button><button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button><button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button></div></div><p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section on or off for students.</p>${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}</div>`;
   }
   window.previewFunFeatureToggle=function(key,val){const t=window.__FF_TOGGLES__||{};t[key]=val;window.__FF_TOGGLES__=t;applyFunFeatureToggles(t)};
   window.saveFunFeatureToggles=async function(){
@@ -1770,8 +1891,8 @@ overflow: hidden;
         <div class="admin-tab" id="tabTheme" onclick="switchAdminTab('theme')">Theme</div>
         <div class="admin-tab" id="tabUsers" onclick="switchAdminTab('users')">Users</div>
         <div class="admin-tab" id="tabCompilations" onclick="switchAdminTab('compilations')">Compilations</div>
-       <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
-<div class="admin-tab" id="tabFunFeatures" onclick="switchAdminTab('funFeatures')">🎉 Fun Features</div>
+        <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
+      </div>
 
       <!-- Panels: content is completed in Part 3 -->
       <div class="admin-panel active" id="panelModeration">
@@ -1824,7 +1945,6 @@ overflow: hidden;
       <div class="admin-panel" id="panelUsers"></div>
       <div class="admin-panel" id="panelCompilations"></div>
       <div class="admin-panel" id="panelSecurity"></div>
-<div class="admin-panel" id="panelFunFeatures"></div>
     </div>
   </div>
 
@@ -2325,7 +2445,7 @@ function renderMemories() {
     async function verifyAdminToken() { try { const response = await fetch(apiUrl('/api/admin/verify'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); const data = await response.json(); if (data.valid) { state.adminUser = data.user; localStorage.setItem('adminUser', JSON.stringify(data.user)); openAdminDashboard(); } else adminLogout(); } catch { adminLogout(); } }
     function openAdminDashboard() { const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.add('active'); document.body.style.overflow = 'hidden'; buildAdminPanels(); switchAdminTab('moderation'); loadAdminMemories(true); }
     async function adminLogout() { try { await fetch(apiUrl('/api/admin/logout'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); } catch {} state.adminToken = null; state.adminUser = null; localStorage.removeItem('adminToken'); localStorage.removeItem('adminUser'); const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.remove('active'); document.body.style.overflow = ''; window.location.hash = ''; }
-    function switchAdminTab(tab) { ['moderation', 'settings', 'theme', 'users', 'compilations', 'security', 'funFeatures'].forEach(t => { const tabEl = document.getElementById('tab' + capitalize(t)); const panelEl = document.getElementById('panel' + capitalize(t)); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); }
+    function switchAdminTab(tab) { ['moderation', 'settings', 'theme', 'users', 'compilations', 'security'].forEach(t => { const tabEl = document.getElementById('tab' + capitalize(t)); const panelEl = document.getElementById('panel' + capitalize(t)); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); }
     function can(perm) { const u = state.adminUser; if (!u) return false; if (u.role === 'superadmin') return true; return !!u.permissions?.[perm]; }
     function buildAdminPanels() { const tabs = { 'tabSettings': 'settings', 'tabTheme': 'theme', 'tabUsers': 'users' }; Object.entries(tabs).forEach(([id, perm]) => { const el = document.getElementById(id); if (el) el.style.display = can(perm) ? 'inline-block' : 'none'; }); const exportBtn = document.getElementById('btnExportCsv'); if (exportBtn) exportBtn.style.display = can('export') ? 'inline-flex' : 'none'; const approveAllBtn = document.getElementById('btnApproveAll'); if (approveAllBtn) approveAllBtn.style.display = can('bulk') ? 'inline-flex' : 'none'; const panelSettings = document.getElementById('panelSettings'); if (panelSettings) panelSettings.innerHTML = can('settings') ? renderSettingsPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelTheme = document.getElementById('panelTheme'); if (panelTheme) panelTheme.innerHTML = can('theme') ? renderThemePanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelUsers = document.getElementById('panelUsers'); if (panelUsers) panelUsers.innerHTML = can('users') ? renderUsersPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelSecurity = document.getElementById('panelSecurity'); if (panelSecurity) panelSecurity.innerHTML = renderSecurityPanelHtml(); if (can('settings')) wireSettingsPanel(); if (can('theme')) wireThemePanel(); if (can('users')) wireUsersPanel(); wireSecurityPanel(); const panelCompilations = document.getElementById('panelCompilations');
     if (panelCompilations) panelCompilations.innerHTML = renderCompilationsPanelHtml();
@@ -6675,4 +6795,4 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
 </script>
 
 </body>
-</html>f
+</html>
