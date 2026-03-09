@@ -1309,10 +1309,14 @@ textarea.ff-input{resize:vertical;min-height:90px}
 <!-- SUPERLATIVES -->
 <section id="superlativesSection" class="ff-section-hidden">
   <div class="container">
-    <div class="section-header">
+   <div class="section-header">
       <span class="section-badge">Class Awards</span>
       <h2 class="section-title">Class <span class="highlight">Superlatives</span></h2>
       <p class="section-description">Nominate and vote for your classmates in these fun farewell categories.</p>
+    </div>
+    <div style="text-align:center; margin-bottom:30px;" id="superlativesAdminUploadWrap" style="display:none;">
+      <button class="btn btn-primary" type="button" onclick="bulkAddSuperlativesFromAdmin()">📋 Admin: Pre-fill All Nominees</button>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:10px;">Only visible to admin. Paste nominees in bulk using Category | Name format.</p>
     </div>
     <div class="superlatives-grid" id="superlativesGrid"><div class="ff-empty">Loading...</div></div>
   </div>
@@ -1473,7 +1477,31 @@ textarea.ff-input{resize:vertical;min-height:90px}
       return`<div class="superlative-card"><span class="superlative-emoji">${ffEsc(cat.emoji)}</span><div class="superlative-title">${ffEsc(cat.title)}</div><div class="superlative-nominee-list">${noms.length?noms.map(n=>`<div class="nominee-row" onclick="voteSuperlative(${cat.id},'${ffAttr(n.id||n.name)}')"><div><div class="nominee-name">${ffEsc(n.name)}</div><div class="nominee-bar" style="width:${Math.round((n.votes||0)/max*100)}%"></div></div><div class="nominee-votes">${n.votes||0} votes</div></div>`).join(''):'<div style="color:rgba(255,255,255,.35);font-size:.85rem;">No nominees yet. Add one!</div>'}</div><div class="superlative-add-form"><input class="ff-input" id="supAdd-${cat.id}" placeholder="Add a classmate..." maxlength="60"/><button class="ff-submit-btn" style="padding:10px 14px;margin-top:0;" type="button" onclick="addSuperlativeNominee(${cat.id})">+</button></div></div>`
     }).join('')
   }
-  window.addSuperlativeNominee=async function(catId){
+  window.bulkAddSuperlativesFromAdmin=async function(){
+  const text=prompt('Paste nominees in this format (one per line):\nCategory Name | Nominee Name\n\nExample:\nClass Clown | John Smith\nBest Smile | Jane Doe');
+  if(!text||!text.trim())return;
+  const lines=text.trim().split(/\r?\n/).filter(Boolean);
+  let added=0;
+  for(const line of lines){
+    const parts=line.split('|');
+    if(parts.length<2)continue;
+    const catName=parts[0].trim();
+    const nomName=parts[1].trim();
+    const cat=supData.find(c=>c.title.toLowerCase()===catName.toLowerCase());
+    if(!cat)continue;
+    try{
+      const d=await ffPost('/api/fun/superlatives/nominee',{categoryId:cat.id,name:nomName});
+      if(d.success)added++;
+    }catch(_){
+      cat.nominees=cat.nominees||[];
+      cat.nominees.push({id:Date.now()+Math.random(),name:nomName,votes:0});
+      added++;
+    }
+  }
+  ffNotify('success','Done',`Added ${added} nominees successfully`);
+  loadSuperlatives();
+};
+window.addSuperlativeNominee=async function(catId){
     const inp=document.getElementById(`supAdd-${catId}`);const name=inp?.value?.trim();if(!name)return;
     try{const d=await ffPost('/api/fun/superlatives/nominee',{categoryId:catId,name});if(d.success){inp.value='';loadSuperlatives()}else ffNotify('error','Failed',d.error)}
     catch(_){const cat=supData.find(c=>c.id===catId);if(cat){cat.nominees=cat.nominees||[];cat.nominees.push({id:Date.now(),name,votes:0});renderSuperlatives();inp.value=''}}
@@ -2559,7 +2587,25 @@ function renderMemories() {
     function closeAdminLogin() { const overlay = document.getElementById('adminOverlay'); if (overlay) overlay.classList.remove('active'); const password = document.getElementById('adminPassword'); if (password) password.value = ''; const error = document.getElementById('adminLoginError'); if (error) error.classList.remove('active'); }
     async function adminLogin() { const userId = document.getElementById('adminUserId')?.value?.trim() || 'super'; const password = document.getElementById('adminPassword')?.value; try { const response = await fetch(apiUrl('/api/admin/login'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId, password }) }); const data = await response.json(); if (data.success) { state.adminToken = data.token; state.adminUser = data.user; localStorage.setItem('adminToken', data.token); localStorage.setItem('adminUser', JSON.stringify(data.user)); closeAdminLogin(); openAdminDashboard(); } else { const error = document.getElementById('adminLoginError'); if (error) error.classList.add('active'); } } catch (error) { showNotification('error', 'Login Failed', error.message); } }
     async function verifyAdminToken() { try { const response = await fetch(apiUrl('/api/admin/verify'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); const data = await response.json(); if (data.valid) { state.adminUser = data.user; localStorage.setItem('adminUser', JSON.stringify(data.user)); openAdminDashboard(); } else adminLogout(); } catch { adminLogout(); } }
-    function openAdminDashboard() { const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.add('active'); document.body.style.overflow = 'hidden'; buildAdminPanels(); switchAdminTab('moderation'); loadAdminMemories(true); }
+    function openAdminDashboard() {
+  const supUpload = document.getElementById('superlativesAdminUploadWrap');
+  if (supUpload) supUpload.style.display = 'block';
+```
+
+---
+
+## How to use it after these changes:
+
+1. Login as admin (click logo 5 times)
+2. Scroll to **Class Superlatives** section on the page — you'll see a gold **"Admin: Pre-fill All Nominees"** button
+3. Click it and paste your nominees like this:
+```
+Class Clown | Rahul Sharma
+Class Clown | Priya Patel
+Best Smile | Ananya Singh
+Future CEO | Arjun Mehta
+Most Athletic | Kabir Khan
+Most Creative | Zara Ahmed const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.add('active'); document.body.style.overflow = 'hidden'; buildAdminPanels(); switchAdminTab('moderation'); loadAdminMemories(true); }
     async function adminLogout() { try { await fetch(apiUrl('/api/admin/logout'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); } catch {} state.adminToken = null; state.adminUser = null; localStorage.removeItem('adminToken'); localStorage.removeItem('adminUser'); const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.remove('active'); document.body.style.overflow = ''; window.location.hash = ''; }
     function switchAdminTab(tab) { ['moderation', 'settings', 'theme', 'users', 'compilations', 'security'].forEach(t => { const tabEl = document.getElementById('tab' + capitalize(t)); const panelEl = document.getElementById('panel' + capitalize(t)); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); }
     function can(perm) { const u = state.adminUser; if (!u) return false; if (u.role === 'superadmin') return true; return !!u.permissions?.[perm]; }
