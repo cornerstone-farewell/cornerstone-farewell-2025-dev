@@ -1423,18 +1423,6 @@ textarea.ff-input{resize:vertical;min-height:90px}
   </div>
 </section>
 
-<!-- MEMORY MOSAIC -->
-<section id="memoryMosaicSection" class="ff-section-hidden">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-badge">Contribution Board</span>
-      <h2 class="section-title">Memory <span class="highlight">Mosaic</span></h2>
-      <p class="section-description">Everyone who contributed to the memory wall — ranked by uploads.</p>
-    </div>
-    <div class="mosaic-grid" id="mosaicGrid"><div class="ff-empty">Loading contributors...</div></div>
-  </div>
-</section>
-
 <script>
 (function(){
   if(window.__FF_LOADED__)return;
@@ -2018,6 +2006,7 @@ overflow: hidden;
         <div class="admin-tab" id="tabUsers" onclick="switchAdminTab('users')">Users</div>
         <div class="admin-tab" id="tabCompilations" onclick="switchAdminTab('compilations')">Compilations</div>
         <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
+        <div class="admin-tab" id="tabFunFeatures" onclick="switchAdminTab('funFeatures')">Fun Features</div>
       </div>
 
       <!-- Panels: content is completed in Part 3 -->
@@ -2071,6 +2060,7 @@ overflow: hidden;
       <div class="admin-panel" id="panelUsers"></div>
       <div class="admin-panel" id="panelCompilations"></div>
       <div class="admin-panel" id="panelSecurity"></div>
+      <div class="admin-panel" id="panelFunFeatures"></div>
     </div>
   </div>
 
@@ -3392,31 +3382,7 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
   </div>
 </div>
 
-<button class="btn btn-secondary" id="ghostCursorToggle" type="button">Ghost Cursors: ON</button>
 <button class="btn btn-primary" id="sendNoteBtn" type="button">Send a Note</button>
-
-<div id="ghostCursorPopup">
-  <div class="sniper-modal">
-    <h3>Live Ghost Cursors are ON</h3>
-    <p>You can see other students moving around the site in real time. You can turn this off now, or jump straight to the toggle button.</p>
-    <div class="sniper-actions">
-      <button class="btn btn-danger" type="button" onclick="sniperSetGhostCursors(false)">Turn Off</button>
-      <button class="btn btn-secondary" type="button" onclick="document.getElementById('ghostCursorToggle').scrollIntoView({behavior:'smooth',block:'center'}); closeSniperModal('ghostCursorPopup')">Show Me the Toggle</button>
-      <button class="btn btn-primary" type="button" onclick="closeSniperModal('ghostCursorPopup')">Keep It On</button>
-    </div>
-  </div>
-</div>
-
-<div id="ghostOffModal">
-  <div class="sniper-modal">
-    <h3>Ghost Cursors Turned Off</h3>
-    <p>You can switch them back on any time from the floating Ghost Cursors button.</p>
-    <div class="sniper-actions">
-      <button class="btn btn-primary" type="button" onclick="closeSniperModal('ghostOffModal')">Okay</button>
-      <button class="btn btn-secondary" type="button" onclick="document.getElementById('ghostCursorToggle').scrollIntoView({behavior:'smooth',block:'center'}); closeSniperModal('ghostOffModal')">Take Me There</button>
-    </div>
-  </div>
-</div>
 
 <div id="paperTutorial">
   <div class="sniper-modal">
