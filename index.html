@@ -1565,9 +1565,135 @@ textarea.ff-input{resize:vertical;min-height:90px}
     const panel=document.getElementById('panelFunFeatures');if(!panel)return;
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
     const features=[{key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Students post sticky note thank-you messages'},{key:'superlatives',name:'🏆 Class Superlatives',desc:'Students nominate and vote for classmates'},{key:'wishJar',name:'🫙 Wish Jar',desc:'Students drop dreams, hopes and advice'},{key:'songDedications',name:'🎵 Song Dedications',desc:'Students dedicate songs to friends'},{key:'moodBoard',name:'🌈 Mood Board',desc:'Students vote on how they feel about Farewell'},{key:'timeCapsule',name:'📮 Time Capsule',desc:'Students write sealed letters to their future selves'},{key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Auto leaderboard of top memory contributors'}];
-    panel.innerHTML=`<div class="stat-card" style="text-align:left;"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;"><h3 style="font-family:var(--font-display);color:var(--primary-gold);font-size:1.3rem;">Fun Features</h3><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button><button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button><button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button></div></div><p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section on or off for students.</p>${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}</div>`;
+    panel.innerHTML=`
+    <style>
+      .ffa-tabs{display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:0}
+      .ffa-tab{padding:10px 20px;cursor:pointer;font-weight:600;font-size:.9rem;color:rgba(255,255,255,.5);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
+      .ffa-tab.active{color:var(--primary-gold);border-bottom-color:var(--primary-gold)}
+      .ffa-tab-panel{display:none}.ffa-tab-panel.active{display:block}
+      .ffa-section{margin-bottom:28px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden}
+      .ffa-section-header{padding:14px 18px;font-weight:700;font-size:1rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px}
+      .ffa-count{margin-left:auto;font-size:.8rem;color:var(--primary-gold);font-weight:700;background:rgba(212,175,55,.12);padding:3px 10px;border-radius:20px}
+      .ffa-sub-header{padding:10px 18px;font-size:.88rem;font-weight:600;color:rgba(255,255,255,.6);background:rgba(255,255,255,.02);border-bottom:1px solid rgba(255,255,255,.05)}
+      .ffa-table{width:100%;border-collapse:collapse;font-size:.85rem}
+      .ffa-table th{padding:10px 14px;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.45);border-bottom:1px solid rgba(255,255,255,.07)}
+      .ffa-table td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.85);vertical-align:top}
+      .ffa-table tr:last-child td{border-bottom:none}
+      .ffa-table tr:hover td{background:rgba(255,255,255,.03)}
+      .ffa-empty{padding:20px 18px;color:rgba(255,255,255,.35);font-size:.88rem}
+      .ffa-refresh-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);color:var(--primary-gold);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s}
+      .ffa-refresh-btn:hover{background:rgba(212,175,55,.2)}
+    </style>
+    <div class="stat-card" style="text-align:left;">
+      <div class="ffa-tabs">
+        <div class="ffa-tab active" onclick="ffSwitchTab('toggles',this)">⚙️ Toggle Features</div>
+        <div class="ffa-tab" onclick="ffSwitchTab('submissions',this)">📋 Submissions</div>
+      </div>
+
+      <div class="ffa-tab-panel active" id="ffTabToggles">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button>
+            <button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button>
+            <button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button>
+          </div>
+        </div>
+        <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section on or off for students.</p>
+        ${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}
+      </div>
+
+      <div class="ffa-tab-panel" id="ffTabSubmissions">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
+          <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin:0;">All student submissions. Visible to admin only.</p>
+          <button class="ffa-refresh-btn" type="button" onclick="loadAdminSubmissions()">🔄 Refresh</button>
+        </div>
+        <div id="ffAdminSubmissions"><div class="ffa-empty">Click Refresh to load submissions.</div></div>
+      </div>
+    </div>`;
   }
-  window.previewFunFeatureToggle=function(key,val){const t=window.__FF_TOGGLES__||{};t[key]=val;window.__FF_TOGGLES__=t;applyFunFeatureToggles(t)};
+
+  window.ffSwitchTab=function(tab,el){
+    document.querySelectorAll('.ffa-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.ffa-tab-panel').forEach(p=>p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('ffTab'+tab.charAt(0).toUpperCase()+tab.slice(1))?.classList.add('active');
+    if(tab==='submissions')loadAdminSubmissions();
+  };
+ window.previewFunFeatureToggle=function(key,val){const t=window.__FF_TOGGLES__||{};t[key]=val;window.__FF_TOGGLES__=t;applyFunFeatureToggles(t)};
+
+  const WISH_ICONS_ADMIN={dream:'🌟',advice:'💡',hope:'🕊️',funny:'😂'};
+
+  async function loadAdminSubmissions(){
+    const wrap=document.getElementById('ffAdminSubmissions');if(!wrap)return;
+    wrap.innerHTML='<div class="ff-empty">Loading submissions...</div>';
+
+    let html='';
+
+    // GRATITUDE WALL
+    try{
+      const d=await ffGet('/api/fun/gratitude');
+      const notes=(d.success&&d.notes)||[];
+      html+=`<div class="ffa-section">
+        <div class="ffa-section-header">🌟 Gratitude Wall <span class="ffa-count">${notes.length} notes</span></div>
+        ${notes.length?`<table class="ffa-table"><thead><tr><th>#</th><th>From</th><th>To</th><th>Message</th><th>Time</th></tr></thead><tbody>${notes.map((n,i)=>`<tr><td>${i+1}</td><td>${ffEsc(n.from||n.from_name||'—')}</td><td>${ffEsc(n.to||n.to_name||'—')}</td><td>${ffEsc(n.message)}</td><td>${ffAgo(n.created_at||n.createdAt||Date.now())}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No entries yet.</div>'}
+      </div>`;
+    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🌟 Gratitude Wall</div><div class="ffa-empty">Could not load.</div></div>'}
+
+    // SUPERLATIVES
+    try{
+      const d=await ffGet('/api/fun/superlatives');
+      const cats=(d.success&&d.categories)||[];
+      const totalNoms=cats.reduce((s,c)=>s+(c.nominees||[]).length,0);
+      html+=`<div class="ffa-section">
+        <div class="ffa-section-header">🏆 Superlatives <span class="ffa-count">${totalNoms} nominees</span></div>
+        ${cats.length?cats.map(cat=>`<div class="ffa-sub-header">${ffEsc(cat.emoji)} ${ffEsc(cat.title)}</div>${cat.nominees?.length?`<table class="ffa-table"><thead><tr><th>#</th><th>Name</th><th>Votes</th></tr></thead><tbody>${cat.nominees.map((n,i)=>`<tr><td>${i+1}</td><td>${ffEsc(n.name)}</td><td>${n.votes||0}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No nominees.</div>'}`).join(''):'<div class="ffa-empty">No categories found.</div>'}
+      </div>`;
+    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🏆 Superlatives</div><div class="ffa-empty">Could not load.</div></div>'}
+
+    // WISH JAR
+    try{
+      const d=await ffGet('/api/fun/wishes');
+      const wishes=(d.success&&d.wishes)||[];
+      html+=`<div class="ffa-section">
+        <div class="ffa-section-header">🫙 Wish Jar <span class="ffa-count">${wishes.length} wishes</span></div>
+        ${wishes.length?`<table class="ffa-table"><thead><tr><th>#</th><th>Name</th><th>Category</th><th>Wish</th><th>Time</th></tr></thead><tbody>${wishes.map((w,i)=>`<tr><td>${i+1}</td><td>${ffEsc(w.name||'Anonymous')}</td><td>${WISH_ICONS_ADMIN[w.category]||'✨'} ${ffEsc(w.category||'—')}</td><td>${ffEsc(w.text)}</td><td>${ffAgo(w.created_at||w.createdAt||Date.now())}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No entries yet.</div>'}
+      </div>`;
+    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🫙 Wish Jar</div><div class="ffa-empty">Could not load.</div></div>'}
+
+    // SONG DEDICATIONS
+    try{
+      const d=await ffGet('/api/fun/dedications');
+      const deds=(d.success&&d.dedications)||[];
+      html+=`<div class="ffa-section">
+        <div class="ffa-section-header">🎵 Song Dedications <span class="ffa-count">${deds.length} dedications</span></div>
+        ${deds.length?`<table class="ffa-table"><thead><tr><th>#</th><th>From</th><th>To</th><th>Song</th><th>Message</th><th>Time</th></tr></thead><tbody>${deds.map((d,i)=>`<tr><td>${i+1}</td><td>${ffEsc(d.from||d.from_name||'—')}</td><td>${ffEsc(d.to||d.to_name||'—')}</td><td>${ffEsc(d.song)}</td><td>${ffEsc(d.message||'—')}</td><td>${ffAgo(d.created_at||d.createdAt||Date.now())}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No entries yet.</div>'}
+      </div>`;
+    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🎵 Song Dedications</div><div class="ffa-empty">Could not load.</div></div>'}
+
+    // MOOD BOARD
+    try{
+      const d=await ffGet('/api/fun/mood');
+      const votes=(d.success&&d.votes)||{};
+      const total=Object.values(votes).reduce((s,v)=>s+v,0);
+      const MOOD_LABELS={happy:'😄 Excited',proud:'🥲 Proud',nostalgic:'🌅 Nostalgic',thankful:'🙏 Grateful',bittersweet:'💛 Bittersweet',nervous:'😬 Nervous'};
+      html+=`<div class="ffa-section">
+        <div class="ffa-section-header">🌈 Mood Board <span class="ffa-count">${total} votes total</span></div>
+        ${total?`<table class="ffa-table"><thead><tr><th>Mood</th><th>Votes</th><th>Percentage</th></tr></thead><tbody>${Object.entries(votes).map(([k,v])=>`<tr><td>${MOOD_LABELS[k]||k}</td><td>${v}</td><td>${Math.round(v/total*100)}%</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No votes yet.</div>'}
+      </div>`;
+    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🌈 Mood Board</div><div class="ffa-empty">Could not load.</div></div>'}
+
+    // TIME CAPSULE
+    try{
+      const d=await ffGet('/api/fun/capsules');
+      const caps=(d.success&&d.capsules)||[];
+      html+=`<div class="ffa-section">
+        <div class="ffa-section-header">📮 Time Capsule <span class="ffa-count">${caps.length} capsules</span></div>
+        ${caps.length?`<table class="ffa-table"><thead><tr><th>#</th><th>Name</th><th>Reveal Date</th><th>Letter Preview</th></tr></thead><tbody>${caps.map((c,i)=>`<tr><td>${i+1}</td><td>${ffEsc(c.name)}</td><td>${new Date(c.reveal_date||c.revealDate).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'})}</td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ffEsc((c.letter||'').substring(0,80))}${(c.letter||'').length>80?'…':''}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No capsules yet.</div>'}
+      </div>`;
+    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">📮 Time Capsule</div><div class="ffa-empty">Could not load.</div></div>'}
+
+    wrap.innerHTML=html;
+  }
   window.saveFunFeatureToggles=async function(){
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
     try{const res=await fetch(ffApi('/api/fun/settings'),{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.state?.adminToken||'')},body:JSON.stringify({settings:t})});const d=await res.json();if(d.success)ffNotify('success','Saved','Fun feature settings updated.');else ffNotify('error','Failed',d.error||'Could not save.')}catch(e){ffNotify('error','Error',e.message)}
