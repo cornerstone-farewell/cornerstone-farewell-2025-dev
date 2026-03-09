@@ -577,9 +577,15 @@
       <li><a href="#countdown">Countdown</a></li>
       <li><a href="#memories">Memories</a></li>
       <li><a href="#teachers">Teachers</a></li>
+<li><a href="#gratitudeWall">Gratitude Wall</a></li>
+<li><a href="#wishJarSection">Wish Jar</a></li>
+<li><a href="#songDedicationsSection">Song Dedications</a></li>
+<li><a href="#timeCapsuleSection">Time Capsule</a></li>
       <li><a href="#timeline">Journey</a></li>
       <li><a href="#compilations">Compilations</a></li>
-        <li><a href="#upload" class="nav-cta">Upload Memory</a></li>
+        <li><a href="#gratitudeWall">Gratitude Wall</a></li>
+<li><a href="#wishJarSection">Wish Jar</a></li>
+<li><a href="#upload" class="nav-cta">Upload Memory</a></li>
     </ul>
     <div class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></div>
   </nav>
@@ -1177,7 +1183,7 @@
     </div>
   </section>
 
-  <style id="fun-features-styles">
+ <style id="fun-features-styles">
 #gratitudeWall{background:linear-gradient(180deg,var(--navy-dark) 0%,#10182a 100%)}
 .gratitude-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
 .sticky-note{position:relative;padding:20px 18px 28px;border-radius:16px;min-height:160px;backdrop-filter:blur(16px);transition:transform .3s ease,box-shadow .3s ease;cursor:default;display:flex;flex-direction:column;gap:10px;animation:stickyDrop .6s cubic-bezier(.34,1.56,.64,1) both;--r:0deg}
@@ -1190,7 +1196,6 @@
 .sticky-note .s-heart{position:absolute;bottom:10px;right:14px;font-size:1.1rem}
 .ff-empty{text-align:center;color:rgba(255,255,255,.4);padding:40px;font-size:1rem}
 .ff-section-hidden{display:none!important}
-
 #superlativesSection{background:var(--navy-medium)}
 .superlatives-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
 .superlative-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px 20px;transition:transform .3s,border-color .3s,box-shadow .3s}
@@ -1202,19 +1207,17 @@
 .nominee-name{font-size:.9rem;font-weight:600}
 .nominee-votes{font-size:.82rem;color:var(--primary-gold);min-width:32px;text-align:right}
 .nominee-bar{height:4px;border-radius:2px;background:var(--primary-gold);margin-top:4px;transition:width .5s ease}
-
 #wishJarSection{background:linear-gradient(180deg,#0a1020 0%,var(--navy-dark) 100%)}
 .jar-svg-wrap{font-size:6rem;display:inline-block;animation:jarFloat 4s ease-in-out infinite}
 @keyframes jarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes jarRing{from{transform:translate(-50%,-50%) scale(1);opacity:.7}to{transform:translate(-50%,-50%) scale(1.5);opacity:0}}
 .wishes-scroll{max-width:700px;margin:0 auto;max-height:400px;overflow-y:auto;padding:4px 8px;display:grid;gap:12px;scrollbar-width:thin;scrollbar-color:var(--primary-gold) rgba(255,255,255,.05)}
-.wish-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:4px solid var(--primary-gold);border-radius:0 14px 14px 0;padding:14px 16px;animation:fadeInUp .5s ease}
+.wish-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:4px solid var(--primary-gold);border-radius:0 14px 14px 0;padding:14px 16px}
 .wish-author{font-size:.75rem;color:var(--primary-gold);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px}
 .wish-text{font-size:.95rem;color:rgba(255,255,255,.88);line-height:1.55}
-
 #songDedicationsSection{background:var(--navy-dark)}
 .dedications-list{max-width:700px;margin:0 auto;display:grid;gap:14px}
-.dedication-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;animation:fadeInUp .5s ease}
+.dedication-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
 .dedication-vinyl{width:48px;height:48px;flex-shrink:0;border-radius:50%;background:radial-gradient(circle,#222 30%,#111 30%,#111 35%,#333 35%,#333 40%,#111 40%);border:3px solid var(--primary-gold);display:flex;align-items:center;justify-content:center;font-size:1.2rem;animation:vinylSpin 4s linear infinite;animation-play-state:paused}
 .dedication-card:hover .dedication-vinyl{animation-play-state:running}
 @keyframes vinylSpin{to{transform:rotate(360deg)}}
@@ -1222,7 +1225,6 @@
 .dedication-song{font-weight:700;font-size:1rem;color:var(--primary-gold-light)}
 .dedication-msg{font-size:.88rem;color:rgba(255,255,255,.75);margin-top:3px}
 .dedication-meta{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:6px}
-
 #moodBoardSection{background:var(--navy-medium)}
 .mood-options{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:28px}
 .mood-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 22px;clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);border:none;background:rgba(255,255,255,.06);cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);font-family:var(--font-body);color:#fff;min-width:100px;min-height:100px;position:relative}
@@ -1237,7 +1239,6 @@
 .mood-bar-fill{height:100%;border-radius:5px;background:var(--gradient-gold);transition:width .7s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
 .mood-bar-fill::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:barScan 2s linear infinite}
 @keyframes barScan{to{left:200%}}
-
 #timeCapsuleSection{background:linear-gradient(180deg,var(--navy-dark) 0%,#0c1525 100%)}
 .capsule-icon{font-size:5rem;display:inline-block;filter:drop-shadow(0 10px 30px rgba(212,175,55,.35));animation:capsulePulse 3s ease-in-out infinite}
 @keyframes capsulePulse{0%,100%{filter:drop-shadow(0 10px 30px rgba(212,175,55,.35))}50%{filter:drop-shadow(0 10px 50px rgba(212,175,55,.65))}}
@@ -1247,7 +1248,6 @@
 .capsule-lock{font-size:1.6rem}
 .capsule-from{font-weight:700;font-size:.95rem}
 .capsule-open{font-size:.8rem;color:var(--primary-gold);margin-top:3px}
-
 #memoryMosaicSection{background:var(--navy-medium)}
 .mosaic-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:900px;margin:0 auto}
 .mosaic-tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);transition:transform .25s,border-color .25s}
@@ -1257,7 +1257,6 @@
 .mosaic-name{font-size:.78rem;font-weight:600;text-align:center;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mosaic-count{font-size:.7rem;color:var(--primary-gold);font-weight:700}
 .mosaic-bar{width:100%;height:4px;border-radius:2px;background:var(--primary-gold);opacity:.7}
-
 .ff-feature-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);gap:12px;flex-wrap:wrap;margin-bottom:10px}
 .ff-feature-info{flex:1}
 .ff-feature-name{font-weight:700;font-size:1rem}
@@ -1270,7 +1269,6 @@
 .ff-toggle input:checked~.ff-toggle-slider::before{transform:translateX(24px)}
 </style>
 
-<!-- GRATITUDE WALL -->
 <section id="gratitudeWall" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1282,7 +1280,6 @@
   </div>
 </section>
 
-<!-- SUPERLATIVES -->
 <section id="superlativesSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1294,7 +1291,6 @@
   </div>
 </section>
 
-<!-- WISH JAR -->
 <section id="wishJarSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1314,7 +1310,6 @@
   </div>
 </section>
 
-<!-- SONG DEDICATIONS -->
 <section id="songDedicationsSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1326,7 +1321,6 @@
   </div>
 </section>
 
-<!-- MOOD BOARD -->
 <section id="moodBoardSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1339,7 +1333,6 @@
   </div>
 </section>
 
-<!-- TIME CAPSULE -->
 <section id="timeCapsuleSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1360,7 +1353,6 @@
   </div>
 </section>
 
-<!-- MEMORY MOSAIC -->
 <section id="memoryMosaicSection" class="ff-section-hidden">
   <div class="container">
     <div class="section-header">
@@ -1376,27 +1368,17 @@
 (function(){
   if(window.__FF_LOADED__)return;
   window.__FF_LOADED__=true;
-
   const FF_DEFAULTS={gratitudeWall:true,superlatives:true,wishJar:true,songDedications:true,moodBoard:true,timeCapsule:true,memoryMosaic:true};
-  const STICKY_COLORS=[
-    {bg:'rgba(0,255,200,.08)',text:'#00ffc8',border:'#00ffc8'},
-    {bg:'rgba(180,100,255,.08)',text:'#c87aff',border:'#c87aff'},
-    {bg:'rgba(255,200,0,.08)',text:'#ffd700',border:'#ffd700'},
-    {bg:'rgba(0,180,255,.08)',text:'#00b4ff',border:'#00b4ff'},
-    {bg:'rgba(255,80,160,.08)',text:'#ff50a0',border:'#ff50a0'},
-    {bg:'rgba(80,255,120,.08)',text:'#50ff78',border:'#50ff78'}
-  ];
+  const STICKY_COLORS=[{bg:'rgba(0,255,200,.08)',text:'#00ffc8',border:'#00ffc8'},{bg:'rgba(180,100,255,.08)',text:'#c87aff',border:'#c87aff'},{bg:'rgba(255,200,0,.08)',text:'#ffd700',border:'#ffd700'},{bg:'rgba(0,180,255,.08)',text:'#00b4ff',border:'#00b4ff'},{bg:'rgba(255,80,160,.08)',text:'#ff50a0',border:'#ff50a0'},{bg:'rgba(80,255,120,.08)',text:'#50ff78',border:'#50ff78'}];
   const MOOD_DATA=[{key:'happy',emoji:'😄',label:'Excited',color:'#FFD700'},{key:'proud',emoji:'🥲',label:'Proud',color:'#A8E6CF'},{key:'nostalgic',emoji:'🌅',label:'Nostalgic',color:'#FFB347'},{key:'thankful',emoji:'🙏',label:'Grateful',color:'#DDA0DD'},{key:'bittersweet',emoji:'💛',label:'Bittersweet',color:'#FFE66D'},{key:'nervous',emoji:'😬',label:'Nervous',color:'#74B9FF'}];
   const WISH_ICONS={dream:'🌟',advice:'💡',hope:'🕊️',funny:'😂'};
   const DEFAULT_SUPERLATIVES=[{id:1,emoji:'😂',title:'Class Clown',nominees:[]},{id:2,emoji:'📚',title:'Most Likely to Be Famous',nominees:[]},{id:3,emoji:'💼',title:'Future CEO',nominees:[]},{id:4,emoji:'🌍',title:'Most Likely to Travel the World',nominees:[]},{id:5,emoji:'😊',title:'Best Smile',nominees:[]},{id:6,emoji:'🎨',title:'Most Creative',nominees:[]},{id:7,emoji:'🏃',title:'Most Athletic',nominees:[]},{id:8,emoji:'🤝',title:'Most Likely to Change the World',nominees:[]}];
-
   function ffEsc(t){const d=document.createElement('div');d.textContent=String(t??'');return d.innerHTML}
   function ffAttr(t){return String(t??'').replace(/"/g,'&quot;')}
   function ffAgo(s){const sec=Math.floor((Date.now()-new Date(s))/1000);if(sec<60)return'just now';if(sec<3600)return`${Math.floor(sec/60)}m ago`;if(sec<86400)return`${Math.floor(sec/3600)}h ago`;return`${Math.floor(sec/86400)}d ago`}
   function ffNotify(t,title,msg){if(typeof showNotification==='function')showNotification(t,title,msg)}
   function ffApi(p){if(typeof apiUrl==='function')return apiUrl(p);const b=(window.CONFIG&&window.CONFIG.API_BASE)?window.CONFIG.API_BASE.replace(/\/$/,''):'';return b+(p.startsWith('/')?p:'/'+p)}
   async function ffGet(p){const r=await fetch(ffApi(p));return r.json()}
-
   async function loadFunFeatureToggles(){
     let t=Object.assign({},FF_DEFAULTS);
     try{const d=await ffGet('/api/fun/settings');if(d.success&&d.settings)t=Object.assign(t,d.settings)}catch(_){}
@@ -1406,42 +1388,27 @@
     const map={gratitudeWall:'gratitudeWall',superlatives:'superlativesSection',wishJar:'wishJarSection',songDedications:'songDedicationsSection',moodBoard:'moodBoardSection',timeCapsule:'timeCapsuleSection',memoryMosaic:'memoryMosaicSection'};
     for(const[k,id]of Object.entries(map)){const el=document.getElementById(id);if(!el)continue;el.classList.toggle('ff-section-hidden',!t[k])}
   }
-
   async function loadGratitudeNotes(){
     const g=document.getElementById('gratitudeGrid');if(!g)return;
-    try{const d=await ffGet('/api/fun/gratitude');if(d.success&&d.notes?.length){
-      g.innerHTML=d.notes.map((n,i)=>{const c=STICKY_COLORS[i%STICKY_COLORS.length];const r=((i*7+3)%5)-2;
-        return`<div class="sticky-note" style="background:${c.bg};color:${c.text};--r:${r}deg;border:1px solid ${c.border};box-shadow:0 0 18px ${c.border}44,inset 0 0 8px ${c.border}11;backdrop-filter:blur(12px);">
-          <div class="s-from" style="color:${c.border};text-shadow:0 0 8px ${c.border};">From: ${ffEsc(n.from||n.from_name||'Anonymous')}</div>
-          <div class="s-to" style="color:${c.text}88;">For ${ffEsc(n.to||n.to_name||'Everyone')}</div>
-          <div class="s-msg">${ffEsc(n.message)}</div>
-          <div class="s-heart" style="filter:drop-shadow(0 0 6px ${c.border});">⬡</div>
-        </div>`}).join('')
-    }else g.innerHTML='<div class="ff-empty">No sticky notes yet.</div>'}
+    try{const d=await ffGet('/api/fun/gratitude');if(d.success&&d.notes?.length){g.innerHTML=d.notes.map((n,i)=>{const c=STICKY_COLORS[i%STICKY_COLORS.length];const r=((i*7+3)%5)-2;return`<div class="sticky-note" style="background:${c.bg};color:${c.text};--r:${r}deg;border:1px solid ${c.border};box-shadow:0 0 18px ${c.border}44,inset 0 0 8px ${c.border}11;backdrop-filter:blur(12px);"><div class="s-from" style="color:${c.border};text-shadow:0 0 8px ${c.border};">From: ${ffEsc(n.from||n.from_name||'Anonymous')}</div><div class="s-to" style="color:${c.text}88;">For ${ffEsc(n.to||n.to_name||'Everyone')}</div><div class="s-msg">${ffEsc(n.message)}</div><div class="s-heart" style="filter:drop-shadow(0 0 6px ${c.border});">⬡</div></div>`}).join('')}else g.innerHTML='<div class="ff-empty">No sticky notes yet.</div>'}
     catch(_){g.innerHTML='<div class="ff-empty">No sticky notes yet.</div>'}
   }
-
   async function loadSuperlatives(){
     const g=document.getElementById('superlativesGrid');if(!g)return;
     let supData=[];
     try{const d=await ffGet('/api/fun/superlatives');supData=(d.success&&d.categories)?d.categories:DEFAULT_SUPERLATIVES}catch(_){supData=DEFAULT_SUPERLATIVES}
-    g.innerHTML=supData.map(cat=>{const noms=cat.nominees||[];const max=Math.max(1,...noms.map(n=>n.votes||0));
-      return`<div class="superlative-card"><span class="superlative-emoji">${ffEsc(cat.emoji)}</span><div class="superlative-title">${ffEsc(cat.title)}</div><div class="superlative-nominee-list">${noms.length?noms.map(n=>`<div class="nominee-row"><div><div class="nominee-name">${ffEsc(n.name)}</div><div class="nominee-bar" style="width:${Math.round((n.votes||0)/max*100)}%"></div></div><div class="nominee-votes">${n.votes||0} votes</div></div>`).join(''):'<div style="color:rgba(255,255,255,.35);font-size:.85rem;">No nominees yet.</div>'}</div></div>`
-    }).join('')
+    g.innerHTML=supData.map(cat=>{const noms=cat.nominees||[];const max=Math.max(1,...noms.map(n=>n.votes||0));return`<div class="superlative-card"><span class="superlative-emoji">${ffEsc(cat.emoji)}</span><div class="superlative-title">${ffEsc(cat.title)}</div><div class="superlative-nominee-list">${noms.length?noms.map(n=>`<div class="nominee-row"><div><div class="nominee-name">${ffEsc(n.name)}</div><div class="nominee-bar" style="width:${Math.round((n.votes||0)/max*100)}%"></div></div><div class="nominee-votes">${n.votes||0} votes</div></div>`).join(''):'<div style="color:rgba(255,255,255,.35);font-size:.85rem;">No nominees yet.</div>'}</div></div>`}).join('')
   }
-
   async function loadWishes(){
     const s=document.getElementById('wishesScroll');if(!s)return;
     try{const d=await ffGet('/api/fun/wishes');if(d.success&&d.wishes?.length){s.innerHTML=d.wishes.map(w=>`<div class="wish-item"><div class="wish-author">${WISH_ICONS[w.category]||'✨'} ${ffEsc(w.name||'Anonymous')} · ${ffAgo(w.created_at||w.createdAt)}</div><div class="wish-text">${ffEsc(w.text)}</div></div>`).join('')}else s.innerHTML='<div class="ff-empty">The jar is empty.</div>'}
     catch(_){s.innerHTML='<div class="ff-empty">The jar is empty.</div>'}
   }
-
   async function loadDedications(){
     const l=document.getElementById('dedicationsList');if(!l)return;
     try{const d=await ffGet('/api/fun/dedications');if(d.success&&d.dedications?.length){l.innerHTML=d.dedications.map(d=>`<div class="dedication-card"><div class="dedication-vinyl">🎵</div><div class="dedication-content"><div class="dedication-song">${ffEsc(d.song)}</div>${d.message?`<div class="dedication-msg">"${ffEsc(d.message)}"</div>`:''}<div class="dedication-meta">From <strong>${ffEsc(d.from||d.from_name)}</strong> → To <strong>${ffEsc(d.to||d.to_name)}</strong> · ${ffAgo(d.created_at||d.createdAt)}</div></div></div>`).join('')}else l.innerHTML='<div class="ff-empty">No dedications yet.</div>'}
     catch(_){l.innerHTML='<div class="ff-empty">No dedications yet.</div>'}
   }
-
   let moodData={};
   async function loadMoodBoard(){
     try{const d=await ffGet('/api/fun/mood');if(d.success&&d.votes)moodData=d.votes}catch(_){}
@@ -1459,13 +1426,11 @@
     try{await fetch(ffApi('/api/fun/mood'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mood:key})})}catch(_){}
     ffNotify('success','Vibe noted!','Your mood has been added 🌈');
   };
-
   async function loadTimeCapsules(){
     const list=document.getElementById('capsuleSealedList');if(!list)return;
     try{const d=await ffGet('/api/fun/capsules');if(d.success&&d.capsules?.length){list.innerHTML=d.capsules.map(c=>`<div class="capsule-sealed-item"><div class="capsule-lock">📮</div><div><div class="capsule-from">${ffEsc(c.name)}</div><div class="capsule-open">Opens ${new Date(c.reveal_date||c.revealDate).toLocaleDateString('en-IN',{year:'numeric',month:'long',day:'numeric'})}</div></div></div>`).join('')}else list.innerHTML='<div class="ff-empty">No capsules sealed yet.</div>'}
     catch(_){}
   }
-
   function loadMemoryMosaic(){
     const g=document.getElementById('mosaicGrid');if(!g)return;
     const memories=(window.state&&window.state.memories)||[];const map={};
@@ -1475,48 +1440,23 @@
     const maxC=entries[0][1];
     g.innerHTML=entries.map(([name,count])=>{const ini=name.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();return`<div class="mosaic-tile"><div class="mosaic-avatar">${ffEsc(ini)}</div><div class="mosaic-name" title="${ffAttr(name)}">${ffEsc(name)}</div><div class="mosaic-count">${count} ${count===1?'memory':'memories'}</div><div class="mosaic-bar" style="width:${Math.round(count/maxC*100)}%"></div></div>`}).join('')
   }
-
   function buildFunFeaturesPanel(){
     const panel=document.getElementById('panelFunFeatures');if(!panel)return;
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
-    const features=[
-      {key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Display sticky note thank-you messages'},
-      {key:'superlatives',name:'🏆 Class Superlatives',desc:'Show class award voting results'},
-      {key:'wishJar',name:'🫙 Wish Jar',desc:'Display dreams, hopes and advice from the class'},
-      {key:'songDedications',name:'🎵 Song Dedications',desc:'Show song dedications between classmates'},
-      {key:'moodBoard',name:'🌈 Mood Board',desc:'Collective emoji vote on Farewell feelings'},
-      {key:'timeCapsule',name:'📮 Time Capsule',desc:'Show sealed letters and their reveal dates'},
-      {key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Visual leaderboard of top memory contributors'},
-    ];
-    panel.innerHTML=`<div class="stat-card" style="text-align:left;">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
-        <h3 style="font-family:var(--font-display);color:var(--primary-gold);font-size:1.3rem;">Fun Features</h3>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button>
-          <button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button>
-          <button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button>
-        </div>
-      </div>
-      <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Data is added via the backend. Toggle each section visible or hidden for students.</p>
-      ${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}
-    </div>`;
+    const features=[{key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Display sticky note thank-you messages'},{key:'superlatives',name:'🏆 Class Superlatives',desc:'Show class award voting results'},{key:'wishJar',name:'🫙 Wish Jar',desc:'Display dreams, hopes and advice from the class'},{key:'songDedications',name:'🎵 Song Dedications',desc:'Show song dedications between classmates'},{key:'moodBoard',name:'🌈 Mood Board',desc:'Collective emoji vote on Farewell feelings'},{key:'timeCapsule',name:'📮 Time Capsule',desc:'Show sealed letters and their reveal dates'},{key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Visual leaderboard of top memory contributors'}];
+    panel.innerHTML=`<div class="stat-card" style="text-align:left;"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;"><h3 style="font-family:var(--font-display);color:var(--primary-gold);font-size:1.3rem;">Fun Features</h3><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button><button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button><button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button></div></div><p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section visible or hidden for students.</p>${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}</div>`;
   }
-
   window.previewFunFeatureToggle=function(key,val){const t=window.__FF_TOGGLES__||{};t[key]=val;window.__FF_TOGGLES__=t;applyFunFeatureToggles(t)};
   window.saveFunFeatureToggles=async function(){
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
-    try{const res=await fetch(ffApi('/api/fun/settings'),{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.state?.adminToken||'')},body:JSON.stringify({settings:t})});const d=await res.json();if(d.success)ffNotify('success','Saved','Fun feature settings updated.');else ffNotify('error','Failed',d.error||'Could not save.')}
-    catch(e){ffNotify('error','Error',e.message)}
+    try{const res=await fetch(ffApi('/api/fun/settings'),{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.state?.adminToken||'')},body:JSON.stringify({settings:t})});const d=await res.json();if(d.success)ffNotify('success','Saved','Fun feature settings updated.');else ffNotify('error','Failed',d.error||'Could not save.')}catch(e){ffNotify('error','Error',e.message)}
   };
   window.enableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=true;window.previewFunFeatureToggle(k,true)})};
   window.disableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=false;window.previewFunFeatureToggle(k,false)})};
-
   const _origBuildAdminPanels=window.buildAdminPanels;
   window.buildAdminPanels=function(){if(typeof _origBuildAdminPanels==='function')_origBuildAdminPanels.apply(this,arguments);buildFunFeaturesPanel()};
-
   const _origSwitchAdminTab=window.switchAdminTab;
   window.switchAdminTab=function(tab){if(typeof _origSwitchAdminTab==='function')_origSwitchAdminTab.apply(this,arguments);const tabEl=document.getElementById('tabFunFeatures');const panelEl=document.getElementById('panelFunFeatures');if(tabEl)tabEl.classList.toggle('active',tab==='funFeatures');if(panelEl){panelEl.classList.toggle('active',tab==='funFeatures');if(tab==='funFeatures')buildFunFeaturesPanel()}};
-
   async function init(){
     await loadFunFeatureToggles();
     loadGratitudeNotes();loadSuperlatives();loadWishes();loadDedications();loadMoodBoard();loadTimeCapsules();
@@ -1830,8 +1770,8 @@ overflow: hidden;
         <div class="admin-tab" id="tabTheme" onclick="switchAdminTab('theme')">Theme</div>
         <div class="admin-tab" id="tabUsers" onclick="switchAdminTab('users')">Users</div>
         <div class="admin-tab" id="tabCompilations" onclick="switchAdminTab('compilations')">Compilations</div>
-        <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
-      </div>
+       <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
+<div class="admin-tab" id="tabFunFeatures" onclick="switchAdminTab('funFeatures')">🎉 Fun Features</div>
 
       <!-- Panels: content is completed in Part 3 -->
       <div class="admin-panel active" id="panelModeration">
@@ -1884,6 +1824,7 @@ overflow: hidden;
       <div class="admin-panel" id="panelUsers"></div>
       <div class="admin-panel" id="panelCompilations"></div>
       <div class="admin-panel" id="panelSecurity"></div>
+<div class="admin-panel" id="panelFunFeatures"></div>
     </div>
   </div>
 
@@ -2384,7 +2325,7 @@ function renderMemories() {
     async function verifyAdminToken() { try { const response = await fetch(apiUrl('/api/admin/verify'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); const data = await response.json(); if (data.valid) { state.adminUser = data.user; localStorage.setItem('adminUser', JSON.stringify(data.user)); openAdminDashboard(); } else adminLogout(); } catch { adminLogout(); } }
     function openAdminDashboard() { const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.add('active'); document.body.style.overflow = 'hidden'; buildAdminPanels(); switchAdminTab('moderation'); loadAdminMemories(true); }
     async function adminLogout() { try { await fetch(apiUrl('/api/admin/logout'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); } catch {} state.adminToken = null; state.adminUser = null; localStorage.removeItem('adminToken'); localStorage.removeItem('adminUser'); const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.remove('active'); document.body.style.overflow = ''; window.location.hash = ''; }
-    function switchAdminTab(tab) { ['moderation', 'settings', 'theme', 'users', 'compilations', 'security'].forEach(t => { const tabEl = document.getElementById('tab' + capitalize(t)); const panelEl = document.getElementById('panel' + capitalize(t)); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); }
+    function switchAdminTab(tab) { ['moderation', 'settings', 'theme', 'users', 'compilations', 'security', 'funFeatures'].forEach(t => { const tabEl = document.getElementById('tab' + capitalize(t)); const panelEl = document.getElementById('panel' + capitalize(t)); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); }
     function can(perm) { const u = state.adminUser; if (!u) return false; if (u.role === 'superadmin') return true; return !!u.permissions?.[perm]; }
     function buildAdminPanels() { const tabs = { 'tabSettings': 'settings', 'tabTheme': 'theme', 'tabUsers': 'users' }; Object.entries(tabs).forEach(([id, perm]) => { const el = document.getElementById(id); if (el) el.style.display = can(perm) ? 'inline-block' : 'none'; }); const exportBtn = document.getElementById('btnExportCsv'); if (exportBtn) exportBtn.style.display = can('export') ? 'inline-flex' : 'none'; const approveAllBtn = document.getElementById('btnApproveAll'); if (approveAllBtn) approveAllBtn.style.display = can('bulk') ? 'inline-flex' : 'none'; const panelSettings = document.getElementById('panelSettings'); if (panelSettings) panelSettings.innerHTML = can('settings') ? renderSettingsPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelTheme = document.getElementById('panelTheme'); if (panelTheme) panelTheme.innerHTML = can('theme') ? renderThemePanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelUsers = document.getElementById('panelUsers'); if (panelUsers) panelUsers.innerHTML = can('users') ? renderUsersPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelSecurity = document.getElementById('panelSecurity'); if (panelSecurity) panelSecurity.innerHTML = renderSecurityPanelHtml(); if (can('settings')) wireSettingsPanel(); if (can('theme')) wireThemePanel(); if (can('users')) wireUsersPanel(); wireSecurityPanel(); const panelCompilations = document.getElementById('panelCompilations');
     if (panelCompilations) panelCompilations.innerHTML = renderCompilationsPanelHtml();
@@ -6734,4 +6675,4 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
 </script>
 
 </body>
-</html>
+</html>f
