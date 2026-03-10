@@ -1701,7 +1701,7 @@ textarea.ff-input{resize:vertical;min-height:90px}
     const maxC=entries[0][1];
     g.innerHTML=entries.map(([name,count])=>{const ini=name.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();return`<div class="mosaic-tile"><div class="mosaic-avatar">${ffEsc(ini)}</div><div class="mosaic-name" title="${ffAttr(name)}">${ffEsc(name)}</div><div class="mosaic-count">${count} ${count===1?'memory':'memories'}</div><div class="mosaic-bar" style="width:${Math.round(count/maxC*100)}%"></div></div>`}).join('')
   }
-  window.previewFunFeatureToggle
+ window.buildFunFeaturesPanel = function() {
     const panel=document.getElementById('panelFunFeatures');if(!panel)return;
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
     const features=[{key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Students post sticky note thank-you messages'},{key:'superlatives',name:'🏆 Class Superlatives',desc:'Students nominate and vote for classmates'},{key:'wishJar',name:'🫙 Wish Jar',desc:'Students drop dreams, hopes and advice'},{key:'songDedications',name:'🎵 Song Dedications',desc:'Students dedicate songs to friends'},{key:'moodBoard',name:'🌈 Mood Board',desc:'Students vote on how they feel about Farewell'},{key:'timeCapsule',name:'📮 Time Capsule',desc:'Students write sealed letters to their future selves'},{key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Auto leaderboard of top memory contributors'}];
@@ -1715,13 +1715,113 @@ textarea.ff-input{resize:vertical;min-height:90px}
   window.enableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=(k!=='memoryMosaic');window.previewFunFeatureToggle(k,k!=='memoryMosaic')})};
   window.disableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=false;window.previewFunFeatureToggle(k,false)})};
   const _origBuildAdminPanels=window.buildAdminPanels;
-  window.buildAdminPanels=function(){if(typeof _origBuildAdminPanels==='function')_origBuildAdminPanels.apply(this,arguments);buildFunFeaturesPanel()};
+ window.buildAdminPanels=function(){if(typeof _origBuildAdminPanels==='function')_origBuildAdminPanels.apply(this,arguments);buildFunFeaturesPanel();};
   const _origSwitchAdminTab=window.switchAdminTab;
   window.switchAdminTab=function(tab){if(typeof _origSwitchAdminTab==='function')_origSwitchAdminTab.apply(this,arguments);const tabEl=document.getElementById('tabFunFeatures');const panelEl=document.getElementById('panelFunFeatures');if(tabEl)tabEl.classList.toggle('active',tab==='funFeatures');if(panelEl){panelEl.classList.toggle('active',tab==='funFeatures');if(tab==='funFeatures')buildFunFeaturesPanel()}};
+  // ── Admin Fun Features Stats ──────────────────────────────────────────
+  async function loadFunFeatureStats(){
+    const panel = document.getElementById('panelFunFeaturesStats');
+    if (!panel) return;
+    try {
+      const [gRes, sRes, wRes, dRes] = await Promise.all([
+        ffGet('/api/fun/gratitude'),
+        ffGet('/api/fun/superlatives'),
+        ffGet('/api/fun/wishes'),
+        ffGet('/api/fun/dedications')
+      ]);
+      const gratitudeCount = (gRes.success && gRes.notes) ? gRes.notes.length : 0;
+      const wishCount = (wRes.success && wRes.wishes) ? wRes.wishes.length : 0;
+      const dedCount = (dRes.success && dRes.dedications) ? dRes.dedications.length : 0;
+      let nomineeTotal = 0, voteTotal = 0;
+      if (sRes.success && sRes.categories) {
+        sRes.categories.forEach(c => {
+          nomineeTotal += (c.nominees||[]).length;
+          voteTotal += (c.nominees||[]).reduce((a,n)=>a+(n.votes||0),0);
+        });
+      }
+      panel.innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:18px;">
+          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${gratitudeCount}</div><div class="stat-label">Sticky Notes</div></div>
+          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${nomineeTotal}</div><div class="stat-label">Nominees</div></div>
+          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${voteTotal}</div><div class="stat-label">Votes Cast</div></div>
+          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${wishCount}</div><div class="stat-label">Wishes</div></div>
+          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${dedCount}</div><div class="stat-label">Dedications</div></div>
+        </div>`;
+    } catch(_) {}
+  }
+
+  // ── Dedications list with delete ─────────────────────────────────────
+  async function loadDedicationsAdmin(){
+    const box = document.getElementById('adminDedicationsList');
+    if (!box) return;
+    try {
+      const d = await ffGet('/api/fun/dedications');
+      if (!d.success || !d.dedications?.length) {
+        box.innerHTML = '<div class="ff-empty">No dedications yet.</div>'; return;
+      }
+      box.innerHTML = d.dedications.map(ded => `
+        <div class="dedication-card" style="position:relative;">
+          <div class="dedication-vinyl">🎵</div>
+          <div class="dedication-content">
+            <div class="dedication-song">${ffEsc(ded.song)}</div>
+            ${ded.message ? `<div class="dedication-msg">"${ffEsc(ded.message)}"</div>` : ''}
+            <div class="dedication-meta">From <strong>${ffEsc(ded.from||ded.from_name)}</strong> → To <strong>${ffEsc(ded.to||ded.to_name)}</strong> · ${ffAgo(ded.created_at||ded.createdAt)}</div>
+          </div>
+          <button onclick="adminDeleteDedication(${ded.id})" style="position:absolute;top:10px;right:10px;background:rgba(244,67,54,.2);border:1px solid rgba(244,67,54,.5);color:#ffb3ad;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.8rem;">Delete</button>
+        </div>`).join('');
+    } catch(_) { box.innerHTML = '<div class="ff-empty">Could not load.</div>'; }
+  }
+
+  window.adminDeleteDedication = async function(id) {
+    if (!confirm('Delete this dedication?')) return;
+    try {
+      const res = await fetch(ffApi('/api/fun/dedications/' + id), {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + (window.state?.adminToken || '') }
+      });
+      const d = await res.json();
+      if (d.success) { ffNotify('success','Deleted','Dedication removed.'); loadDedicationsAdmin(); loadFunFeatureStats(); }
+      else ffNotify('error','Failed', d.error);
+    } catch(e) { ffNotify('error','Error',e.message); }
+  };
+
+  // ── Gratitude notes admin view ────────────────────────────────────────
+  async function loadGratitudeAdmin(){
+    const box = document.getElementById('adminGratitudeList');
+    if (!box) return;
+    try {
+      const d = await ffGet('/api/fun/gratitude');
+      if (!d.success || !d.notes?.length) {
+        box.innerHTML = '<div class="ff-empty">No notes yet.</div>'; return;
+      }
+      box.innerHTML = d.notes.map((n,i) => {
+        const colors = ['#00ffc8','#c87aff','#ffd700','#00b4ff','#ff50a0','#50ff78'];
+        const c = colors[i % colors.length];
+        return `<div style="padding:12px 14px;border-radius:14px;border:1px solid ${c}33;background:${c}11;position:relative;margin-bottom:8px;">
+          <div style="font-size:.75rem;font-weight:700;color:${c};margin-bottom:4px;">From: ${ffEsc(n.from||n.from_name||'Anonymous')} → To: ${ffEsc(n.to||n.to_name||'Everyone')}</div>
+          <div style="font-size:.92rem;">${ffEsc(n.message)}</div>
+          <button onclick="adminDeleteGratitude(${n.id})" style="position:absolute;top:8px;right:8px;background:rgba(244,67,54,.2);border:1px solid rgba(244,67,54,.5);color:#ffb3ad;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.75rem;">✕</button>
+        </div>`;
+      }).join('');
+    } catch(_) { box.innerHTML = '<div class="ff-empty">Could not load.</div>'; }
+  }
+
+  window.adminDeleteGratitude = async function(id) {
+    if (!confirm('Delete this sticky note?')) return;
+    try {
+      const res = await fetch(ffApi('/api/fun/gratitude/' + id), {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + (window.state?.adminToken || '') }
+      });
+      const d = await res.json();
+      if (d.success) { ffNotify('success','Deleted','Note removed.'); loadGratitudeAdmin(); loadGratitudeNotes(); loadFunFeatureStats(); }
+      else ffNotify('error','Failed', d.error);
+    } catch(e) { ffNotify('error','Error',e.message); }
+  };
+
   async function init(){
     await loadFunFeatureToggles();
     loadGratitudeNotes();loadSuperlatives();loadWishes();loadDedications();loadMoodBoard();loadTimeCapsules();
-    
   }
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
 })();
