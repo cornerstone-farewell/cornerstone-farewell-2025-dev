@@ -545,6 +545,139 @@
       .inline-edit-input { background: rgba(255,255,255,0.1); border: 1px solid var(--primary-gold); color: var(--text-light); padding: 4px 8px; border-radius: 6px; font-family: inherit; font-size: inherit; width: 100%; }
     </style>
 
+
+ <style id="fixer-tutorial-and-layout-patch">
+ html.hard-refresh-top, body.hard-refresh-top { scroll-behavior: auto !important; }
+ .feature-tour-overlay{
+ position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:11000; display:none;
+ }
+ .feature-tour-overlay.active{ display:block; }
+ .feature-tour-spotlight{
+ position:fixed; border-radius:20px; box-shadow:0 0 0 9999px rgba(0,0,0,0.55); z-index:11001; pointer-events:none;
+ transition:all 0.35s ease;
+ }
+ .feature-tour-card{
+ position:fixed; z-index:11002; width:min(360px, calc(100vw - 24px)); background:var(--navy-medium);
+ border:1px solid var(--glass-border); border-radius:18px; padding:18px;
+ box-shadow:0 20px 60px rgba(0,0,0,0.45);
+ }
+ .feature-tour-card h3{ color:var(--primary-gold); margin-bottom:8px; font-family:var(--font-display); }
+ .feature-tour-card p{ color:var(--text-muted); margin-bottom:12px; font-size:0.95rem; }
+ .feature-tour-actions{ display:flex; justify-content:space-between; gap:10px; }
+ .feature-tour-fab{
+ position:fixed; right:18px; bottom:18px; z-index:2501; border:none;
+ background:var(--gradient-gold); color:var(--navy-dark); border-radius:999px;
+ padding:10px 14px; font-weight:700; cursor:pointer; box-shadow:var(--shadow-gold);
+ }
+ .memories-preview-actions{
+ display:flex; justify-content:center; margin-top:28px;
+ }
+ .memories-page{
+ min-height:100vh; background:linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-medium) 100%);
+ color:var(--text-light); padding:110px 20px 60px;
+ }
+ .memories-page.hidden{ display:none; }
+ .memories-page-header{
+ max-width:var(--container-width); margin:0 auto 28px; display:flex; justify-content:space-between; gap:16px; align-items:center; flex-wrap:wrap;
+ }
+ .memories-page-grid{
+ max-width:var(--container-width); margin:0 auto; display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:24px;
+ }
+ #livePill,
+ #ghostCursorToggle,
+ #sendNoteBtn,
+ #ghostCursorPopup,
+ #ghostOffModal,
+ #paperTutorial,
+ #paperAirplaneLayer,
+ #wsStatusBadge,
+ .ghost-cursor{ display:none !important; }
+ #distanceMapWrap{ display:block !important; position:relative !important; max-width:1200px !important; margin:0 auto !important; }
+ #distanceGlobeCanvas{ width:100% !important; height:650px !important; position:relative !important; }
+ #distanceMapSection #distanceGlobeUi{
+ position:relative !important;
+ max-width:1200px !important;
+ margin:0 auto 14px !important;
+ }
+ #distanceMapSection #distanceGlobeCanvas canvas,
+ #distanceMapSection #distanceGlobeCanvas > div{
+ margin:0 auto !important;
+ }
+ @media (max-width: 900px){
+ .feature-tour-card{ left:12px !important; right:12px !important; width:auto; top:auto !important; bottom:12px !important; }
+ }
+ </style>
+
+ <style id="fixer-stable-ui-patch">
+ html.hard-refresh-top, body.hard-refresh-top { scroll-behavior: auto !important; }
+ .feature-tour-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:11000; display:none;
+ }
+ .feature-tour-overlay.active{ display:block; }
+ .feature-tour-spotlight{
+  position:fixed; z-index:11001; pointer-events:none; border-radius:18px;
+  border:2px solid var(--primary-gold); background:transparent;
+  box-shadow:0 0 0 9999px rgba(0,0,0,0.45);
+  transition:all 0.35s ease;
+  left:-9999px; top:-9999px; width:0; height:0;
+ }
+ .feature-tour-card{
+  position:fixed; z-index:11002; width:min(360px, calc(100vw - 24px)); background:var(--navy-medium);
+  border:1px solid var(--glass-border); border-radius:18px; padding:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.45); left:-9999px; top:-9999px;
+ }
+ .feature-tour-card h3{ color:var(--primary-gold); margin-bottom:8px; font-family:var(--font-display); }
+ .feature-tour-card p{ color:var(--text-muted); margin-bottom:12px; font-size:0.95rem; }
+ .feature-tour-actions{ display:flex; justify-content:space-between; gap:10px; }
+ .feature-tour-fab{
+  position:fixed; right:18px; bottom:18px; z-index:2501; border:none;
+  background:var(--gradient-gold); color:var(--navy-dark); border-radius:999px;
+  padding:10px 14px; font-weight:700; cursor:pointer; box-shadow:var(--shadow-gold);
+ }
+ .memories-preview-actions{ display:flex; justify-content:center; margin-top:28px; }
+ .memories-page{
+  min-height:100vh; background:linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-medium) 100%);
+  color:var(--text-light); padding:110px 20px 60px;
+ }
+ .memories-page.hidden{ display:none; }
+ .memories-page-header{
+  max-width:var(--container-width); margin:0 auto 28px; display:flex; justify-content:space-between;
+  gap:16px; align-items:center; flex-wrap:wrap;
+ }
+ .memories-page-grid{
+  max-width:var(--container-width); margin:0 auto;
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:24px;
+ }
+ #livePill,
+ #ghostCursorToggle,
+ #ghostCursorPopup,
+ #ghostOffModal,
+ #paperTutorial,
+ #wsStatusBadge,
+ .ghost-cursor{ display:none !important; }
+ #distanceMapWrap{
+  display:block !important; position:relative !important; max-width:1200px !important; margin:0 auto !important;
+ }
+ #distanceGlobeCanvas{
+  width:100% !important; height:650px !important; position:relative !important;
+ }
+ #distanceMapSection #distanceGlobeUi{
+  position:relative !important; max-width:1200px !important; margin:0 auto 14px !important;
+ }
+ #distanceMapSection #distanceGlobeCanvas canvas,
+ #distanceMapSection #distanceGlobeCanvas > div{
+  margin:0 auto !important;
+ }
+ #distanceSearchResultsV7 .btn{
+  width:100%;
+  justify-content:flex-start;
+  text-align:left;
+  white-space:normal;
+ }
+ @media (max-width: 900px){
+  .feature-tour-card{ left:12px !important; right:12px !important; width:auto; top:auto !important; bottom:12px !important; }
+ }
+ </style>
 </head>
 
 <body>
@@ -1201,7 +1334,15 @@ textarea.ff-input{resize:vertical;min-height:90px}
 .ff-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .ff-empty{text-align:center;color:rgba(255,255,255,.4);padding:40px;font-size:1rem}
 .ff-section-hidden{display:none!important}
-
+#gratitudeWall,
+#superlativesSection,
+#wishJarSection,
+#songDedicationsSection,
+#moodBoardSection,
+#timeCapsuleSection,
+#memoryMosaicSection {
+  display: none !important;
+}
 #superlativesSection{background:var(--navy-medium)}
 .superlatives-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
 .superlative-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px 20px;transition:transform .3s,border-color .3s,box-shadow .3s}
@@ -1308,14 +1449,10 @@ textarea.ff-input{resize:vertical;min-height:90px}
 <!-- SUPERLATIVES -->
 <section id="superlativesSection" class="ff-section-hidden">
   <div class="container">
-   <div class="section-header">
+    <div class="section-header">
       <span class="section-badge">Class Awards</span>
       <h2 class="section-title">Class <span class="highlight">Superlatives</span></h2>
       <p class="section-description">Nominate and vote for your classmates in these fun farewell categories.</p>
-    </div>
-    <div style="text-align:center; margin-bottom:30px;" id="superlativesAdminUploadWrap" style="display:none;">
-      <button class="btn btn-primary" type="button" onclick="bulkAddSuperlativesFromAdmin()">📋 Admin: Pre-fill All Nominees</button>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:10px;">Only visible to admin. Paste nominees in bulk using Category | Name format.</p>
     </div>
     <div class="superlatives-grid" id="superlativesGrid"><div class="ff-empty">Loading...</div></div>
   </div>
@@ -1426,11 +1563,23 @@ textarea.ff-input{resize:vertical;min-height:90px}
   </div>
 </section>
 
+<!-- MEMORY MOSAIC -->
+<section id="memoryMosaicSection" class="ff-section-hidden">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Contribution Board</span>
+      <h2 class="section-title">Memory <span class="highlight">Mosaic</span></h2>
+      <p class="section-description">Everyone who contributed to the memory wall — ranked by uploads.</p>
+    </div>
+    <div class="mosaic-grid" id="mosaicGrid"><div class="ff-empty">Loading contributors...</div></div>
+  </div>
+</section>
+
 <script>
 (function(){
   if(window.__FF_LOADED__)return;
   window.__FF_LOADED__=true;
-  const FF_DEFAULTS={gratitudeWall:true,superlatives:true,wishJar:true,songDedications:true,moodBoard:true,timeCapsule:true,memoryMosaic:true};
+  const FF_DEFAULTS={gratitudeWall:true,superlatives:true,wishJar:true,songDedications:true,moodBoard:true,timeCapsule:true,memoryMosaic:false};
   const STICKY_COLORS=[{bg:'rgba(0,255,200,.08)',text:'#00ffc8',border:'#00ffc8'},{bg:'rgba(180,100,255,.08)',text:'#c87aff',border:'#c87aff'},{bg:'rgba(255,200,0,.08)',text:'#ffd700',border:'#ffd700'},{bg:'rgba(0,180,255,.08)',text:'#00b4ff',border:'#00b4ff'},{bg:'rgba(255,80,160,.08)',text:'#ff50a0',border:'#ff50a0'},{bg:'rgba(80,255,120,.08)',text:'#50ff78',border:'#50ff78'}];
   const MOOD_DATA=[{key:'happy',emoji:'😄',label:'Excited',color:'#FFD700'},{key:'proud',emoji:'🥲',label:'Proud',color:'#A8E6CF'},{key:'nostalgic',emoji:'🌅',label:'Nostalgic',color:'#FFB347'},{key:'thankful',emoji:'🙏',label:'Grateful',color:'#DDA0DD'},{key:'bittersweet',emoji:'💛',label:'Bittersweet',color:'#FFE66D'},{key:'nervous',emoji:'😬',label:'Nervous',color:'#74B9FF'}];
   const WISH_ICONS={dream:'🌟',advice:'💡',hope:'🕊️',funny:'😂'};
@@ -1476,31 +1625,7 @@ textarea.ff-input{resize:vertical;min-height:90px}
       return`<div class="superlative-card"><span class="superlative-emoji">${ffEsc(cat.emoji)}</span><div class="superlative-title">${ffEsc(cat.title)}</div><div class="superlative-nominee-list">${noms.length?noms.map(n=>`<div class="nominee-row" onclick="voteSuperlative(${cat.id},'${ffAttr(n.id||n.name)}')"><div><div class="nominee-name">${ffEsc(n.name)}</div><div class="nominee-bar" style="width:${Math.round((n.votes||0)/max*100)}%"></div></div><div class="nominee-votes">${n.votes||0} votes</div></div>`).join(''):'<div style="color:rgba(255,255,255,.35);font-size:.85rem;">No nominees yet. Add one!</div>'}</div><div class="superlative-add-form"><input class="ff-input" id="supAdd-${cat.id}" placeholder="Add a classmate..." maxlength="60"/><button class="ff-submit-btn" style="padding:10px 14px;margin-top:0;" type="button" onclick="addSuperlativeNominee(${cat.id})">+</button></div></div>`
     }).join('')
   }
-  window.bulkAddSuperlativesFromAdmin=async function(){
-  const text=prompt('Paste nominees in this format (one per line):\nCategory Name | Nominee Name\n\nExample:\nClass Clown | John Smith\nBest Smile | Jane Doe');
-  if(!text||!text.trim())return;
-  const lines=text.trim().split(/\r?\n/).filter(Boolean);
-  let added=0;
-  for(const line of lines){
-    const parts=line.split('|');
-    if(parts.length<2)continue;
-    const catName=parts[0].trim();
-    const nomName=parts[1].trim();
-    const cat=supData.find(c=>c.title.toLowerCase()===catName.toLowerCase());
-    if(!cat)continue;
-    try{
-      const d=await ffPost('/api/fun/superlatives/nominee',{categoryId:cat.id,name:nomName});
-      if(d.success)added++;
-    }catch(_){
-      cat.nominees=cat.nominees||[];
-      cat.nominees.push({id:Date.now()+Math.random(),name:nomName,votes:0});
-      added++;
-    }
-  }
-  ffNotify('success','Done',`Added ${added} nominees successfully`);
-  loadSuperlatives();
-};
-window.addSuperlativeNominee=async function(catId){
+  window.addSuperlativeNominee=async function(catId){
     const inp=document.getElementById(`supAdd-${catId}`);const name=inp?.value?.trim();if(!name)return;
     try{const d=await ffPost('/api/fun/superlatives/nominee',{categoryId:catId,name});if(d.success){inp.value='';loadSuperlatives()}else ffNotify('error','Failed',d.error)}
     catch(_){const cat=supData.find(c=>c.id===catId);if(cat){cat.nominees=cat.nominees||[];cat.nominees.push({id:Date.now(),name,votes:0});renderSuperlatives();inp.value=''}}
@@ -1576,158 +1701,27 @@ window.addSuperlativeNominee=async function(catId){
     const maxC=entries[0][1];
     g.innerHTML=entries.map(([name,count])=>{const ini=name.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();return`<div class="mosaic-tile"><div class="mosaic-avatar">${ffEsc(ini)}</div><div class="mosaic-name" title="${ffAttr(name)}">${ffEsc(name)}</div><div class="mosaic-count">${count} ${count===1?'memory':'memories'}</div><div class="mosaic-bar" style="width:${Math.round(count/maxC*100)}%"></div></div>`}).join('')
   }
-    function buildFunFeaturesPanel(){
-    const panel=document.getElementById('panelFunFeatures');if(!panel||panel.dataset.built==='1')return;
-    panel.dataset.built='1';
+  window.previewFunFeatureToggle
+    const panel=document.getElementById('panelFunFeatures');if(!panel)return;
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
     const features=[{key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Students post sticky note thank-you messages'},{key:'superlatives',name:'🏆 Class Superlatives',desc:'Students nominate and vote for classmates'},{key:'wishJar',name:'🫙 Wish Jar',desc:'Students drop dreams, hopes and advice'},{key:'songDedications',name:'🎵 Song Dedications',desc:'Students dedicate songs to friends'},{key:'moodBoard',name:'🌈 Mood Board',desc:'Students vote on how they feel about Farewell'},{key:'timeCapsule',name:'📮 Time Capsule',desc:'Students write sealed letters to their future selves'},{key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Auto leaderboard of top memory contributors'}];
-    panel.innerHTML=`
-    <style>
-      .ffa-tabs{display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:0}
-      .ffa-tab{padding:10px 20px;cursor:pointer;font-weight:600;font-size:.9rem;color:rgba(255,255,255,.5);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
-      .ffa-tab.active{color:var(--primary-gold);border-bottom-color:var(--primary-gold)}
-      .ffa-tab-panel{display:none}.ffa-tab-panel.active{display:block}
-      .ffa-section{margin-bottom:28px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden}
-      .ffa-section-header{padding:14px 18px;font-weight:700;font-size:1rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px}
-      .ffa-count{margin-left:auto;font-size:.8rem;color:var(--primary-gold);font-weight:700;background:rgba(212,175,55,.12);padding:3px 10px;border-radius:20px}
-      .ffa-sub-header{padding:10px 18px;font-size:.88rem;font-weight:600;color:rgba(255,255,255,.6);background:rgba(255,255,255,.02);border-bottom:1px solid rgba(255,255,255,.05)}
-      .ffa-table{width:100%;border-collapse:collapse;font-size:.85rem}
-      .ffa-table th{padding:10px 14px;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.45);border-bottom:1px solid rgba(255,255,255,.07)}
-      .ffa-table td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.85);vertical-align:top}
-      .ffa-table tr:last-child td{border-bottom:none}
-      .ffa-table tr:hover td{background:rgba(255,255,255,.03)}
-      .ffa-empty{padding:20px 18px;color:rgba(255,255,255,.35);font-size:.88rem}
-      .ffa-refresh-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);color:var(--primary-gold);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s}
-      .ffa-refresh-btn:hover{background:rgba(212,175,55,.2)}
-    </style>
-    <div class="stat-card" style="text-align:left;">
-      <div class="ffa-tabs">
-        <div class="ffa-tab active" onclick="ffSwitchTab('toggles',this)">⚙️ Toggle Features</div>
-        <div class="ffa-tab" onclick="ffSwitchTab('submissions',this)">📋 Submissions</div>
-      </div>
-
-      <div class="ffa-tab-panel active" id="ffTabToggles">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button>
-            <button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button>
-            <button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button>
-          </div>
-        </div>
-        <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section on or off for students.</p>
-        ${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}
-      </div>
-
-      <div class="ffa-tab-panel" id="ffTabSubmissions">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
-          <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin:0;">All student submissions. Visible to admin only.</p>
-          <button class="ffa-refresh-btn" type="button" onclick="loadAdminSubmissions()">🔄 Refresh</button>
-        </div>
-        <div id="ffAdminSubmissions"><div class="ffa-empty">Click Refresh to load submissions.</div></div>
-      </div>
-    </div>`;
+    panel.innerHTML=`<div class="stat-card" style="text-align:left;"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;"><h3 style="font-family:var(--font-display);color:var(--primary-gold);font-size:1.3rem;">Fun Features</h3><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button><button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button><button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button></div></div><p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section on or off for students.</p>${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}</div>`;
   }
-
- window.ffSwitchTab=function(tab,el){
-    document.querySelectorAll('.ffa-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.ffa-tab-panel').forEach(p=>p.classList.remove('active'));
-    el.classList.add('active');
-    const panelId='ffTab'+(tab==='toggles'?'Toggles':tab==='submissions'?'Submissions':tab.charAt(0).toUpperCase()+tab.slice(1));
-    document.getElementById(panelId)?.classList.add('active');
-    if(tab==='submissions')loadAdminSubmissions();
-  };
- window.previewFunFeatureToggle=function(key,val){const t=window.__FF_TOGGLES__||{};t[key]=val;window.__FF_TOGGLES__=t;applyFunFeatureToggles(t)};
-
-  const WISH_ICONS_ADMIN={dream:'🌟',advice:'💡',hope:'🕊️',funny:'😂'};
-
-  async function loadAdminSubmissions(){
-    const wrap=document.getElementById('ffAdminSubmissions');if(!wrap)return;
-    wrap.innerHTML='<div class="ff-empty">Loading submissions...</div>';
-
-    let html='';
-
-    // GRATITUDE WALL
-    try{
-      const d=await ffGet('/api/fun/gratitude');
-      const notes=(d.success&&d.notes)||[];
-      html+=`<div class="ffa-section">
-        <div class="ffa-section-header">🌟 Gratitude Wall <span class="ffa-count">${notes.length} notes</span></div>
-        ${notes.length?`<table class="ffa-table"><thead><tr><th>#</th><th>From</th><th>To</th><th>Message</th><th>Time</th></tr></thead><tbody>${notes.map((n,i)=>`<tr><td>${i+1}</td><td>${ffEsc(n.from||n.from_name||'—')}</td><td>${ffEsc(n.to||n.to_name||'—')}</td><td>${ffEsc(n.message)}</td><td>${ffAgo(n.created_at||n.createdAt||Date.now())}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No entries yet.</div>'}
-      </div>`;
-    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🌟 Gratitude Wall</div><div class="ffa-empty">Could not load.</div></div>'}
-
-    // SUPERLATIVES
-    try{
-      const d=await ffGet('/api/fun/superlatives');
-      const cats=(d.success&&d.categories)||[];
-      const totalNoms=cats.reduce((s,c)=>s+(c.nominees||[]).length,0);
-      html+=`<div class="ffa-section">
-        <div class="ffa-section-header">🏆 Superlatives <span class="ffa-count">${totalNoms} nominees</span></div>
-        ${cats.length?cats.map(cat=>`<div class="ffa-sub-header">${ffEsc(cat.emoji)} ${ffEsc(cat.title)}</div>${cat.nominees?.length?`<table class="ffa-table"><thead><tr><th>#</th><th>Name</th><th>Votes</th></tr></thead><tbody>${cat.nominees.map((n,i)=>`<tr><td>${i+1}</td><td>${ffEsc(n.name)}</td><td>${n.votes||0}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No nominees.</div>'}`).join(''):'<div class="ffa-empty">No categories found.</div>'}
-      </div>`;
-    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🏆 Superlatives</div><div class="ffa-empty">Could not load.</div></div>'}
-
-    // WISH JAR
-    try{
-      const d=await ffGet('/api/fun/wishes');
-      const wishes=(d.success&&d.wishes)||[];
-      html+=`<div class="ffa-section">
-        <div class="ffa-section-header">🫙 Wish Jar <span class="ffa-count">${wishes.length} wishes</span></div>
-        ${wishes.length?`<table class="ffa-table"><thead><tr><th>#</th><th>Name</th><th>Category</th><th>Wish</th><th>Time</th></tr></thead><tbody>${wishes.map((w,i)=>`<tr><td>${i+1}</td><td>${ffEsc(w.name||'Anonymous')}</td><td>${WISH_ICONS_ADMIN[w.category]||'✨'} ${ffEsc(w.category||'—')}</td><td>${ffEsc(w.text)}</td><td>${ffAgo(w.created_at||w.createdAt||Date.now())}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No entries yet.</div>'}
-      </div>`;
-    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🫙 Wish Jar</div><div class="ffa-empty">Could not load.</div></div>'}
-
-    // SONG DEDICATIONS
-    try{
-      const d=await ffGet('/api/fun/dedications');
-      const deds=(d.success&&d.dedications)||[];
-      html+=`<div class="ffa-section">
-        <div class="ffa-section-header">🎵 Song Dedications <span class="ffa-count">${deds.length} dedications</span></div>
-        ${deds.length?`<table class="ffa-table"><thead><tr><th>#</th><th>From</th><th>To</th><th>Song</th><th>Message</th><th>Time</th></tr></thead><tbody>${deds.map((d,i)=>`<tr><td>${i+1}</td><td>${ffEsc(d.from||d.from_name||'—')}</td><td>${ffEsc(d.to||d.to_name||'—')}</td><td>${ffEsc(d.song)}</td><td>${ffEsc(d.message||'—')}</td><td>${ffAgo(d.created_at||d.createdAt||Date.now())}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No entries yet.</div>'}
-      </div>`;
-    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🎵 Song Dedications</div><div class="ffa-empty">Could not load.</div></div>'}
-
-    // MOOD BOARD
-    try{
-      const d=await ffGet('/api/fun/mood');
-      const votes=(d.success&&d.votes)||{};
-      const total=Object.values(votes).reduce((s,v)=>s+v,0);
-      const MOOD_LABELS={happy:'😄 Excited',proud:'🥲 Proud',nostalgic:'🌅 Nostalgic',thankful:'🙏 Grateful',bittersweet:'💛 Bittersweet',nervous:'😬 Nervous'};
-      html+=`<div class="ffa-section">
-        <div class="ffa-section-header">🌈 Mood Board <span class="ffa-count">${total} votes total</span></div>
-        ${total?`<table class="ffa-table"><thead><tr><th>Mood</th><th>Votes</th><th>Percentage</th></tr></thead><tbody>${Object.entries(votes).map(([k,v])=>`<tr><td>${MOOD_LABELS[k]||k}</td><td>${v}</td><td>${Math.round(v/total*100)}%</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No votes yet.</div>'}
-      </div>`;
-    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">🌈 Mood Board</div><div class="ffa-empty">Could not load.</div></div>'}
-
-    // TIME CAPSULE
-    try{
-      const d=await ffGet('/api/fun/capsules');
-      const caps=(d.success&&d.capsules)||[];
-      html+=`<div class="ffa-section">
-        <div class="ffa-section-header">📮 Time Capsule <span class="ffa-count">${caps.length} capsules</span></div>
-        ${caps.length?`<table class="ffa-table"><thead><tr><th>#</th><th>Name</th><th>Reveal Date</th><th>Letter Preview</th></tr></thead><tbody>${caps.map((c,i)=>`<tr><td>${i+1}</td><td>${ffEsc(c.name)}</td><td>${new Date(c.reveal_date||c.revealDate).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'})}</td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ffEsc((c.letter||'').substring(0,80))}${(c.letter||'').length>80?'…':''}</td></tr>`).join('')}</tbody></table>`:'<div class="ffa-empty">No capsules yet.</div>'}
-      </div>`;
-    }catch(_){html+='<div class="ffa-section"><div class="ffa-section-header">📮 Time Capsule</div><div class="ffa-empty">Could not load.</div></div>'}
-
-    wrap.innerHTML=html;
-  }
+  window.previewFunFeatureToggle=function(key,val){const t=window.__FF_TOGGLES__||{};t[key]=val;window.__FF_TOGGLES__=t;applyFunFeatureToggles(t)};
   window.saveFunFeatureToggles=async function(){
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
     try{const res=await fetch(ffApi('/api/fun/settings'),{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.state?.adminToken||'')},body:JSON.stringify({settings:t})});const d=await res.json();if(d.success)ffNotify('success','Saved','Fun feature settings updated.');else ffNotify('error','Failed',d.error||'Could not save.')}catch(e){ffNotify('error','Error',e.message)}
   };
-  window.enableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=true;window.previewFunFeatureToggle(k,true)})};
+  window.enableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=(k!=='memoryMosaic');window.previewFunFeatureToggle(k,k!=='memoryMosaic')})};
   window.disableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=false;window.previewFunFeatureToggle(k,false)})};
- const _origBuildAdminPanels=window.buildAdminPanels;
-  window.buildAdminPanels=function(){
-    const panel=document.getElementById('panelFunFeatures');
-    if(panel) panel.removeAttribute('data-built');
-    if(typeof _origBuildAdminPanels==='function')_origBuildAdminPanels.apply(this,arguments);
-    buildFunFeaturesPanel();
-  };
+  const _origBuildAdminPanels=window.buildAdminPanels;
+  window.buildAdminPanels=function(){if(typeof _origBuildAdminPanels==='function')_origBuildAdminPanels.apply(this,arguments);buildFunFeaturesPanel()};
+  const _origSwitchAdminTab=window.switchAdminTab;
+  window.switchAdminTab=function(tab){if(typeof _origSwitchAdminTab==='function')_origSwitchAdminTab.apply(this,arguments);const tabEl=document.getElementById('tabFunFeatures');const panelEl=document.getElementById('panelFunFeatures');if(tabEl)tabEl.classList.toggle('active',tab==='funFeatures');if(panelEl){panelEl.classList.toggle('active',tab==='funFeatures');if(tab==='funFeatures')buildFunFeaturesPanel()}};
   async function init(){
     await loadFunFeatureToggles();
     loadGratitudeNotes();loadSuperlatives();loadWishes();loadDedications();loadMoodBoard();loadTimeCapsules();
-    setTimeout(loadMemoryMosaic,3000);
+    
   }
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
 })();
@@ -2037,8 +2031,8 @@ overflow: hidden;
         <div class="admin-tab" id="tabTheme" onclick="switchAdminTab('theme')">Theme</div>
         <div class="admin-tab" id="tabUsers" onclick="switchAdminTab('users')">Users</div>
         <div class="admin-tab" id="tabCompilations" onclick="switchAdminTab('compilations')">Compilations</div>
-        <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
-        <div class="admin-tab" id="tabFunFeatures" onclick="document.getElementById('panelFunFeatures').removeAttribute('data-built'); switchAdminTab('funFeatures')">Fun Features</div>
+       <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
+<div class="admin-tab" id="tabFunFeatures" onclick="switchAdminTab('funFeatures')">Fun Features</div>
       </div>
 
       <!-- Panels: content is completed in Part 3 -->
@@ -2218,7 +2212,7 @@ overflow: hidden;
     // Change this ONE line to point to your server
     // =========================
     const CONFIG = {
-      API_BASE: "https://anniversary-appeared-directors-devel.trycloudflare.com",
+      API_BASE: "https://threshold-superb-gasoline-theology.trycloudflare.com",
       REFRESH_INTERVAL: 60000,
       MAX_FILE_SIZE: 100 * 1024 * 1024,
       MAX_TOTAL_SIZE: 200 * 1024 * 1024,
@@ -2302,7 +2296,8 @@ overflow: hidden;
       selectedFiles: [],
       memories: [],
       memPage: 1,
-      memLimit: 2000,
+     memLimit: 2000,
+      viewingAllMemoriesPage: false,
       memHasMore: true,
       memLoading: false,
       memCursor: null,
@@ -2394,8 +2389,7 @@ overflow: hidden;
       renderTeachers();
       renderTimeline();
       await loadMemories(true);
-      await autoFillMemoriesOnLoad();
-      await loadPublicCompilations();
+           await loadPublicCompilations();
       setTimeout(() => { initIntroVideo(); }, 50);
       if (CONFIG.WS_AUTO) connectWS();
       setInterval(() => { if (!document.getElementById('adminDashboard')?.classList.contains('active')) loadMemories(true); }, CONFIG.REFRESH_INTERVAL);
@@ -2516,14 +2510,15 @@ function renderMemories() {
     countPill.textContent = `${state.memories.length} loaded${state.memHasMore ? ' • more available' : ''}`;
   }
 
-  if (state.memories.length === 0) {
+  const displayMemories = state.memories;
+  if (displayMemories.length === 0) {
     grid.innerHTML = `<div class="memory-empty" style="grid-column: 1/-1;"><div class="memory-empty-icon">🖼️</div><h3>No Memories Yet</h3><p>Be the first to share!</p></div>`;
     const loadMoreWrap = document.getElementById('loadMoreWrap');
     if (loadMoreWrap) loadMoreWrap.style.display = 'none';
     return;
   }
 
-  grid.innerHTML = state.memories.map((memory, index) => `
+  grid.innerHTML = displayMemories.map((memory, index) => `
     <div class="memory-card" data-index="${index}">
       <div class="memory-media" onclick="openLightbox(${index})">
         ${memory.file_type === 'video'
@@ -2557,7 +2552,7 @@ function renderMemories() {
 
   const loadMoreWrap = document.getElementById('loadMoreWrap');
   if (loadMoreWrap) {
-    loadMoreWrap.style.display = (!state.infiniteScroll && state.memHasMore) ? 'flex' : 'none';
+    loadMoreWrap.style.display = (!state.infiniteScroll && state.memHasMore && state.viewingAllMemoriesPage) ? 'flex' : 'none';
   }
 }
     function renderReactionButtons(memory) { const rx = memory.reactions || {}; return [{ t: 'like', e: '👍' },{ t: 'love', e: '😍' },{ t: 'laugh', e: '😂' },{ t: 'wow', e: '😮' },{ t: 'sad', e: '😢' }].map(it => `<button class="react-btn" onclick="react(${memory.id}, '${it.t}')">${it.e}<span class="react-count">${rx[it.t] || 0}</span></button>`).join(''); }
@@ -2579,7 +2574,56 @@ function renderMemories() {
     function startReply(commentId) { state.replyingTo = commentId; resetReplyUI(); const textArea = document.getElementById('commentText'); if (textArea) textArea.focus(); }
     function openComments(memoryId) { const index = state.memories.findIndex(m => m.id === memoryId); if (index >= 0) openLightbox(index); }
     async function postComment() { const memoryId = activeMemoryId || state.memories[state.lightboxIndex]?.id; if (!memoryId) return; const name = document.getElementById('commentName')?.value?.trim(); const text = document.getElementById('commentText')?.value?.trim(); if (!name) return showNotification('error', 'Name required', 'Please enter your name.'); if (!text) return showNotification('error', 'Comment required', 'Please write a comment.'); try { const res = await fetch(apiUrl(`/api/comments/${memoryId}`), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, text, parentId: state.replyingTo }) }); const data = await res.json(); if (!data.success) return showNotification('error', 'Failed', data.error || 'Could not post.'); const textArea = document.getElementById('commentText'); if (textArea) textArea.value = ''; state.replyingTo = null; resetReplyUI(); await loadComments(memoryId); } catch (e) { showNotification('error', 'Failed', e.message); } }
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); closeAdminLogin(); closeCompilationPlayer(); } const lightbox = document.getElementById('lightbox'); if (lightbox && lightbox.classList.contains('active')) { if (e.key === 'ArrowLeft') navigateLightbox(-1); if (e.key === 'ArrowRight') navigateLightbox(1); } });
+    document.addEventListener('DOMContentLoaded', () => {
+ const viewAllBtn = document.getElementById('viewAllMemoriesBtn');
+ if (viewAllBtn) viewAllBtn.addEventListener('click', openMemoriesPage);
+ const backBtn = document.getElementById('backToHomeFromMemoriesPage');
+ if (backBtn) backBtn.addEventListener('click', backToMainPage);
+ document.querySelectorAll('a[href="#home"]').forEach(el => {
+  el.addEventListener('click', (evt) => {
+   evt.preventDefault();
+   backToMainPage();
+  });
+ });
+ });
+ window.addEventListener('popstate', () => {
+ const page = document.getElementById('memoriesPage');
+ if (!page) return;
+ if (location.hash === '#memories-page') {
+  state.viewingAllMemoriesPage = true;
+  page.classList.remove('hidden');
+  renderMemoriesPage();
+ } else {
+  state.viewingAllMemoriesPage = false;
+  page.classList.add('hidden');
+ }
+ });
+
+ document.addEventListener('DOMContentLoaded', () => {
+ const viewAllBtn = document.getElementById('viewAllMemoriesBtn');
+ if (viewAllBtn) viewAllBtn.addEventListener('click', openMemoriesPage);
+ const backBtn = document.getElementById('backToHomeFromMemoriesPage');
+ if (backBtn) backBtn.addEventListener('click', backToMainPage);
+ document.querySelectorAll('a[href="#home"]').forEach(el => {
+  el.addEventListener('click', (evt) => {
+   evt.preventDefault();
+   backToMainPage();
+  });
+ });
+ });
+ window.addEventListener('popstate', () => {
+ const page = document.getElementById('memoriesPage');
+ if (!page) return;
+ if (location.hash === '#memories-page') {
+  state.viewingAllMemoriesPage = true;
+  page.classList.remove('hidden');
+  renderMemoriesPage();
+ } else {
+  state.viewingAllMemoriesPage = false;
+  page.classList.add('hidden');
+ }
+ });
+ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); closeAdminLogin(); closeCompilationPlayer(); } const lightbox = document.getElementById('lightbox'); if (lightbox && lightbox.classList.contains('active')) { if (e.key === 'ArrowLeft') navigateLightbox(-1); if (e.key === 'ArrowRight') navigateLightbox(1); } });
 
     function renderTeachers() { const grid = document.getElementById('teachersGrid'); if (!grid) return; const t = Array.isArray(state.settings.teachers) ? state.settings.teachers : []; if (t.length === 0) { grid.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><h3>No teachers configured</h3></div>`; return; } grid.innerHTML = t.map(teacher => { const initials = getInitials(teacher.name || 'T'); const img = (teacher.imageUrl || '').trim(); return `<div class="teacher-card"><div class="teacher-image">${img ? `<img src="${escapeAttr(img)}" alt="${escapeAttr(teacher.name || '')}" />` : escapeHtml(initials)}</div><h3 class="teacher-name">${escapeHtml(teacher.name || '')}</h3><p class="teacher-subject">${escapeHtml(teacher.subject || '')}</p><p class="teacher-quote">${escapeHtml(teacher.quote || '')}</p></div>`; }).join(''); }
     function renderTimeline() { const list = document.getElementById('timelineList'); if (!list) return; const items = Array.isArray(state.settings.timeline) ? state.settings.timeline : []; if (items.length === 0) { list.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><h3>No timeline configured</h3></div>`; return; } list.innerHTML = items.map(item => `<div class="timeline-item"><div class="timeline-content"><div class="timeline-dot"></div><div class="timeline-year">${escapeHtml(item.year || '')}</div><h3 class="timeline-title">${escapeHtml(item.title || '')}</h3><p class="timeline-description">${escapeHtml(item.description || '')}</p></div></div>`).join(''); }
@@ -2591,28 +2635,15 @@ function renderMemories() {
     function closeAdminLogin() { const overlay = document.getElementById('adminOverlay'); if (overlay) overlay.classList.remove('active'); const password = document.getElementById('adminPassword'); if (password) password.value = ''; const error = document.getElementById('adminLoginError'); if (error) error.classList.remove('active'); }
     async function adminLogin() { const userId = document.getElementById('adminUserId')?.value?.trim() || 'super'; const password = document.getElementById('adminPassword')?.value; try { const response = await fetch(apiUrl('/api/admin/login'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId, password }) }); const data = await response.json(); if (data.success) { state.adminToken = data.token; state.adminUser = data.user; localStorage.setItem('adminToken', data.token); localStorage.setItem('adminUser', JSON.stringify(data.user)); closeAdminLogin(); openAdminDashboard(); } else { const error = document.getElementById('adminLoginError'); if (error) error.classList.add('active'); } } catch (error) { showNotification('error', 'Login Failed', error.message); } }
     async function verifyAdminToken() { try { const response = await fetch(apiUrl('/api/admin/verify'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); const data = await response.json(); if (data.valid) { state.adminUser = data.user; localStorage.setItem('adminUser', JSON.stringify(data.user)); openAdminDashboard(); } else adminLogout(); } catch { adminLogout(); } }
-    function openAdminDashboard() {
-  const supUpload = document.getElementById('superlativesAdminUploadWrap');
-  if (supUpload) supUpload.style.display = 'block';
-```
-
----
-
-## How to use it after these changes:
-
-1. Login as admin (click logo 5 times)
-2. Scroll to **Class Superlatives** section on the page — you'll see a gold **"Admin: Pre-fill All Nominees"** button
-3. Click it and paste your nominees like this:
-```
- const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.add('active'); document.body.style.overflow = 'hidden'; buildAdminPanels(); switchAdminTab('moderation'); loadAdminMemories(true); }
+    function openAdminDashboard() { const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.add('active'); document.body.style.overflow = 'hidden'; buildAdminPanels(); switchAdminTab('moderation'); loadAdminMemories(true); }
     async function adminLogout() { try { await fetch(apiUrl('/api/admin/logout'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); } catch {} state.adminToken = null; state.adminUser = null; localStorage.removeItem('adminToken'); localStorage.removeItem('adminUser'); const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.remove('active'); document.body.style.overflow = ''; window.location.hash = ''; }
-    function switchAdminTab(tab) { ['moderation', 'settings', 'theme', 'users', 'compilations', 'security', 'funFeatures'].forEach(t => { const tabEl = document.getElementById('tab' + (t === 'funFeatures' ? 'FunFeatures' : capitalize(t))); const panelEl = document.getElementById('panel' + (t === 'funFeatures' ? 'FunFeatures' : capitalize(t))); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); if (tab === 'funFeatures') { buildFunFeaturesPanel(); } }
+    function switchAdminTab(tab) {['moderation', 'settings', 'theme', 'users', 'compilations', 'security', 'funFeatures'].forEach(t => { const key = t.charAt(0).toUpperCase() + t.slice(1);
+        const tabEl = document.getElementById('tab' + key);
+        const panelEl = document.getElementById('panel' + key); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); }
     function can(perm) { const u = state.adminUser; if (!u) return false; if (u.role === 'superadmin') return true; return !!u.permissions?.[perm]; }
-    function buildAdminPanels() { const tabs = { 'tabSettings': 'settings', 'tabTheme': 'theme', 'tabUsers': 'users' }; Object.entries(tabs).forEach(([id, perm]) => { const el = document.getElementById(id); if (el) el.style.display = can(perm) ? 'inline-block' : 'none'; }); const exportBtn = document.getElementById('btnExportCsv'); if (exportBtn) exportBtn.style.display = can('export') ? 'inline-flex' : 'none'; const approveAllBtn = document.getElementById('btnApproveAll'); if (approveAllBtn) approveAllBtn.style.display = can('bulk') ? 'inline-flex' : 'none'; const panelSettings = document.getElementById('panelSettings'); if (panelSettings) panelSettings.innerHTML = can('settings') ? renderSettingsPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelTheme = document.getElementById('panelTheme'); if (panelTheme) panelTheme.innerHTML = can('theme') ? renderThemePanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelUsers = document.getElementById('panelUsers'); if (panelUsers) panelUsers.innerHTML = can('users') ? renderUsersPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelSecurity = document.getElementById('panelSecurity'); if (panelSecurity) panelSecurity.innerHTML = renderSecurityPanelHtml(); if (can('settings')) wireSettingsPanel(); if (can('theme')) wireThemePanel(); if (can('users')) wireUsersPanel(); wireSecurityPanel();const panelCompilations = document.getElementById('panelCompilations');
+    function buildAdminPanels() { const tabs = { 'tabSettings': 'settings', 'tabTheme': 'theme', 'tabUsers': 'users' }; Object.entries(tabs).forEach(([id, perm]) => { const el = document.getElementById(id); if (el) el.style.display = can(perm) ? 'inline-block' : 'none'; }); const exportBtn = document.getElementById('btnExportCsv'); if (exportBtn) exportBtn.style.display = can('export') ? 'inline-flex' : 'none'; const approveAllBtn = document.getElementById('btnApproveAll'); if (approveAllBtn) approveAllBtn.style.display = can('bulk') ? 'inline-flex' : 'none'; const panelSettings = document.getElementById('panelSettings'); if (panelSettings) panelSettings.innerHTML = can('settings') ? renderSettingsPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelTheme = document.getElementById('panelTheme'); if (panelTheme) panelTheme.innerHTML = can('theme') ? renderThemePanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelUsers = document.getElementById('panelUsers'); if (panelUsers) panelUsers.innerHTML = can('users') ? renderUsersPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelSecurity = document.getElementById('panelSecurity'); if (panelSecurity) panelSecurity.innerHTML = renderSecurityPanelHtml(); if (can('settings')) wireSettingsPanel(); if (can('theme')) wireThemePanel(); if (can('users')) wireUsersPanel(); wireSecurityPanel(); const panelCompilations = document.getElementById('panelCompilations');
     if (panelCompilations) panelCompilations.innerHTML = renderCompilationsPanelHtml();
-    loadCompilationsAdmin(); syncSettingsEditor(); syncThemeEditor();
-    buildFunFeaturesPanel();
-  }
+    loadCompilationsAdmin(); syncSettingsEditor(); syncThemeEditor(); }
 
     async function loadAdminMemories(reset, preserveBulk = false) { if (!state.adminToken) return; if (reset) { state.adminPage = 1; state.adminHasMore = true; if (!preserveBulk) { state.adminSelectedIds.clear(); state.adminBulkMode = false; } updateBulkToggleUI(); } if (!state.adminHasMore) return; try { const params = new URLSearchParams({ filter: state.adminFilter, sort: state.adminSort, search: state.adminSearch || '', page: String(state.adminPage), limit: String(state.adminLimit) }); const res = await fetch(apiUrl(`/api/admin/memories?${params}`), { headers: { 'Authorization': `Bearer ${state.adminToken}` } }); const data = await res.json(); if (!data.success) { if (res.status === 401) return adminLogout(); return; } updateAdminStats(data.stats); renderAdminGrid(data.memories || [], reset); state.adminHasMore = !!data.hasMore; state.adminPage += 1; } catch (e) { console.error(e); } }
     function adminLoadMore() { loadAdminMemories(false); }
@@ -3429,7 +3460,31 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
   </div>
 </div>
 
+<button class="btn btn-secondary" id="ghostCursorToggle" type="button">Ghost Cursors: ON</button>
 <button class="btn btn-primary" id="sendNoteBtn" type="button">Send a Note</button>
+
+<div id="ghostCursorPopup">
+  <div class="sniper-modal">
+    <h3>Live Ghost Cursors are ON</h3>
+    <p>You can see other students moving around the site in real time. You can turn this off now, or jump straight to the toggle button.</p>
+    <div class="sniper-actions">
+      <button class="btn btn-danger" type="button" onclick="sniperSetGhostCursors(false)">Turn Off</button>
+      <button class="btn btn-secondary" type="button" onclick="document.getElementById('ghostCursorToggle').scrollIntoView({behavior:'smooth',block:'center'}); closeSniperModal('ghostCursorPopup')">Show Me the Toggle</button>
+      <button class="btn btn-primary" type="button" onclick="closeSniperModal('ghostCursorPopup')">Keep It On</button>
+    </div>
+  </div>
+</div>
+
+<div id="ghostOffModal">
+  <div class="sniper-modal">
+    <h3>Ghost Cursors Turned Off</h3>
+    <p>You can switch them back on any time from the floating Ghost Cursors button.</p>
+    <div class="sniper-actions">
+      <button class="btn btn-primary" type="button" onclick="closeSniperModal('ghostOffModal')">Okay</button>
+      <button class="btn btn-secondary" type="button" onclick="document.getElementById('ghostCursorToggle').scrollIntoView({behavior:'smooth',block:'center'}); closeSniperModal('ghostOffModal')">Take Me There</button>
+    </div>
+  </div>
+</div>
 
 <div id="paperTutorial">
   <div class="sniper-modal">
@@ -5621,6 +5676,8 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
 /* === /SNIPER_PATCH_V5_START === */
 </style>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <script src="https://unpkg.com/globe.gl"></script>
 
@@ -6701,7 +6758,155 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
     loadClassPathsGlobeV7();
   }
 
-  function parseCoords(str){
+  let distanceLeafletMapV7 = null;
+ let distanceLeafletMarkerV7 = null;
+ function setLeafletPickedPointV7(lat, lng, label){
+  const latEl = document.getElementById('distanceLatV7');
+  const lngEl = document.getElementById('distanceLngV7');
+  const labelEl = document.getElementById('distancePlaceLabelV7');
+  if (latEl) latEl.value = String(Number(lat).toFixed(6));
+  if (lngEl) lngEl.value = String(Number(lng).toFixed(6));
+  if (labelEl && label) labelEl.value = label;
+  if (!distanceLeafletMapV7) return;
+  if (!distanceLeafletMarkerV7) {
+   distanceLeafletMarkerV7 = L.marker([lat, lng]).addTo(distanceLeafletMapV7);
+  } else {
+   distanceLeafletMarkerV7.setLatLng([lat, lng]);
+  }
+  distanceLeafletMapV7.setView([lat, lng], Math.max(distanceLeafletMapV7.getZoom(), 4));
+ }
+ function initLeafletDistancePickerV7(){
+  const mapEl = document.getElementById('distanceLeafletPicker');
+  if (!mapEl || typeof L === 'undefined') return;
+  if (!distanceLeafletMapV7) {
+   distanceLeafletMapV7 = L.map(mapEl, { center:[20.5937, 78.9629], zoom:3, worldCopyJump:true });
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors'
+   }).addTo(distanceLeafletMapV7);
+   distanceLeafletMapV7.on('click', (e) => {
+    setLeafletPickedPointV7(e.latlng.lat, e.latlng.lng);
+    applyCoordsToPendingV7();
+   });
+  } else {
+   distanceLeafletMapV7.invalidateSize();
+  }
+ }
+ async function searchLeafletPlaceV7(){
+  const search = document.getElementById('distancePlaceSearchV7')?.value?.trim();
+  if (!search) {
+   return window.showNotification?.('error', 'Search needed', 'Enter a place to search.');
+  }
+  try{
+   const res = await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=' + encodeURIComponent(search), {
+    headers: { 'Accept': 'application/json' }
+   });
+   const data = await res.json();
+   if (!Array.isArray(data) || !data.length) {
+    return window.showNotification?.('error', 'Not found', 'Could not find that place.');
+   }
+   const item = data[0];
+   const lat = Number(item.lat);
+   const lng = Number(item.lon);
+   const label = String(item.display_name || search).split(',').slice(0, 2).join(',').trim();
+   setLeafletPickedPointV7(lat, lng, label);
+   applyCoordsToPendingV7();
+  }catch(e){
+   window.showNotification?.('error', 'Search failed', e.message);
+  }
+ }
+ async function loadStudentDirectoryV7(){
+ try{
+  const res = await fetch(apiUrl('/api/student-directory'));
+  const data = await res.json();
+  if (!data.success) return;
+  const nameSel = document.getElementById('distanceStudentNameV7');
+  const sectionSel = document.getElementById('distanceSectionV7');
+  if (nameSel) {
+   nameSel.innerHTML = '<option value="">Select your name</option>' + (data.students || []).map(s => `<option value="${escapeAttr(s.name)}">${escapeHtml(s.name)}</option>`).join('');
+  }
+  if (sectionSel) {
+   const sections = Array.from(new Set((data.students || []).map(s => String(s.section || '').trim()).filter(Boolean)));
+   sectionSel.innerHTML = '<option value="">Select section</option>' + sections.map(s => `<option value="${escapeAttr(s)}">${escapeHtml(s)}</option>`).join('');
+  }
+ }catch(_){}
+ }
+ let distanceLeafletMapV7 = null;
+ let distanceLeafletMarkerV7 = null;
+ function setLeafletPickedPointV7(lat, lng, label){
+  const latEl = document.getElementById('distanceLatV7');
+  const lngEl = document.getElementById('distanceLngV7');
+  const labelEl = document.getElementById('distancePlaceLabelV7');
+  if (latEl) latEl.value = String(Number(lat).toFixed(6));
+  if (lngEl) lngEl.value = String(Number(lng).toFixed(6));
+  if (labelEl && label) labelEl.value = label;
+  if (!distanceLeafletMapV7) return;
+  if (!distanceLeafletMarkerV7) {
+   distanceLeafletMarkerV7 = L.marker([lat, lng]).addTo(distanceLeafletMapV7);
+  } else {
+   distanceLeafletMarkerV7.setLatLng([lat, lng]);
+  }
+  distanceLeafletMapV7.setView([lat, lng], Math.max(distanceLeafletMapV7.getZoom(), 4));
+ }
+ function initLeafletDistancePickerV7(){
+  const mapEl = document.getElementById('distanceLeafletPicker');
+  if (!mapEl || typeof L === 'undefined') return;
+  if (!distanceLeafletMapV7) {
+   distanceLeafletMapV7 = L.map(mapEl, { center:[17.3850, 78.4867], zoom:4, worldCopyJump:true });
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors'
+   }).addTo(distanceLeafletMapV7);
+   distanceLeafletMapV7.on('click', (e) => {
+    setLeafletPickedPointV7(e.latlng.lat, e.latlng.lng);
+    applyCoordsToPendingV7();
+   });
+  } else {
+   distanceLeafletMapV7.invalidateSize();
+  }
+ }
+ async function searchLeafletPlaceV7(){
+  const search = document.getElementById('distancePlaceSearchV7')?.value?.trim();
+  const box = document.getElementById('distanceSearchResultsV7');
+  if (box) box.innerHTML = '';
+  if (!search) {
+   return window.showNotification?.('error', 'Search needed', 'Enter a place to search.');
+  }
+  try{
+   const res = await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&q=' + encodeURIComponent(search), {
+    headers: { 'Accept': 'application/json' }
+   });
+   const data = await res.json();
+   if (!Array.isArray(data) || !data.length) {
+    return window.showNotification?.('error', 'Not found', 'Could not find that place.');
+   }
+   if (!box) {
+    const item = data[0];
+    const lat = Number(item.lat);
+    const lng = Number(item.lon);
+    const label = String(item.display_name || search).split(',').slice(0, 2).join(',').trim();
+    setLeafletPickedPointV7(lat, lng, label);
+    applyCoordsToPendingV7();
+    return;
+   }
+   box.innerHTML = data.map(item => {
+    const label = String(item.display_name || search);
+    return `<button type="button" class="btn btn-secondary" data-lat="${escapeAttr(item.lat)}" data-lng="${escapeAttr(item.lon)}" data-label="${escapeAttr(label)}">${escapeHtml(label)}</button>`;
+   }).join('');
+   box.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+     const lat = Number(btn.getAttribute('data-lat'));
+     const lng = Number(btn.getAttribute('data-lng'));
+     const label = btn.getAttribute('data-label') || '';
+     setLeafletPickedPointV7(lat, lng, label);
+     applyCoordsToPendingV7();
+    });
+   });
+  }catch(e){
+   window.showNotification?.('error', 'Search failed', e.message);
+  }
+ }
+ function parseCoords(str){
     const m = String(str || '').trim().match(/^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/);
     if (!m) return null;
     const lat = Number(m[1]);
@@ -6933,5 +7138,356 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
 })();
 </script>
 
+
+<script id="fixer-tour-script">
+(function(){
+ if (window.__FIXER_TOUR_LOADED__) return;
+ window.__FIXER_TOUR_LOADED__ = true;
+ const TOUR_KEY = 'cornerstone_tour_seen_v1';
+ function addTourFab(){
+  if (document.getElementById('featureTourFab')) return;
+  const btn = document.createElement('button');
+  btn.id = 'featureTourFab';
+  btn.className = 'feature-tour-fab';
+  btn.type = 'button';
+  btn.textContent = 'Tutorial';
+  btn.addEventListener('click', startSiteTour);
+  document.body.appendChild(btn);
+ }
+ function ensureTourNodes(){
+  if (!document.getElementById('featureTourOverlay')){
+   const overlay = document.createElement('div');
+   overlay.id = 'featureTourOverlay';
+   overlay.className = 'feature-tour-overlay';
+   overlay.innerHTML = '<div id="featureTourSpotlight" class="feature-tour-spotlight"></div><div id="featureTourCard" class="feature-tour-card"></div>';
+   document.body.appendChild(overlay);
+  }
+ }
+ function buildSteps(){
+  return [
+   { selector:'#home .hero-buttons', title:'Welcome', text:'Start here to share a memory or explore the wall.' },
+   { selector:'#countdown', title:'Countdown', text:'This shows how long is left until the big farewell moment.' },
+   { selector:'#memories', title:'Memories Preview', text:'Only six selected memories load here for a cleaner homepage.' },
+   { selector:'#viewAllMemoriesBtn', title:'View All', text:'Use this button to open the full memories page.' },
+   { selector:'#upload', title:'Upload', text:'Share your photo or video memory from here.' },
+   { selector:'#distanceMapSection', title:'Future Map', text:'Pick your future place on the map and save it.' },
+   { selector:'#compilations', title:'Compilations', text:'Watch curated memory compilations here.' }
+  ];
+ }
+ function stopSiteTour(){
+  const overlay = document.getElementById('featureTourOverlay');
+  if (overlay) overlay.classList.remove('active');
+ }
+ function startSiteTour(){
+  ensureTourNodes();
+  const steps = buildSteps();
+  let idx = 0;
+  const overlay = document.getElementById('featureTourOverlay');
+  const card = document.getElementById('featureTourCard');
+  const spot = document.getElementById('featureTourSpotlight');
+  function render(){
+   const step = steps[idx];
+   const el = document.querySelector(step.selector);
+   if (!el){ idx += 1; if (idx >= steps.length) return stopSiteTour(); return render(); }
+   el.scrollIntoView({ behavior:'smooth', block:'center' });
+   setTimeout(() => {
+    const r = el.getBoundingClientRect();
+    spot.style.left = Math.max(8, r.left - 8) + 'px';
+    spot.style.top = Math.max(8, r.top - 8) + 'px';
+    spot.style.width = Math.max(40, r.width + 16) + 'px';
+    spot.style.height = Math.max(40, r.height + 16) + 'px';
+    card.style.left = Math.min(window.innerWidth - 380, Math.max(12, r.left)) + 'px';
+    card.style.top = Math.min(window.innerHeight - 170, r.bottom + 12) + 'px';
+    card.innerHTML = `<h3>${step.title}</h3><p>${step.text}</p><div class="feature-tour-actions"><button class="btn btn-secondary" type="button" id="tourSkipBtn">Close</button><button class="btn btn-primary" type="button" id="tourNextBtn">${idx === steps.length - 1 ? 'Done' : 'Next'}</button></div>`;
+    document.getElementById('tourSkipBtn')?.addEventListener('click', stopSiteTour);
+    document.getElementById('tourNextBtn')?.addEventListener('click', () => {
+     idx += 1;
+     if (idx >= steps.length) { stopSiteTour(); return; }
+     render();
+    });
+   }, 420);
+  }
+  overlay.classList.add('active');
+  render();
+ }
+ window.startSiteTour = startSiteTour;
+ document.addEventListener('DOMContentLoaded', () => {
+  addTourFab();
+  ensureTourNodes();
+  const page = document.getElementById('memoriesPage');
+  if (location.hash === '#memories-page' && page) {
+   state.viewingAllMemoriesPage = true;
+   page.classList.remove('hidden');
+   if (typeof renderMemoriesPage === 'function') renderMemoriesPage();
+  }
+  const navType = performance.getEntriesByType && performance.getEntriesByType('navigation')[0] ? performance.getEntriesByType('navigation')[0].type : '';
+  if (navType === 'reload') {
+   document.documentElement.classList.add('hard-refresh-top');
+   document.body.classList.add('hard-refresh-top');
+   window.scrollTo(0, 0);
+   setTimeout(() => {
+    document.documentElement.classList.remove('hard-refresh-top');
+    document.body.classList.remove('hard-refresh-top');
+   }, 1200);
+  }
+  if (!localStorage.getItem(TOUR_KEY)) {
+   setTimeout(() => {
+    startSiteTour();
+    localStorage.setItem(TOUR_KEY, '1');
+   }, 1200);
+  }
+ });
+})();
+</script>
+
+<script id="fixer-stable-tour-script">
+(function(){
+ if (window.__FIXER_STABLE_TOUR__) return;
+ window.__FIXER_STABLE_TOUR__ = true;
+ const TOUR_KEY = 'cornerstone_tour_seen_v2';
+ function addTourFab(){
+  if (document.getElementById('featureTourFab')) return;
+  const btn = document.createElement('button');
+  btn.id = 'featureTourFab';
+  btn.className = 'feature-tour-fab';
+  btn.type = 'button';
+  btn.textContent = 'Tutorial';
+  btn.addEventListener('click', startSiteTour);
+  document.body.appendChild(btn);
+ }
+ function ensureTourNodes(){
+  if (!document.getElementById('featureTourOverlay')){
+   const overlay = document.createElement('div');
+   overlay.id = 'featureTourOverlay';
+   overlay.className = 'feature-tour-overlay';
+   overlay.innerHTML = '<div id="featureTourSpotlight" class="feature-tour-spotlight"></div><div id="featureTourCard" class="feature-tour-card"></div>';
+   document.body.appendChild(overlay);
+  }
+ }
+ function buildSteps(){
+  return [
+   { selector:'#home .hero-buttons', title:'Welcome', text:'Use these buttons to upload a memory or explore the memory wall.' },
+   { selector:'#countdown', title:'Countdown', text:'This section shows the live countdown to the farewell event.' },
+   { selector:'#memories', title:'Memories Preview', text:'The homepage shows six selected memories only for faster loading.' },
+   { selector:'#viewAllMemoriesBtn', title:'View All', text:'Open the full dedicated memories page from here.' },
+   { selector:'#upload', title:'Upload', text:'Approved uploads only appear after admin review.' },
+   { selector:'#distanceMapSection', title:'Future Path Globe', text:'Select your name, section, and future places, then save them to the globe.' },
+   { selector:'#compilations', title:'Compilations', text:'Curated slideshows appear here.' }
+  ];
+ }
+ function stopSiteTour(){
+  const overlay = document.getElementById('featureTourOverlay');
+  const spot = document.getElementById('featureTourSpotlight');
+  const card = document.getElementById('featureTourCard');
+  if (overlay) overlay.classList.remove('active');
+  if (spot) {
+   spot.style.left = '-9999px';
+   spot.style.top = '-9999px';
+   spot.style.width = '0px';
+   spot.style.height = '0px';
+  }
+  if (card) {
+   card.style.left = '-9999px';
+   card.style.top = '-9999px';
+  }
+ }
+ function startSiteTour(){
+  ensureTourNodes();
+  const steps = buildSteps();
+  let idx = 0;
+  const overlay = document.getElementById('featureTourOverlay');
+  const spot = document.getElementById('featureTourSpotlight');
+  const card = document.getElementById('featureTourCard');
+  function render(){
+   if (idx >= steps.length) {
+    stopSiteTour();
+    return;
+   }
+   const step = steps[idx];
+   const el = document.querySelector(step.selector);
+   if (!el) {
+    idx += 1;
+    render();
+    return;
+   }
+   el.scrollIntoView({ behavior:'smooth', block:'center' });
+   setTimeout(() => {
+    const r = el.getBoundingClientRect();
+    if (r.width <= 0 || r.height <= 0) {
+     idx += 1;
+     render();
+     return;
+    }
+    overlay.classList.add('active');
+    spot.style.left = Math.max(8, r.left - 8) + 'px';
+    spot.style.top = Math.max(8, r.top - 8) + 'px';
+    spot.style.width = Math.max(40, r.width + 16) + 'px';
+    spot.style.height = Math.max(40, r.height + 16) + 'px';
+    card.style.left = Math.min(window.innerWidth - 380, Math.max(12, r.left)) + 'px';
+    card.style.top = Math.min(window.innerHeight - 170, Math.max(12, r.bottom + 12)) + 'px';
+    card.innerHTML = `<h3>${step.title}</h3><p>${step.text}</p><div class="feature-tour-actions"><button class="btn btn-secondary" type="button" id="tourSkipBtn">Close</button><button class="btn btn-primary" type="button" id="tourNextBtn">${idx === steps.length - 1 ? 'Done' : 'Next'}</button></div>`;
+    document.getElementById('tourSkipBtn')?.addEventListener('click', stopSiteTour);
+    document.getElementById('tourNextBtn')?.addEventListener('click', () => {
+     idx += 1;
+     render();
+    });
+   }, 450);
+  }
+  render();
+ }
+ window.startSiteTour = startSiteTour;
+ document.addEventListener('DOMContentLoaded', () => {
+  addTourFab();
+  ensureTourNodes();
+  const page = document.getElementById('memoriesPage');
+  if (location.hash === '#memories-page' && page) {
+   state.viewingAllMemoriesPage = true;
+   page.classList.remove('hidden');
+   if (typeof renderMemoriesPage === 'function') renderMemoriesPage();
+  }
+  const navType = performance.getEntriesByType && performance.getEntriesByType('navigation')[0] ? performance.getEntriesByType('navigation')[0].type : '';
+  if (navType === 'reload') {
+   document.documentElement.classList.add('hard-refresh-top');
+   document.body.classList.add('hard-refresh-top');
+   window.scrollTo(0, 0);
+   setTimeout(() => {
+    document.documentElement.classList.remove('hard-refresh-top');
+    document.body.classList.remove('hard-refresh-top');
+   }, 1200);
+  }
+  if (!localStorage.getItem(TOUR_KEY)) {
+   setTimeout(() => {
+    startSiteTour();
+    localStorage.setItem(TOUR_KEY, '1');
+   }, 1200);
+  }
+ });
+})();
+</script>
+
+<script id="fixer-stable-tour-script">
+(function(){
+ if (window.__FIXER_STABLE_TOUR__) return;
+ window.__FIXER_STABLE_TOUR__ = true;
+ const TOUR_KEY = 'cornerstone_tour_seen_v2';
+ function addTourFab(){
+  if (document.getElementById('featureTourFab')) return;
+  const btn = document.createElement('button');
+  btn.id = 'featureTourFab';
+  btn.className = 'feature-tour-fab';
+  btn.type = 'button';
+  btn.textContent = 'Tutorial';
+  btn.addEventListener('click', startSiteTour);
+  document.body.appendChild(btn);
+ }
+ function ensureTourNodes(){
+  if (!document.getElementById('featureTourOverlay')){
+   const overlay = document.createElement('div');
+   overlay.id = 'featureTourOverlay';
+   overlay.className = 'feature-tour-overlay';
+   overlay.innerHTML = '<div id="featureTourSpotlight" class="feature-tour-spotlight"></div><div id="featureTourCard" class="feature-tour-card"></div>';
+   document.body.appendChild(overlay);
+  }
+ }
+ function buildSteps(){
+  return [
+   { selector:'#home .hero-buttons', title:'Welcome', text:'Use these buttons to upload a memory or explore the memory wall.' },
+   { selector:'#countdown', title:'Countdown', text:'This section shows the live countdown to the farewell event.' },
+   { selector:'#memories', title:'Memories Preview', text:'The homepage shows six selected memories only for faster loading.' },
+   { selector:'#viewAllMemoriesBtn', title:'View All', text:'Open the full dedicated memories page from here.' },
+   { selector:'#upload', title:'Upload', text:'Approved uploads appear after admin review only.' },
+   { selector:'#distanceMapSection', title:'Future Path Globe', text:'Select your name, section, and future places, then save them to the globe.' },
+   { selector:'#compilations', title:'Compilations', text:'Curated slideshows appear here.' }
+  ];
+ }
+ function stopSiteTour(){
+  const overlay = document.getElementById('featureTourOverlay');
+  const spot = document.getElementById('featureTourSpotlight');
+  const card = document.getElementById('featureTourCard');
+  if (overlay) overlay.classList.remove('active');
+  if (spot) {
+   spot.style.left = '-9999px';
+   spot.style.top = '-9999px';
+   spot.style.width = '0px';
+   spot.style.height = '0px';
+  }
+  if (card) {
+   card.style.left = '-9999px';
+   card.style.top = '-9999px';
+  }
+ }
+ function startSiteTour(){
+  ensureTourNodes();
+  const steps = buildSteps();
+  let idx = 0;
+  const overlay = document.getElementById('featureTourOverlay');
+  const spot = document.getElementById('featureTourSpotlight');
+  const card = document.getElementById('featureTourCard');
+  function render(){
+   if (idx >= steps.length) {
+    stopSiteTour();
+    return;
+   }
+   const step = steps[idx];
+   const el = document.querySelector(step.selector);
+   if (!el) {
+    idx += 1;
+    render();
+    return;
+   }
+   el.scrollIntoView({ behavior:'smooth', block:'center' });
+   setTimeout(() => {
+    const r = el.getBoundingClientRect();
+    if (r.width <= 0 || r.height <= 0) {
+     idx += 1;
+     render();
+     return;
+    }
+    overlay.classList.add('active');
+    spot.style.left = Math.max(8, r.left - 8) + 'px';
+    spot.style.top = Math.max(8, r.top - 8) + 'px';
+    spot.style.width = Math.max(40, r.width + 16) + 'px';
+    spot.style.height = Math.max(40, r.height + 16) + 'px';
+    card.style.left = Math.min(window.innerWidth - 380, Math.max(12, r.left)) + 'px';
+    card.style.top = Math.min(window.innerHeight - 170, Math.max(12, r.bottom + 12)) + 'px';
+    card.innerHTML = `<h3>${step.title}</h3><p>${step.text}</p><div class="feature-tour-actions"><button class="btn btn-secondary" type="button" id="tourSkipBtn">Close</button><button class="btn btn-primary" type="button" id="tourNextBtn">${idx === steps.length - 1 ? 'Done' : 'Next'}</button></div>`;
+    document.getElementById('tourSkipBtn')?.addEventListener('click', stopSiteTour);
+    document.getElementById('tourNextBtn')?.addEventListener('click', () => {
+     idx += 1;
+     render();
+    });
+   }, 450);
+  }
+  render();
+ }
+ window.startSiteTour = startSiteTour;
+ document.addEventListener('DOMContentLoaded', () => {
+  addTourFab();
+  ensureTourNodes();
+  const page = document.getElementById('memoriesPage');
+  if (location.hash === '#memories-page' && page) {
+   state.viewingAllMemoriesPage = true;
+   page.classList.remove('hidden');
+   if (typeof renderMemoriesPage === 'function') renderMemoriesPage();
+  }
+  const navType = performance.getEntriesByType && performance.getEntriesByType('navigation')[0] ? performance.getEntriesByType('navigation')[0].type : '';
+  if (navType === 'reload') {
+   document.documentElement.classList.add('hard-refresh-top');
+   document.body.classList.add('hard-refresh-top');
+   window.scrollTo(0, 0);
+   setTimeout(() => {
+    document.documentElement.classList.remove('hard-refresh-top');
+    document.body.classList.remove('hard-refresh-top');
+   }, 1200);
+  }
+  if (!localStorage.getItem(TOUR_KEY)) {
+   setTimeout(() => {
+    startSiteTour();
+    localStorage.setItem(TOUR_KEY, '1');
+   }, 1200);
+  }
+ });
+})();
+</script>
 </body>
 </html>
