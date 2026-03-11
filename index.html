@@ -2741,11 +2741,7 @@ async function openMemoriesOnlyPage() {
  if (page) page.classList.remove('hidden');
  history.pushState({ memoriesOnlyPage: true }, '', '#memories-only');
  const grid = document.getElementById('memoryGridOnlyPage');
- if (grid) grid.innerHTML = `<div class="memory-loading" style="grid-column:1/-1;"><div class="loading-spinner"></div><p>Loading memories...</p></div>`;
- await loadMemories(true);
- renderMemoriesOnlyPage();
- window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+ if (grid) grid.innerHTML = `<div class="memory-loading" style="grid-column:1/-1;"><div class="
 function closeMemoriesOnlyPage() {
  state.viewingAllMemoriesPage = false;
  const page = document.getElementById('memoriesPageOnly');
