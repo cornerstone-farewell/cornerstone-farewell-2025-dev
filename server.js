@@ -1172,6 +1172,152 @@ app.get('/api/admin/download-all', (req, res) => {
   }
 });
 
+// Get Settings (Admin)
+// Reset duplicate-detection hashes (recomputes SHA256 for all files on disk)
+app.post('/api/admin/reset-hashes', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res); if (!auth) return;
+    if (auth.user.role !== 'superadmin') return res.status(403).json({ success: false, error: 'Super admin only' });
+
+    const db = readDB();
+    let updated = 0;
+    db.memories.forEach(m => {
+      if (m.purgedAt) return;
+      const fp = path.join(uploadsDir, m.file_path);
+      if (fs.existsSync(fp)) {
+        const buf = fs.readFileSync(fp);
+        m.sha256 = crypto.createHash('sha256').update(buf).digest('hex');
+        m.updated_at = nowIso();
+        updated++;
+      }
+    });
+    writeDB(db);
+    audit(auth.user.id, 'reset-hashes', { updated });
+    res.json({ success: true, updated });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// Batch upload by admin (bypasses upload window, auto-approved)
+app.post('/api/admin/upload-batch', upload.array('files', 50), (req, res) => {
+  try {
+    const auth = requireAdmin(req, res); if (!auth) return;
+    if (!hasPerm(auth.user, 'bulk')) return res.status(403).json({ success: false, error: 'Forbidden' });
+
+    const files = req.files || [];
+    if (!files.length) return res.status(400).json({ success: false, error: 'No files provided' });
+
+    const { name = 'Admin Upload', caption = 'Batch upload', type = 'general' } = req.body;
+    const db = readDB();
+    const insertedIds = [];
+    const duplicates = [];
+
+    files.forEach(file => {
+      const filePath = path.join(uploadsDir, file.filename);
+      const buf = fs.readFileSync(filePath);
+      const hash = crypto.createHash('sha256').update(buf).digest('hex');
+      const exists = db.memories.find(m => m.sha256 === hash && !m.purgedAt);
+      if (exists) {
+        duplicates.push({ originalId: exists.id, file: file.originalname });
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        return;
+      }
+      const memory = {
+        id: db.nextId++,
+        student_name: String(name).trim().substring(0, 100),
+        caption: String(caption).trim().substring(0, 500),
+        memory_type: String(type).trim(),
+        file_path: file.filename,
+        file_name: file.originalname,
+        file_type: getFileType(file.mimetype),
+        file_size: file.size,
+        sha256: hash,
+        approved: 1,
+        featured: 0,
+        likes: 0,
+        deletedAt: null,
+        purgedAt: null,
+        created_at: nowIso(),
+        updated_at: nowIso()
+      };
+      db.memories.push(memory);
+      insertedIds.push(memory.id);
+    });
+
+    writeDB(db);
+    audit(auth.user.id, 'batch-upload', { count: insertedIds.length });
+    broadcast('memory:bulk', { type: 'new', count: insertedIds.length });
+    res.json({ success: true, count: insertedIds.length, ids: insertedIds, duplicates });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// Upload intro video
+app.post('/api/admin/upload-intro-video', upload.single('video'), (req, res) => {
+  try {
+    const auth = requireAdmin(req, res); if (!auth) return;
+    if (!hasPerm(auth.user, 'settings')) return res.status(403).json({ success: false, error: 'Forbidden' });
+    const file = req.file;
+    if (!file) return res.status(400).json({ success: false, error: 'No video file provided' });
+
+    const data = readSettings();
+    // Remove old intro video file if it exists
+    if (data.settings?.introVideoPath) {
+      const oldFile = path.join(uploadsDir, path.basename(data.settings.introVideoPath));
+      if (fs.existsSync(oldFile)) fs.unlinkSync(oldFile);
+    }
+    data.settings = data.settings || {};
+    data.settings.introVideoPath = `/uploads/${file.filename}`;
+    writeSettings(data);
+    audit(auth.user.id, 'upload-intro-video', {});
+    broadcast('settings:update', {});
+    res.json({ success: true, introVideoPath: data.settings.introVideoPath });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// Set intro video path via URL (no file upload)
+app.post('/api/admin/settings/intro-video', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res); if (!auth) return;
+    if (!hasPerm(auth.user, 'settings')) return res.status(403).json({ success: false, error: 'Forbidden' });
+    const { introVideoPath } = req.body || {};
+    if (!introVideoPath) return res.status(400).json({ success: false, error: 'introVideoPath required' });
+    const data = readSettings();
+    data.settings = data.settings || {};
+    data.settings.introVideoPath = String(introVideoPath).trim();
+    writeSettings(data);
+    audit(auth.user.id, 'set-intro-video', {});
+    broadcast('settings:update', {});
+    res.json({ success: true, introVideoPath: data.settings.introVideoPath });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// Remove intro video
+app.delete('/api/admin/settings/intro-video', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res); if (!auth) return;
+    if (!hasPerm(auth.user, 'settings')) return res.status(403).json({ success: false, error: 'Forbidden' });
+    const data = readSettings();
+    if (data.settings?.introVideoPath) {
+      const oldFile = path.join(uploadsDir, path.basename(data.settings.introVideoPath));
+      if (fs.existsSync(oldFile)) fs.unlinkSync(oldFile);
+      delete data.settings.introVideoPath;
+      writeSettings(data);
+    }
+    audit(auth.user.id, 'remove-intro-video', {});
+    broadcast('settings:update', {});
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// Export CSV (49)
+app.get('/api/admin/export/csv', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res); if (!auth) return;
+    if (!hasPerm(auth.user, 'settings')) return res.status(403).json({ success: false, error: 'Forbidden' });
+    const data = readSettings();
+    res.json({ success: true, settings: data.settings || {} });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
 // Settings save (includes theme + toggles) (64,57,58)
 app.post('/api/admin/settings', (req, res) => {
   try {
@@ -1352,6 +1498,461 @@ app.get('/api/admin/export/csv', (req, res) => {
   res.setHeader('Content-Disposition', `attachment; filename="memories-export-${new Date().toISOString().slice(0,10)}.csv"`);
   res.send(lines.join('\n'));
 });
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// COMPILATIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+(() => {
+  const compilationsPath = path.join(databaseDir, 'compilations.json');
+  if (!fs.existsSync(compilationsPath)) safeWriteJson(compilationsPath, { compilations: [], nextId: 1 });
+
+  function readComp() { return safeReadJson(compilationsPath, { compilations: [], nextId: 1 }); }
+  function writeComp(d) { safeWriteJson(compilationsPath, d); }
+
+  app.get('/api/compilations', (req, res) => {
+    try {
+      const db = readComp();
+      res.json({ success: true, compilations: db.compilations });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  app.get('/api/compilations/:id', (req, res) => {
+    try {
+      const db = readComp();
+      const comp = db.compilations.find(c => c.id === parseInt(req.params.id, 10));
+      if (!comp) return res.status(404).json({ success: false, error: 'Compilation not found' });
+      res.json({ success: true, compilation: comp });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  app.post('/api/admin/compilations', (req, res) => {
+    try {
+      const auth = requireAdmin(req, res); if (!auth) return;
+      const { title, description, memoryIds, transition, settings: compSettings } = req.body || {};
+      if (!title?.trim()) return res.status(400).json({ success: false, error: 'title required' });
+
+      const db = readComp();
+      const comp = {
+        id: db.nextId++,
+        title: String(title).trim().substring(0, 120),
+        description: String(description || '').trim().substring(0, 500),
+        memoryIds: Array.isArray(memoryIds) ? memoryIds.map(Number) : [],
+        transition: String(transition || 'fade'),
+        settings: compSettings || {},
+        createdAt: nowIso(),
+        updatedAt: nowIso()
+      };
+      db.compilations.push(comp);
+      writeComp(db);
+      audit(auth.user.id, 'create-compilation', { id: comp.id });
+      res.json({ success: true, compilation: comp });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  app.post('/api/admin/compilations/:id', (req, res) => {
+    try {
+      const auth = requireAdmin(req, res); if (!auth) return;
+      const db = readComp();
+      const comp = db.compilations.find(c => c.id === parseInt(req.params.id, 10));
+      if (!comp) return res.status(404).json({ success: false, error: 'Compilation not found' });
+
+      const { title, description, memoryIds, transition, settings: compSettings } = req.body || {};
+      if (typeof title === 'string') comp.title = title.trim().substring(0, 120);
+      if (typeof description === 'string') comp.description = description.trim().substring(0, 500);
+      if (Array.isArray(memoryIds)) comp.memoryIds = memoryIds.map(Number);
+      if (typeof transition === 'string') comp.transition = transition;
+      if (compSettings && typeof compSettings === 'object') comp.settings = compSettings;
+      comp.updatedAt = nowIso();
+      writeComp(db);
+      audit(auth.user.id, 'update-compilation', { id: comp.id });
+      res.json({ success: true, compilation: comp });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  app.delete('/api/admin/compilations/:id', (req, res) => {
+    try {
+      const auth = requireAdmin(req, res); if (!auth) return;
+      const db = readComp();
+      const idx = db.compilations.findIndex(c => c.id === parseInt(req.params.id, 10));
+      if (idx === -1) return res.status(404).json({ success: false, error: 'Compilation not found' });
+      db.compilations.splice(idx, 1);
+      writeComp(db);
+      audit(auth.user.id, 'delete-compilation', { id: req.params.id });
+      res.json({ success: true });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  console.log('✅ Compilations API loaded.');
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DESTINATIONS (Future Map / Globe pins)
+// ═══════════════════════════════════════════════════════════════════════════════
+(() => {
+  const destinationsPath = path.join(databaseDir, 'destinations.json');
+  if (!fs.existsSync(destinationsPath)) safeWriteJson(destinationsPath, { pins: [], submissions: [], nextId: 1 });
+
+  function readDest() { return safeReadJson(destinationsPath, { pins: [], submissions: [], nextId: 1 }); }
+  function writeDest(d) { safeWriteJson(destinationsPath, d); }
+
+  // GET approved pins for the globe
+  app.get('/api/destinations', (req, res) => {
+    try {
+      const db = readDest();
+      const approved = db.pins.filter(p => p.approved && !p.deletedAt);
+      res.json({ success: true, destinations: approved });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // GET all pending submissions (admin alias)
+  app.get('/api/destinations/submissions', (req, res) => {
+    try {
+      const db = readDest();
+      res.json({ success: true, submissions: db.submissions || [] });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // GET pin submissions (same as above — frontend calls both)
+  app.get('/api/destinations/pin-submissions', (req, res) => {
+    try {
+      const db = readDest();
+      const pending = (db.pins || []).filter(p => !p.approved && !p.deletedAt);
+      res.json({ success: true, submissions: pending });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST submit a destination (v1)
+  app.post('/api/destinations/submit', (req, res) => {
+    try {
+      const { name, school, city, country, lat, lng, type, note } = req.body || {};
+      if (!name?.trim() || !city?.trim() || !country?.trim())
+        return res.status(400).json({ success: false, error: 'name, city, and country are required' });
+
+      const db = readDest();
+      const pin = {
+        id: db.nextId++,
+        name: String(name).trim().substring(0, 80),
+        school: String(school || '').trim().substring(0, 120),
+        city: String(city).trim().substring(0, 80),
+        country: String(country).trim().substring(0, 80),
+        lat: parseFloat(lat) || 0,
+        lng: parseFloat(lng) || 0,
+        type: String(type || 'university').trim(),
+        note: String(note || '').trim().substring(0, 300),
+        approved: false,
+        deletedAt: null,
+        createdAt: nowIso()
+      };
+      db.pins.push(pin);
+      writeDest(db);
+      broadcast('destination:new', { id: pin.id });
+      res.json({ success: true, pin });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST submit a destination (v2 — same shape, kept separate for frontend compat)
+  app.post('/api/destinations/submit-v2', (req, res) => {
+    try {
+      const { name, school, city, country, lat, lng, type, note, emoji } = req.body || {};
+      if (!name?.trim() || !city?.trim() || !country?.trim())
+        return res.status(400).json({ success: false, error: 'name, city, and country are required' });
+
+      const db = readDest();
+      const pin = {
+        id: db.nextId++,
+        name: String(name).trim().substring(0, 80),
+        school: String(school || '').trim().substring(0, 120),
+        city: String(city).trim().substring(0, 80),
+        country: String(country).trim().substring(0, 80),
+        lat: parseFloat(lat) || 0,
+        lng: parseFloat(lng) || 0,
+        type: String(type || 'university').trim(),
+        emoji: String(emoji || '📍').substring(0, 4),
+        note: String(note || '').trim().substring(0, 300),
+        approved: false,
+        deletedAt: null,
+        createdAt: nowIso()
+      };
+      db.pins.push(pin);
+      writeDest(db);
+      broadcast('destination:new', { id: pin.id });
+      res.json({ success: true, pin });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST pin-submit (alias used by globe component)
+  app.post('/api/destinations/pin-submit', (req, res) => {
+    try {
+      const { name, school, city, country, lat, lng, type, note, emoji } = req.body || {};
+      if (!name?.trim())
+        return res.status(400).json({ success: false, error: 'name is required' });
+
+      const db = readDest();
+      const pin = {
+        id: db.nextId++,
+        name: String(name).trim().substring(0, 80),
+        school: String(school || '').trim().substring(0, 120),
+        city: String(city || '').trim().substring(0, 80),
+        country: String(country || '').trim().substring(0, 80),
+        lat: parseFloat(lat) || 0,
+        lng: parseFloat(lng) || 0,
+        type: String(type || 'university').trim(),
+        emoji: String(emoji || '📍').substring(0, 4),
+        note: String(note || '').trim().substring(0, 300),
+        approved: false,
+        deletedAt: null,
+        createdAt: nowIso()
+      };
+      db.pins.push(pin);
+      writeDest(db);
+      broadcast('destination:new', { id: pin.id });
+      res.json({ success: true, pin });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST admin: approve / delete / bulk manage destinations
+  app.post('/api/admin/destinations', (req, res) => {
+    try {
+      const auth = requireAdmin(req, res); if (!auth) return;
+      const { action, id, ids } = req.body || {};
+      const db = readDest();
+
+      const targets = ids ? ids.map(Number) : (id ? [Number(id)] : []);
+      let changed = 0;
+      db.pins.forEach(p => {
+        if (!targets.includes(p.id)) return;
+        if (action === 'approve') { p.approved = true; changed++; }
+        else if (action === 'delete') { p.deletedAt = nowIso(); changed++; }
+        else if (action === 'restore') { p.deletedAt = null; changed++; }
+      });
+
+      writeDest(db);
+      audit(auth.user.id, `destinations-${action}`, { changed });
+      broadcast('destinations:update', {});
+      res.json({ success: true, changed });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST admin destinations v2 (same — frontend calls both endpoints)
+  app.post('/api/admin/destinations-v2', (req, res) => {
+    try {
+      const auth = requireAdmin(req, res); if (!auth) return;
+      const { action, id, ids } = req.body || {};
+      const db = readDest();
+
+      const targets = ids ? ids.map(Number) : (id ? [Number(id)] : []);
+      let changed = 0;
+      db.pins.forEach(p => {
+        if (!targets.includes(p.id)) return;
+        if (action === 'approve') { p.approved = true; changed++; }
+        else if (action === 'delete') { p.deletedAt = nowIso(); changed++; }
+        else if (action === 'restore') { p.deletedAt = null; changed++; }
+      });
+
+      writeDest(db);
+      audit(auth.user.id, `destinations-v2-${action}`, { changed });
+      broadcast('destinations:update', {});
+      res.json({ success: true, changed });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  console.log('✅ Destinations API loaded.');
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PAPER NOTES (flying paper airplane notes)
+// ═══════════════════════════════════════════════════════════════════════════════
+(() => {
+  const paperNotesPath = path.join(databaseDir, 'paper_notes.json');
+  if (!fs.existsSync(paperNotesPath)) safeWriteJson(paperNotesPath, { notes: [], nextId: 1 });
+
+  function readNotes() { return safeReadJson(paperNotesPath, { notes: [], nextId: 1 }); }
+  function writeNotes(d) { safeWriteJson(paperNotesPath, d); }
+
+  // GET a random note (only newer than `since` timestamp)
+  app.get('/api/paper-notes/random', (req, res) => {
+    try {
+      const since = req.query.since ? Number(req.query.since) : 0;
+      const db = readNotes();
+      const pool = db.notes.filter(n => !n.deletedAt && new Date(n.createdAt).getTime() > since);
+      if (!pool.length) return res.json({ success: true, note: null });
+      const note = pool[Math.floor(Math.random() * pool.length)];
+      res.json({ success: true, note });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // GET a random memory used as a paper note (pulls from approved memories)
+  app.get('/api/paper-notes/random-memory', (req, res) => {
+    try {
+      // Read memories db — re-require the readDB via the passed-in safeReadJson
+      const memDbPath = path.join(databaseDir, 'memories.json');
+      const memDb = safeReadJson(memDbPath, { memories: [] });
+      const approved = memDb.memories.filter(m => m.approved === 1 && !m.deletedAt && !m.purgedAt);
+      if (!approved.length) return res.json({ success: true, memory: null });
+      const mem = approved[Math.floor(Math.random() * approved.length)];
+      res.json({
+        success: true,
+        memory: {
+          id: mem.id,
+          student_name: mem.student_name,
+          caption: mem.caption,
+          memory_type: mem.memory_type,
+          file_url: `/uploads/${mem.file_path}`,
+          file_type: mem.file_type
+        }
+      });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST create a new paper note
+  app.post('/api/paper-notes', (req, res) => {
+    try {
+      const { name, message, color } = req.body || {};
+      if (!message?.trim()) return res.status(400).json({ success: false, error: 'message is required' });
+
+      const db = readNotes();
+      const note = {
+        id: db.nextId++,
+        name: String(name || 'Anonymous').trim().substring(0, 60),
+        message: String(message).trim().substring(0, 300),
+        color: String(color || '#ffffff').substring(0, 20),
+        deletedAt: null,
+        createdAt: nowIso()
+      };
+      db.notes.push(note);
+      // keep bounded
+      if (db.notes.length > 2000) db.notes = db.notes.slice(-2000);
+      writeNotes(db);
+      broadcast('paper:note', { id: note.id, name: note.name, message: note.message, color: note.color });
+      res.json({ success: true, note });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST convert a memory into a paper note
+  app.post('/api/paper-notes/from-memory', (req, res) => {
+    try {
+      const { memoryId, color } = req.body || {};
+      if (!memoryId) return res.status(400).json({ success: false, error: 'memoryId is required' });
+
+      const memDbPath = path.join(databaseDir, 'memories.json');
+      const memDb = safeReadJson(memDbPath, { memories: [] });
+      const mem = memDb.memories.find(m => m.id === Number(memoryId) && m.approved === 1 && !m.deletedAt && !m.purgedAt);
+      if (!mem) return res.status(404).json({ success: false, error: 'Memory not found' });
+
+      const db = readNotes();
+      const note = {
+        id: db.nextId++,
+        name: mem.student_name,
+        message: mem.caption,
+        color: String(color || '#fffde7').substring(0, 20),
+        memoryId: mem.id,
+        file_url: `/uploads/${mem.file_path}`,
+        file_type: mem.file_type,
+        deletedAt: null,
+        createdAt: nowIso()
+      };
+      db.notes.push(note);
+      if (db.notes.length > 2000) db.notes = db.notes.slice(-2000);
+      writeNotes(db);
+      broadcast('paper:note', { id: note.id, name: note.name, message: note.message, color: note.color });
+      res.json({ success: true, note });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  console.log('✅ Paper Notes API loaded.');
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TEACHER AUDIO MESSAGES
+// ═══════════════════════════════════════════════════════════════════════════════
+(() => {
+  const teacherAudioPath = path.join(databaseDir, 'teacher_audio.json');
+  if (!fs.existsSync(teacherAudioPath)) safeWriteJson(teacherAudioPath, { tracks: [], nextId: 1 });
+
+  function readAudio() { return safeReadJson(teacherAudioPath, { tracks: [], nextId: 1 }); }
+  function writeAudio(d) { safeWriteJson(teacherAudioPath, d); }
+
+  // GET all teacher audio tracks (public)
+  app.get('/api/teacher-audio', (req, res) => {
+    try {
+      const db = readAudio();
+      res.json({ success: true, tracks: db.tracks.filter(t => !t.deletedAt) });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST upload a new teacher audio track (admin only)
+  app.post('/api/admin/teacher-audio', upload.single('audio'), (req, res) => {
+    try {
+      const auth = requireAdmin(req, res); if (!auth) return;
+      const file = req.file;
+      const { teacherName, subject, message } = req.body || {};
+
+      if (!teacherName?.trim()) return res.status(400).json({ success: false, error: 'teacherName is required' });
+
+      const db = readAudio();
+      const track = {
+        id: db.nextId++,
+        teacherName: String(teacherName).trim().substring(0, 80),
+        subject: String(subject || '').trim().substring(0, 80),
+        message: String(message || '').trim().substring(0, 500),
+        file_path: file ? file.filename : null,
+        file_url: file ? `/uploads/${file.filename}` : null,
+        deletedAt: null,
+        createdAt: nowIso()
+      };
+      db.tracks.push(track);
+      writeAudio(db);
+      audit(auth.user.id, 'add-teacher-audio', { id: track.id });
+      broadcast('teacher-audio:new', { id: track.id });
+      res.json({ success: true, track });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  console.log('✅ Teacher Audio API loaded.');
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STUDENT DIRECTORY
+// ═══════════════════════════════════════════════════════════════════════════════
+(() => {
+  const studentDirPath = path.join(databaseDir, 'student_directory.json');
+  if (!fs.existsSync(studentDirPath)) safeWriteJson(studentDirPath, { students: [] });
+
+  function readDir() { return safeReadJson(studentDirPath, { students: [] }); }
+  function writeDir(d) { safeWriteJson(studentDirPath, d); }
+
+  // GET student directory (public)
+  app.get('/api/student-directory', (req, res) => {
+    try {
+      const db = readDir();
+      res.json({ success: true, students: db.students });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  // POST update student directory (admin only — accepts full array replacement)
+  app.post('/api/admin/student-directory', (req, res) => {
+    try {
+      const auth = requireAdmin(req, res); if (!auth) return;
+      if (!hasPerm(auth.user, 'settings')) return res.status(403).json({ success: false, error: 'Forbidden' });
+
+      const { students } = req.body || {};
+      if (!Array.isArray(students)) return res.status(400).json({ success: false, error: 'students array required' });
+
+      writeDir({ students: students.map(s => ({
+        name: String(s.name || '').trim().substring(0, 80),
+        section: String(s.section || '').trim().substring(0, 40),
+        photo: String(s.photo || '').trim(),
+        quote: String(s.quote || '').trim().substring(0, 200),
+        destination: String(s.destination || '').trim().substring(0, 120)
+      }))});
+
+      audit(auth.user.id, 'update-student-directory', { count: students.length });
+      res.json({ success: true });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
+  console.log('✅ Student Directory API loaded.');
+})();
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // SERVE FRONTEND
