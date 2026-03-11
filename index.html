@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6927,8 +6928,7 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
   }
  }catch(_){}
  }
- let distanceLeafletMapV7 = null;
- let distanceLeafletMarkerV7 = null;
+ 
  function setLeafletPickedPointV7(lat, lng, label){
   const latEl = document.getElementById('distanceLatV7');
   const lngEl = document.getElementById('distanceLngV7');
@@ -7586,4 +7586,65 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
 })();
 </script>
 </body>
+</html>
+
+
+<!-- ADVICE TO JUNIORS SECTION -->
+<section id="adviceToJuniors" style="background: var(--navy-medium); padding: 80px 0;">
+  <div class="container">
+    <h2 style="text-align: center; margin-bottom: 3rem; color: var(--primary-gold);">Advice to Juniors</h2>
+    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">Words of wisdom from your seniors</p>
+    <div style="max-width: 600px; margin: 0 auto 3rem; background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 15px; border: 1px solid var(--glass-border);"><h3 style="color: var(--primary-gold); margin-bottom: 1.5rem;">Share Your Advice</h3><div style="margin-bottom: 1.5rem;"><label style="display: block; margin-bottom: 0.5rem; color: var(--primary-gold); font-weight: 600;">Your Name</label><input type="text" id="adviceName" placeholder="Enter your name" style="width: 100%; padding: 1rem; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.05); color: var(--text-light); border-radius: 10px; font-size: 1rem;"></div><div style="margin-bottom: 1.5rem;"><label style="display: block; margin-bottom: 0.5rem; color: var(--primary-gold); font-weight: 600;">Your Advice</label><textarea id="adviceText" placeholder="Write your advice for juniors..." style="width: 100%; padding: 1rem; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.05); color: var(--text-light); border-radius: 10px; font-size: 1rem; min-height: 120px; resize: vertical;"></textarea></div><button onclick="submitAdvice()" style="width: 100%; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-light) 50%, var(--primary-gold) 100%); color: var(--navy-dark); border: none; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Submit Advice</button></div><div id="adviceGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; margin-top: 2rem;"></div>
+  </div>
+</section>
+
+<script>
+  function submitAdvice() { 
+    const name = document.getElementById('adviceName').value.trim(); 
+    const text = document.getElementById('adviceText').value.trim(); 
+    if (!name || !text) { 
+      alert('Please fill in all fields'); 
+      return; 
+    } 
+    fetch('/api/advice', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, text })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('adviceName').value = '';
+        document.getElementById('adviceText').value = '';
+        loadAdvices();
+        alert('Advice submitted successfully!');
+      } else {
+        alert('Error: ' + (data.error || 'Failed to submit'));
+      }
+    })
+    .catch(e => alert('Error: ' + e.message));
+  }
+  
+  function loadAdvices() { 
+    fetch('/api/advice')
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        const advices = data.advices || [];
+        const grid = document.getElementById('adviceGrid'); 
+        grid.innerHTML = ''; 
+        advices.reverse().forEach(advice => { 
+          const initials = advice.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2); 
+          const card = document.createElement('div'); 
+          card.style.cssText = 'background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-left: 4px solid var(--primary-gold); border-radius: 15px; padding: 2rem; transition: all 0.3s ease; backdrop-filter: blur(10px);'; 
+          card.innerHTML = `<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;"><div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-light)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold;">${initials}</div><div><div style="font-weight: bold; color: var(--primary-gold); font-size: 1.1rem;">${advice.name}</div><div style="font-size: 0.85rem; opacity: 0.7;">${advice.date}</div></div></div><div style="line-height: 1.8; font-size: 1rem; margin-top: 1rem; color: var(--text-light);">"${advice.text}"</div>`; 
+          grid.appendChild(card); 
+        }); 
+      }
+    })
+    .catch(e => console.error('Error loading advices:', e));
+  }
+  
+  loadAdvices();
+</script>
 </html>
