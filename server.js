@@ -84,7 +84,7 @@ const commentsPath = path.join(databaseDir, 'comments.json');
 const reactionsPath = path.join(databaseDir, 'reactions.json');
 const auditPath = path.join(databaseDir, 'audit.json');
 const advicePath = path.join(databaseDir, 'advice.json');
-
+const funPath = path.join(databaseDir, 'fun.json');
 function initDatabase() {
   if (!fs.existsSync(dbPath)) {
     fs.writeFileSync(dbPath, JSON.stringify({ memories: [], nextId: 1 }, null, 2));
@@ -110,9 +110,20 @@ function initDatabase() {
     fs.writeFileSync(auditPath, JSON.stringify({ events: [], nextId: 1 }, null, 2));
     console.log('💾 Created audit database');
   }
-  if (!fs.existsSync(advicePath)) {
+if (!fs.existsSync(advicePath)) {
     fs.writeFileSync(advicePath, JSON.stringify({ advices: [], nextId: 1 }, null, 2));
     console.log('💾 Created advice database');
+  }
+  if (!fs.existsSync(funPath)) {
+    fs.writeFileSync(funPath, JSON.stringify({
+      gratitude: [], gratitudeNextId: 1,
+      wishes: [], wishesNextId: 1,
+      dedications: [], dedicationsNextId: 1,
+      capsules: [], capsulesNextId: 1,
+      mood: {},
+      funSettings: {}
+    }, null, 2));
+    console.log('💾 Created fun features database');
   }
 
   if (!fs.existsSync(adminPath)) {
@@ -174,6 +185,8 @@ function readAudit() { return safeReadJson(auditPath, { events: [], nextId: 1 })
 function writeAudit(data) { safeWriteJson(auditPath, data); }
 function readAdvice() { return safeReadJson(advicePath, { advices: [], nextId: 1 }); }
 function writeAdvice(data) { safeWriteJson(advicePath, data); }
+function readFun() { return safeReadJson(funPath, { gratitude:[], gratitudeNextId:1, wishes:[], wishesNextId:1, dedications:[], dedicationsNextId:1, capsules:[], capsulesNextId:1, mood:{}, funSettings:{} }); }
+function writeFun(data) { safeWriteJson(funPath, data); }
 
 initDatabase();
 console.log(`💾 Database initialized: ${dbPath}`);
@@ -360,6 +373,257 @@ app.delete('/api/admin/advice/:id', (req, res) => {
     console.error('Delete advice error:', error);
     res.status(500).json({ success: false, error: error.message });
   }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// API ENDPOINTS - FUN FEATURES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// --- Fun Feature Settings (toggle on/off) ---
+app.get('/api/fun/settings', (req, res) => {
+  try {
+    const db = readFun();
+    res.json({ success: true, settings: db.funSettings || {} });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.post('/api/fun/settings', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res);
+    if (!auth) return;
+    const db = readFun();
+    db.funSettings = { ...(db.funSettings || {}), ...(req.body.settings || {}) };
+    writeFun(db);
+    broadcast('fun:settings', { settings: db.funSettings });
+    res.json({ success: true, settings: db.funSettings });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// --- Gratitude Wall ---
+app.get('/api/fun/gratitude', (req, res) => {
+  try {
+    const db = readFun();
+    res.json({ success: true, notes: db.gratitude || [], count: (db.gratitude || []).length });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.post('/api/fun/gratitude', (req, res) => {
+  try {
+    const { from, to, message } = req.body || {};
+    if (!message || !String(message).trim()) return res.status(400).json({ success: false, error: 'Message is required' });
+    const db = readFun();
+    const note = { id: db.gratitudeNextId++, from: String(from||'Anonymous').trim().substring(0,80), to: String(to||'Everyone').trim().substring(0,80), message: String(message).trim().substring(0,400), created_at: nowIso() };
+    db.gratitude.push(note);
+    writeFun(db);
+    broadcast('fun:gratitude:new', { note });
+    res.json({ success: true, note });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.delete('/api/fun/gratitude/:id', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res);
+    if (!auth) return;
+    const db = readFun();
+    const id = parseInt(req.params.id, 10);
+    db.gratitude = db.gratitude.filter(n => n.id !== id);
+    writeFun(db);
+    audit(auth.user.id, 'delete_gratitude', { id });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// --- Wish Jar ---
+app.get('/api/fun/wishes', (req, res) => {
+  try {
+    const db = readFun();
+    res.json({ success: true, wishes: db.wishes || [], count: (db.wishes || []).length });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.post('/api/fun/wishes', (req, res) => {
+  try {
+    const { name, category, text } = req.body || {};
+    if (!text || !String(text).trim()) return res.status(400).json({ success: false, error: 'Text is required' });
+    const db = readFun();
+    const wish = { id: db.wishesNextId++, name: String(name||'Anonymous').trim().substring(0,80), category: String(category||'hope').trim(), text: String(text).trim().substring(0,320), created_at: nowIso() };
+    db.wishes.push(wish);
+    writeFun(db);
+    broadcast('fun:wish:new', { wish });
+    res.json({ success: true, wish });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.delete('/api/fun/wishes/:id', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res);
+    if (!auth) return;
+    const db = readFun();
+    const id = parseInt(req.params.id, 10);
+    db.wishes = db.wishes.filter(w => w.id !== id);
+    writeFun(db);
+    audit(auth.user.id, 'delete_wish', { id });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// --- Song Dedications ---
+app.get('/api/fun/dedications', (req, res) => {
+  try {
+    const db = readFun();
+    res.json({ success: true, dedications: db.dedications || [], count: (db.dedications || []).length });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.post('/api/fun/dedications', (req, res) => {
+  try {
+    const { from, to, song, message } = req.body || {};
+    if (!song || !String(song).trim()) return res.status(400).json({ success: false, error: 'Song is required' });
+    const db = readFun();
+    const ded = { id: db.dedicationsNextId++, from: String(from||'Anonymous').trim().substring(0,80), to: String(to||'Everyone').trim().substring(0,80), song: String(song).trim().substring(0,120), message: String(message||'').trim().substring(0,300), created_at: nowIso() };
+    db.dedications.push(ded);
+    writeFun(db);
+    broadcast('fun:dedication:new', { ded });
+    res.json({ success: true, ded });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.delete('/api/fun/dedications/:id', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res);
+    if (!auth) return;
+    const db = readFun();
+    const id = parseInt(req.params.id, 10);
+    db.dedications = db.dedications.filter(d => d.id !== id);
+    writeFun(db);
+    audit(auth.user.id, 'delete_dedication', { id });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// --- Mood Board ---
+app.get('/api/fun/mood', (req, res) => {
+  try {
+    const db = readFun();
+    res.json({ success: true, votes: db.mood || {} });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.post('/api/fun/mood', (req, res) => {
+  try {
+    const { mood } = req.body || {};
+    if (!mood) return res.status(400).json({ success: false, error: 'Mood is required' });
+    const db = readFun();
+    db.mood = db.mood || {};
+    db.mood[mood] = (db.mood[mood] || 0) + 1;
+    writeFun(db);
+    broadcast('fun:mood:vote', { mood, votes: db.mood });
+    res.json({ success: true, votes: db.mood });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.delete('/api/fun/mood', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res);
+    if (!auth) return;
+    const db = readFun();
+    db.mood = {};
+    writeFun(db);
+    audit(auth.user.id, 'reset_mood', {});
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// --- Time Capsules ---
+app.get('/api/fun/capsules', (req, res) => {
+  try {
+    const db = readFun();
+    res.json({ success: true, capsules: db.capsules || [], count: (db.capsules || []).length });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.post('/api/fun/capsules', (req, res) => {
+  try {
+    const { name, revealDate, letter } = req.body || {};
+    if (!letter || !String(letter).trim()) return res.status(400).json({ success: false, error: 'Letter is required' });
+    if (!revealDate) return res.status(400).json({ success: false, error: 'Reveal date is required' });
+    const db = readFun();
+    const capsule = { id: db.capsulesNextId++, name: String(name||'Anonymous').trim().substring(0,80), revealDate: String(revealDate), letter: String(letter).trim().substring(0,2000), created_at: nowIso() };
+    db.capsules.push(capsule);
+    writeFun(db);
+    broadcast('fun:capsule:new', { capsule });
+    res.json({ success: true, capsule });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.delete('/api/fun/capsules/:id', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res);
+    if (!auth) return;
+    const db = readFun();
+    const id = parseInt(req.params.id, 10);
+    db.capsules = db.capsules.filter(c => c.id !== id);
+    writeFun(db);
+    audit(auth.user.id, 'delete_capsule', { id });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// --- Senior Advice (re-routed from /api/fun/advice) ---
+app.get('/api/fun/advice', (req, res) => {
+  try {
+    const db = readAdvice();
+    res.json({ success: true, advices: db.advices || [], count: (db.advices || []).length });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.post('/api/fun/advice', (req, res) => {
+  try {
+    const { name, for: target, text } = req.body || {};
+    if (!name || !String(name).trim()) return res.status(400).json({ success: false, error: 'Name is required' });
+    if (!text || !String(text).trim()) return res.status(400).json({ success: false, error: 'Advice text is required' });
+    const db = readAdvice();
+    const advice = { id: db.nextId++, name: String(name).trim().substring(0,100), for: String(target||'Juniors').trim().substring(0,100), text: String(text).trim().substring(0,1000), created_at: nowIso() };
+    db.advices.push(advice);
+    writeAdvice(db);
+    broadcast('fun:advice:new', { advice });
+    res.json({ success: true, advice });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.delete('/api/fun/advice/:id', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res);
+    if (!auth) return;
+    const id = parseInt(req.params.id, 10);
+    const db = readAdvice();
+    db.advices = db.advices.filter(a => a.id !== id);
+    writeAdvice(db);
+    audit(auth.user.id, 'delete_advice_fun', { id });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// --- Admin: Get all fun feature stats (counts + entries) ---
+app.get('/api/admin/fun/stats', (req, res) => {
+  try {
+    const auth = requireAdmin(req, res);
+    if (!auth) return;
+    const fun = readFun();
+    const advice = readAdvice();
+    const moodTotal = Object.values(fun.mood || {}).reduce((a, b) => a + b, 0);
+    res.json({
+      success: true,
+      stats: {
+        gratitude: { count: (fun.gratitude||[]).length, entries: fun.gratitude||[] },
+        wishes: { count: (fun.wishes||[]).length, entries: fun.wishes||[] },
+        dedications: { count: (fun.dedications||[]).length, entries: fun.dedications||[] },
+        capsules: { count: (fun.capsules||[]).length, entries: fun.capsules||[] },
+        mood: { votes: fun.mood||{}, total: moodTotal },
+        advice: { count: (advice.advices||[]).length, entries: advice.advices||[] }
+      }
+    });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════
