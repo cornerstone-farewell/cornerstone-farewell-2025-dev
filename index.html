@@ -1730,12 +1730,184 @@ textarea.ff-input{resize:vertical;min-height:90px}
     const maxC=entries[0][1];
     g.innerHTML=entries.map(([name,count])=>{const ini=name.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();return`<div class="mosaic-tile"><div class="mosaic-avatar">${ffEsc(ini)}</div><div class="mosaic-name" title="${ffAttr(name)}">${ffEsc(name)}</div><div class="mosaic-count">${count} ${count===1?'memory':'memories'}</div><div class="mosaic-bar" style="width:${Math.round(count/maxC*100)}%"></div></div>`}).join('')
   }
-  function buildFunFeaturesPanel(){
+ async function buildFunFeaturesPanel(){
     const panel=document.getElementById('panelFunFeatures');if(!panel)return;
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
     const features=[{key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Students post sticky note thank-you messages'},{key:'superlatives',name:'🏆 Class Superlatives',desc:'Students nominate and vote for classmates'},{key:'wishJar',name:'🫙 Wish Jar',desc:'Students drop dreams, hopes and advice'},{key:'songDedications',name:'🎵 Song Dedications',desc:'Students dedicate songs to friends'},{key:'moodBoard',name:'🌈 Mood Board',desc:'Students vote on how they feel about Farewell'},{key:'timeCapsule',name:'📮 Time Capsule',desc:'Students write sealed letters to their future selves'},{key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Auto leaderboard of top memory contributors'}];
-    panel.innerHTML=`<div class="stat-card" style="text-align:left;"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;"><h3 style="font-family:var(--font-display);color:var(--primary-gold);font-size:1.3rem;">Fun Features</h3><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button><button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button><button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button></div></div><p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section on or off for students.</p>${features.map(f=>`<div class="ff-feature-row"><div class="ff-feature-info"><div class="ff-feature-name">${f.name}</div><div class="ff-feature-desc">${f.desc}</div></div><label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label></div>`).join('')}</div>`;
+
+    // Render shell immediately so toggles appear fast
+    panel.innerHTML=`
+    <div class="stat-card" style="text-align:left;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+        <h3 style="font-family:var(--font-display);color:var(--primary-gold);font-size:1.3rem;">Fun Features</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="admin-btn admin-btn-primary" type="button" onclick="saveFunFeatureToggles()">Save Changes</button>
+          <button class="admin-btn admin-btn-secondary" type="button" onclick="enableAllFunFeatures()">Enable All</button>
+          <button class="admin-btn admin-btn-secondary" type="button" onclick="disableAllFunFeatures()">Disable All</button>
+          <button class="admin-btn admin-btn-secondary" type="button" onclick="buildFunFeaturesPanel()">🔄 Refresh</button>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;">Toggle each section on or off for students. Click a section to view submissions.</p>
+      ${features.map(f=>`
+        <div class="ff-feature-row" style="flex-direction:column;align-items:stretch;gap:0;padding:0;border-radius:14px;overflow:hidden;margin-bottom:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;">
+            <div class="ff-feature-info" style="flex:1;">
+              <div class="ff-feature-name">${f.name} <span id="ffCount_${f.key}" style="font-size:0.78rem;color:var(--primary-gold);font-weight:600;margin-left:8px;background:rgba(212,175,55,0.15);padding:2px 10px;border-radius:20px;">...</span></div>
+              <div class="ff-feature-desc">${f.desc}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <button type="button" onclick="toggleFunSection('${f.key}')" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:0.8rem;" id="ffExpandBtn_${f.key}">▼ View</button>
+              <label class="ff-toggle"><input type="checkbox" id="ffToggle_${f.key}" ${t[f.key]?'checked':''} onchange="previewFunFeatureToggle('${f.key}',this.checked)"/><span class="ff-toggle-slider"></span></label>
+            </div>
+          </div>
+          <div id="ffEntries_${f.key}" style="display:none;padding:0 18px 16px;border-top:1px solid rgba(255,255,255,0.06);margin-top:2px;">
+            <div style="color:rgba(255,255,255,0.35);font-size:0.85rem;padding:12px 0;">Loading...</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+
+    // Load stats from backend
+    try {
+      const res = await fetch(ffApi('/api/admin/fun/stats'), { headers: { 'Authorization': 'Bearer ' + (window.state?.adminToken||'') } });
+      const data = await res.json();
+      if (!data.success) return;
+      const s = data.stats;
+      window.__FF_STATS__ = s;
+
+      // Update count pills
+      const countMap = {
+        gratitudeWall: s.gratitude?.count ?? 0,
+        wishJar: s.wishes?.count ?? 0,
+        songDedications: s.dedications?.count ?? 0,
+        timeCapsule: s.capsules?.count ?? 0,
+        moodBoard: s.mood?.total ?? 0,
+        seniorAdvice: s.advice?.count ?? 0,
+        superlatives: '—',
+        memoryMosaic: '—'
+      };
+      Object.entries(countMap).forEach(([key, count]) => {
+        const el = document.getElementById('ffCount_' + key);
+        if (el) el.textContent = typeof count === 'number' ? count + ' posted' : count;
+      });
+    } catch(e) {
+      console.warn('Could not load fun stats', e);
+      document.querySelectorAll('[id^="ffCount_"]').forEach(el => el.textContent = 'unavailable');
+    }
   }
+
+  window.toggleFunSection = function(key) {
+    const box = document.getElementById('ffEntries_' + key);
+    const btn = document.getElementById('ffExpandBtn_' + key);
+    if (!box) return;
+    const isOpen = box.style.display !== 'none';
+    if (isOpen) {
+      box.style.display = 'none';
+      if (btn) btn.textContent = '▼ View';
+    } else {
+      box.style.display = 'block';
+      if (btn) btn.textContent = '▲ Hide';
+      renderFunEntries(key, box);
+    }
+  };
+
+  window.renderFunEntries = function(key, box) {
+    const s = window.__FF_STATS__;
+    if (!s) { box.innerHTML = `<div style="color:rgba(255,255,255,0.4);font-size:0.85rem;padding:10px 0;">No data loaded yet. Click 🔄 Refresh first.</div>`; return; }
+
+    const del = (endpoint, id, key) => `<button onclick="deleteFunEntry('${endpoint}',${id},'${key}')" style="background:rgba(244,67,54,0.15);border:1px solid rgba(244,67,54,0.3);color:#f44336;border-radius:6px;padding:3px 10px;cursor:pointer;font-size:0.75rem;flex-shrink:0;">🗑 Delete</button>`;
+
+    const rowStyle = `display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);`;
+    const metaStyle = `font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:3px;`;
+    const emptyHtml = `<div style="color:rgba(255,255,255,0.3);font-size:0.85rem;padding:12px 0;">No submissions yet.</div>`;
+
+    let html = '';
+
+    if (key === 'gratitudeWall') {
+      const entries = s.gratitude?.entries || [];
+      if (!entries.length) { box.innerHTML = emptyHtml; return; }
+      html = entries.map(n => `<div style="${rowStyle}"><div style="flex:1;"><div style="font-size:0.9rem;color:#fff;">💛 <strong>${ffEsc(n.from)}</strong> → <strong>${ffEsc(n.to)}</strong></div><div style="font-size:0.88rem;color:rgba(255,255,255,0.75);margin-top:4px;">${ffEsc(n.message)}</div><div style="${metaStyle}">${ffAgo(n.created_at)}</div></div>${del('/api/fun/gratitude',n.id,'gratitudeWall')}</div>`).join('');
+    }
+    else if (key === 'wishJar') {
+      const entries = s.wishes?.entries || [];
+      if (!entries.length) { box.innerHTML = emptyHtml; return; }
+      html = entries.map(w => `<div style="${rowStyle}"><div style="flex:1;"><div style="font-size:0.9rem;color:#fff;">✨ <strong>${ffEsc(w.name)}</strong> <span style="color:var(--primary-gold);font-size:0.78rem;">[${ffEsc(w.category)}]</span></div><div style="font-size:0.88rem;color:rgba(255,255,255,0.75);margin-top:4px;">${ffEsc(w.text)}</div><div style="${metaStyle}">${ffAgo(w.created_at)}</div></div>${del('/api/fun/wishes',w.id,'wishJar')}</div>`).join('');
+    }
+    else if (key === 'songDedications') {
+      const entries = s.dedications?.entries || [];
+      if (!entries.length) { box.innerHTML = emptyHtml; return; }
+      html = entries.map(d => `<div style="${rowStyle}"><div style="flex:1;"><div style="font-size:0.9rem;color:#fff;">🎵 <strong>${ffEsc(d.song)}</strong></div><div style="${metaStyle}">From <strong>${ffEsc(d.from)}</strong> → To <strong>${ffEsc(d.to)}</strong>${d.message ? ' · "'+ffEsc(d.message)+'"' : ''} · ${ffAgo(d.created_at)}</div></div>${del('/api/fun/dedications',d.id,'songDedications')}</div>`).join('');
+    }
+    else if (key === 'timeCapsule') {
+      const entries = s.capsules?.entries || [];
+      if (!entries.length) { box.innerHTML = emptyHtml; return; }
+      html = entries.map(c => `<div style="${rowStyle}"><div style="flex:1;"><div style="font-size:0.9rem;color:#fff;">📮 <strong>${ffEsc(c.name)}</strong></div><div style="${metaStyle}">Opens: ${new Date(c.revealDate||c.reveal_date).toLocaleDateString('en-IN',{year:'numeric',month:'long',day:'numeric'})} · Sealed ${ffAgo(c.created_at)}</div></div>${del('/api/fun/capsules',c.id,'timeCapsule')}</div>`).join('');
+    }
+    else if (key === 'seniorAdvice') {
+      const entries = s.advice?.entries || [];
+      if (!entries.length) { box.innerHTML = emptyHtml; return; }
+      html = entries.map(a => `<div style="${rowStyle}"><div style="flex:1;"><div style="font-size:0.9rem;color:#fff;">💡 <strong>${ffEsc(a.name)}</strong>${a.for ? ` → <span style="color:var(--primary-gold);">${ffEsc(a.for)}</span>` : ''}</div><div style="font-size:0.88rem;color:rgba(255,255,255,0.75);margin-top:4px;">${ffEsc(a.text)}</div><div style="${metaStyle}">${ffAgo(a.created_at||a.createdAt)}</div></div>${del('/api/fun/advice',a.id,'seniorAdvice')}</div>`).join('');
+    }
+    else if (key === 'moodBoard') {
+      const votes = s.mood?.votes || {};
+      const total = s.mood?.total || 0;
+      if (!total) { box.innerHTML = emptyHtml; return; }
+      const moodEmojis = { excited:'🤩', happy:'😊', nervous:'😬', nostalgic:'🥹', sad:'😢', grateful:'🙏' };
+      html = `<div style="display:grid;gap:8px;padding:8px 0;">` +
+        Object.entries(votes).map(([mood, count]) => {
+          const pct = total ? Math.round(count/total*100) : 0;
+          return `<div style="display:grid;grid-template-columns:90px 1fr 60px;align-items:center;gap:10px;">
+            <span style="font-size:0.88rem;">${moodEmojis[mood]||'😶'} ${mood}</span>
+            <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:var(--gradient-gold);border-radius:4px;transition:width 0.6s;"></div></div>
+            <span style="font-size:0.82rem;color:var(--primary-gold);text-align:right;">${count} (${pct}%)</span>
+          </div>`;
+        }).join('') +
+        `</div><div style="margin-top:10px;"><button onclick="resetMoodBoard()" style="background:rgba(244,67,54,0.15);border:1px solid rgba(244,67,54,0.3);color:#f44336;border-radius:8px;padding:6px 16px;cursor:pointer;font-size:0.82rem;">🗑 Reset All Votes</button></div>`;
+    }
+    else if (key === 'superlatives' || key === 'memoryMosaic') {
+      box.innerHTML = `<div style="color:rgba(255,255,255,0.4);font-size:0.85rem;padding:10px 0;">Live data for this feature is managed on the main site. No server-side entries to delete.</div>`;
+      return;
+    }
+
+    box.innerHTML = `<div style="max-height:320px;overflow-y:auto;padding-right:4px;">${html}</div>`;
+  };
+
+  window.deleteFunEntry = async function(endpoint, id, key) {
+    if (!confirm('Delete this entry?')) return;
+    try {
+      const res = await fetch(ffApi(endpoint + '/' + id), { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + (window.state?.adminToken||'') } });
+      const d = await res.json();
+      if (d.success) {
+        ffNotify('success', 'Deleted', 'Entry removed.');
+        // Refresh stats and re-render the open section
+        const statsRes = await fetch(ffApi('/api/admin/fun/stats'), { headers: { 'Authorization': 'Bearer ' + (window.state?.adminToken||'') } });
+        const statsData = await statsRes.json();
+        if (statsData.success) {
+          window.__FF_STATS__ = statsData.stats;
+          const box = document.getElementById('ffEntries_' + key);
+          if (box && box.style.display !== 'none') renderFunEntries(key, box);
+          // Update count pill
+          const countMap = { gratitudeWall: statsData.stats.gratitude?.count, wishJar: statsData.stats.wishes?.count, songDedications: statsData.stats.dedications?.count, timeCapsule: statsData.stats.capsules?.count, moodBoard: statsData.stats.mood?.total, seniorAdvice: statsData.stats.advice?.count };
+          const el = document.getElementById('ffCount_' + key);
+          if (el && countMap[key] !== undefined) el.textContent = countMap[key] + ' posted';
+        }
+      } else {
+        ffNotify('error', 'Failed', d.error || 'Could not delete.');
+      }
+    } catch(e) { ffNotify('error', 'Error', e.message); }
+  };
+
+  window.resetMoodBoard = async function() {
+    if (!confirm('Reset ALL mood board votes? This cannot be undone.')) return;
+    try {
+      const res = await fetch(ffApi('/api/fun/mood'), { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + (window.state?.adminToken||'') } });
+      const d = await res.json();
+      if (d.success) {
+        ffNotify('success', 'Reset', 'Mood board votes cleared.');
+        buildFunFeaturesPanel();
+      } else ffNotify('error', 'Failed', d.error);
+    } catch(e) { ffNotify('error', 'Error', e.message); }
+  };
   window.previewFunFeatureToggle=function(key,val){const t=window.__FF_TOGGLES__||{};t[key]=val;window.__FF_TOGGLES__=t;applyFunFeatureToggles(t)};
   window.saveFunFeatureToggles=async function(){
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
