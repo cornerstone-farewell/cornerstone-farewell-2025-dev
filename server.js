@@ -1652,12 +1652,8 @@ app.use((err, req, res, next) => {
     res.send(lines.join('\n'));
   });
 
-  console.log('✅ Fun Features API loaded.');
+ console.log('✅ Fun Features API loaded.');
 })();
-
-(() => {
-  if (global.__FUN_FEATURES_PATCH__) return;
-  global.__FUN_FEATURES_PATCH__ = true;
 
   const funDir = path.join(databaseDir, 'fun');
   if (!fs.existsSync(funDir)) fs.mkdirSync(funDir, { recursive: true });
