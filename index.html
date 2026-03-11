@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -710,6 +711,7 @@
       <li><a href="#countdown">Countdown</a></li>
       <li><a href="#memories">Memories</a></li>
       <li><a href="#teachers">Teachers</a></li>
+ <li><a href="#adviceWall">Senior Advice</a></li>
       <li><a href="#timeline">Journey</a></li>
       <li><a href="#compilations">Compilations</a></li>
         <li><a href="#upload" class="nav-cta">Upload Memory</a></li>
@@ -1182,7 +1184,8 @@
         </div>
       </div>
 
-      <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+      <div class="memories-preview-actions"><button class="btn btn-secondary" id="viewAllMemoriesBtn" type="button">View All Memories</button></div>
+ <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
         <button class="btn btn-secondary load-more-btn" id="loadMoreBtn" type="button">Load More</button>
       </div>
     </div>
@@ -1335,11 +1338,7 @@ textarea.ff-input{resize:vertical;min-height:90px}
 .ff-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .ff-empty{text-align:center;color:rgba(255,255,255,.4);padding:40px;font-size:1rem}
 .ff-section-hidden{display:none!important}
-#moodBoardSection,
-#timeCapsuleSection,
-#memoryMosaicSection {
-  display: none !important;
-}
+
 #superlativesSection{background:var(--navy-medium)}
 .superlatives-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
 .superlative-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px 20px;transition:transform .3s,border-color .3s,box-shadow .3s}
@@ -1576,7 +1575,7 @@ textarea.ff-input{resize:vertical;min-height:90px}
 (function(){
   if(window.__FF_LOADED__)return;
   window.__FF_LOADED__=true;
-  const FF_DEFAULTS={gratitudeWall:true,superlatives:true,wishJar:true,songDedications:true,moodBoard:true,timeCapsule:true,memoryMosaic:false};
+  const FF_DEFAULTS={gratitudeWall:true,superlatives:true,wishJar:true,songDedications:true,moodBoard:true,timeCapsule:true,seniorAdvice:true,memoryMosaic:false};
   const STICKY_COLORS=[{bg:'rgba(0,255,200,.08)',text:'#00ffc8',border:'#00ffc8'},{bg:'rgba(180,100,255,.08)',text:'#c87aff',border:'#c87aff'},{bg:'rgba(255,200,0,.08)',text:'#ffd700',border:'#ffd700'},{bg:'rgba(0,180,255,.08)',text:'#00b4ff',border:'#00b4ff'},{bg:'rgba(255,80,160,.08)',text:'#ff50a0',border:'#ff50a0'},{bg:'rgba(80,255,120,.08)',text:'#50ff78',border:'#50ff78'}];
   const MOOD_DATA=[{key:'happy',emoji:'😄',label:'Excited',color:'#FFD700'},{key:'proud',emoji:'🥲',label:'Proud',color:'#A8E6CF'},{key:'nostalgic',emoji:'🌅',label:'Nostalgic',color:'#FFB347'},{key:'thankful',emoji:'🙏',label:'Grateful',color:'#DDA0DD'},{key:'bittersweet',emoji:'💛',label:'Bittersweet',color:'#FFE66D'},{key:'nervous',emoji:'😬',label:'Nervous',color:'#74B9FF'}];
   const WISH_ICONS={dream:'🌟',advice:'💡',hope:'🕊️',funny:'😂'};
@@ -1594,7 +1593,7 @@ textarea.ff-input{resize:vertical;min-height:90px}
     window.__FF_TOGGLES__=t;applyFunFeatureToggles(t);return t;
   }
   function applyFunFeatureToggles(t){
-    const map={gratitudeWall:'gratitudeWall',superlatives:'superlativesSection',wishJar:'wishJarSection',songDedications:'songDedicationsSection',moodBoard:'moodBoardSection',timeCapsule:'timeCapsuleSection',memoryMosaic:'memoryMosaicSection'};
+    const map={gratitudeWall:'gratitudeWall',superlatives:'superlativesSection',wishJar:'wishJarSection',songDedications:'songDedicationsSection',moodBoard:'moodBoardSection',timeCapsule:'timeCapsuleSection',seniorAdvice:'adviceWall',memoryMosaic:'memoryMosaicSection'};
     for(const[k,id]of Object.entries(map)){const el=document.getElementById(id);if(!el)continue;el.classList.toggle('ff-section-hidden',!t[k])}
   }
   async function loadGratitudeNotes(){
@@ -1689,7 +1688,40 @@ textarea.ff-input{resize:vertical;min-height:90px}
     try{const d=await ffPost('/api/fun/capsules',{name,revealDate,letter});if(d.success){['capsuleName','capsuleLetter'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});ffNotify('success','Sealed!','Your time capsule is locked 📮');if(typeof triggerConfetti==='function')triggerConfetti();loadTimeCapsules()}else ffNotify('error','Failed',d.error)}
     catch(e){ffNotify('error','Error',e.message)}
   };
-  function loadMemoryMosaic(){
+ 
+ async function loadSeniorAdvice(){
+  const list=document.getElementById('adviceList');if(!list)return;
+  try{
+   const d=await ffGet('/api/fun/advice');
+   const entries=d.entries||d.advice||[];
+   if(entries.length){
+    list.innerHTML=entries.map(a=>`<div class="dedication-card"><div class="dedication-content"><div class="dedication-song">${ffEsc(a.name||'Anonymous')}</div><div class="dedication-msg">${ffEsc(a.text||a.advice||'')}</div><div class="dedication-meta">For <strong>${ffEsc(a.for||a.target||'Everyone')}</strong> · ${ffAgo(a.createdAt||a.created_at)}</div></div></div>`).join('');
+   }else{
+    list.innerHTML='<div class="ff-empty">No advice yet. Be the first senior voice here.</div>';
+   }
+  }catch(_){
+   list.innerHTML='<div class="ff-empty">Could not load advice right now.</div>';
+  }
+ }
+ window.submitSeniorAdvice=async function(){
+  const name=document.getElementById('adviceName')?.value?.trim();
+  const target=document.getElementById('adviceFor')?.value?.trim()||'Everyone';
+  const text=document.getElementById('adviceText')?.value?.trim();
+  if(!name)return ffNotify('error','Missing','Enter your name.');
+  if(!text)return ffNotify('error','Missing','Write some advice first.');
+  try{
+   const d=await ffPost('/api/fun/advice',{name,for:target,text});
+   if(d.success){
+    document.getElementById('adviceName').value='';
+    document.getElementById('adviceFor').value='';
+    document.getElementById('adviceText').value='';
+    ffNotify('success','Shared','Your advice is now visible to juniors.');
+    loadSeniorAdvice();
+   }else ffNotify('error','Failed',d.error||'Could not save advice.');
+  }catch(e){ffNotify('error','Error',e.message)}
+ };
+
+ function loadMemoryMosaic(){
     const g=document.getElementById('mosaicGrid');if(!g)return;
     const memories=(window.state&&window.state.memories)||[];const map={};
     memories.forEach(m=>{const n=(m.student_name||'').trim();if(n)map[n]=(map[n]||0)+1});
@@ -1698,7 +1730,7 @@ textarea.ff-input{resize:vertical;min-height:90px}
     const maxC=entries[0][1];
     g.innerHTML=entries.map(([name,count])=>{const ini=name.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();return`<div class="mosaic-tile"><div class="mosaic-avatar">${ffEsc(ini)}</div><div class="mosaic-name" title="${ffAttr(name)}">${ffEsc(name)}</div><div class="mosaic-count">${count} ${count===1?'memory':'memories'}</div><div class="mosaic-bar" style="width:${Math.round(count/maxC*100)}%"></div></div>`}).join('')
   }
- window.buildFunFeaturesPanel = function() {
+  function buildFunFeaturesPanel(){
     const panel=document.getElementById('panelFunFeatures');if(!panel)return;
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
     const features=[{key:'gratitudeWall',name:'🌟 Gratitude Wall',desc:'Students post sticky note thank-you messages'},{key:'superlatives',name:'🏆 Class Superlatives',desc:'Students nominate and vote for classmates'},{key:'wishJar',name:'🫙 Wish Jar',desc:'Students drop dreams, hopes and advice'},{key:'songDedications',name:'🎵 Song Dedications',desc:'Students dedicate songs to friends'},{key:'moodBoard',name:'🌈 Mood Board',desc:'Students vote on how they feel about Farewell'},{key:'timeCapsule',name:'📮 Time Capsule',desc:'Students write sealed letters to their future selves'},{key:'memoryMosaic',name:'🎨 Memory Mosaic',desc:'Auto leaderboard of top memory contributors'}];
@@ -1709,116 +1741,16 @@ textarea.ff-input{resize:vertical;min-height:90px}
     const t=window.__FF_TOGGLES__||FF_DEFAULTS;
     try{const res=await fetch(ffApi('/api/fun/settings'),{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.state?.adminToken||'')},body:JSON.stringify({settings:t})});const d=await res.json();if(d.success)ffNotify('success','Saved','Fun feature settings updated.');else ffNotify('error','Failed',d.error||'Could not save.')}catch(e){ffNotify('error','Error',e.message)}
   };
-  window.enableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=(k!=='memoryMosaic');window.previewFunFeatureToggle(k,k!=='memoryMosaic')})};
-  window.disableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=false;window.previewFunFeatureToggle(k,false)})};
+  window.enableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','seniorAdvice','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=(k!=='memoryMosaic');window.previewFunFeatureToggle(k,k!=='memoryMosaic')})};
+  window.disableAllFunFeatures=function(){['gratitudeWall','superlatives','wishJar','songDedications','moodBoard','timeCapsule','seniorAdvice','memoryMosaic'].forEach(k=>{const el=document.getElementById(`ffToggle_${k}`);if(el)el.checked=false;window.previewFunFeatureToggle(k,false)})};
   const _origBuildAdminPanels=window.buildAdminPanels;
- window.buildAdminPanels=function(){if(typeof _origBuildAdminPanels==='function')_origBuildAdminPanels.apply(this,arguments);buildFunFeaturesPanel();};
+  window.buildAdminPanels=function(){if(typeof _origBuildAdminPanels==='function')_origBuildAdminPanels.apply(this,arguments);buildFunFeaturesPanel()};
   const _origSwitchAdminTab=window.switchAdminTab;
   window.switchAdminTab=function(tab){if(typeof _origSwitchAdminTab==='function')_origSwitchAdminTab.apply(this,arguments);const tabEl=document.getElementById('tabFunFeatures');const panelEl=document.getElementById('panelFunFeatures');if(tabEl)tabEl.classList.toggle('active',tab==='funFeatures');if(panelEl){panelEl.classList.toggle('active',tab==='funFeatures');if(tab==='funFeatures')buildFunFeaturesPanel()}};
-  // ── Admin Fun Features Stats ──────────────────────────────────────────
-  async function loadFunFeatureStats(){
-    const panel = document.getElementById('panelFunFeaturesStats');
-    if (!panel) return;
-    try {
-      const [gRes, sRes, wRes, dRes] = await Promise.all([
-        ffGet('/api/fun/gratitude'),
-        ffGet('/api/fun/superlatives'),
-        ffGet('/api/fun/wishes'),
-        ffGet('/api/fun/dedications')
-      ]);
-      const gratitudeCount = (gRes.success && gRes.notes) ? gRes.notes.length : 0;
-      const wishCount = (wRes.success && wRes.wishes) ? wRes.wishes.length : 0;
-      const dedCount = (dRes.success && dRes.dedications) ? dRes.dedications.length : 0;
-      let nomineeTotal = 0, voteTotal = 0;
-      if (sRes.success && sRes.categories) {
-        sRes.categories.forEach(c => {
-          nomineeTotal += (c.nominees||[]).length;
-          voteTotal += (c.nominees||[]).reduce((a,n)=>a+(n.votes||0),0);
-        });
-      }
-      panel.innerHTML = `
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:18px;">
-          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${gratitudeCount}</div><div class="stat-label">Sticky Notes</div></div>
-          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${nomineeTotal}</div><div class="stat-label">Nominees</div></div>
-          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${voteTotal}</div><div class="stat-label">Votes Cast</div></div>
-          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${wishCount}</div><div class="stat-label">Wishes</div></div>
-          <div class="stat-card"><div class="stat-number" style="font-size:2rem;">${dedCount}</div><div class="stat-label">Dedications</div></div>
-        </div>`;
-    } catch(_) {}
-  }
-
-  // ── Dedications list with delete ─────────────────────────────────────
-  async function loadDedicationsAdmin(){
-    const box = document.getElementById('adminDedicationsList');
-    if (!box) return;
-    try {
-      const d = await ffGet('/api/fun/dedications');
-      if (!d.success || !d.dedications?.length) {
-        box.innerHTML = '<div class="ff-empty">No dedications yet.</div>'; return;
-      }
-      box.innerHTML = d.dedications.map(ded => `
-        <div class="dedication-card" style="position:relative;">
-          <div class="dedication-vinyl">🎵</div>
-          <div class="dedication-content">
-            <div class="dedication-song">${ffEsc(ded.song)}</div>
-            ${ded.message ? `<div class="dedication-msg">"${ffEsc(ded.message)}"</div>` : ''}
-            <div class="dedication-meta">From <strong>${ffEsc(ded.from||ded.from_name)}</strong> → To <strong>${ffEsc(ded.to||ded.to_name)}</strong> · ${ffAgo(ded.created_at||ded.createdAt)}</div>
-          </div>
-          <button onclick="adminDeleteDedication(${ded.id})" style="position:absolute;top:10px;right:10px;background:rgba(244,67,54,.2);border:1px solid rgba(244,67,54,.5);color:#ffb3ad;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.8rem;">Delete</button>
-        </div>`).join('');
-    } catch(_) { box.innerHTML = '<div class="ff-empty">Could not load.</div>'; }
-  }
-
-  window.adminDeleteDedication = async function(id) {
-    if (!confirm('Delete this dedication?')) return;
-    try {
-      const res = await fetch(ffApi('/api/fun/dedications/' + id), {
-        method: 'DELETE',
-        headers: { 'Authorization': 'Bearer ' + (window.state?.adminToken || '') }
-      });
-      const d = await res.json();
-      if (d.success) { ffNotify('success','Deleted','Dedication removed.'); loadDedicationsAdmin(); loadFunFeatureStats(); }
-      else ffNotify('error','Failed', d.error);
-    } catch(e) { ffNotify('error','Error',e.message); }
-  };
-
-  // ── Gratitude notes admin view ────────────────────────────────────────
-  async function loadGratitudeAdmin(){
-    const box = document.getElementById('adminGratitudeList');
-    if (!box) return;
-    try {
-      const d = await ffGet('/api/fun/gratitude');
-      if (!d.success || !d.notes?.length) {
-        box.innerHTML = '<div class="ff-empty">No notes yet.</div>'; return;
-      }
-      box.innerHTML = d.notes.map((n,i) => {
-        const colors = ['#00ffc8','#c87aff','#ffd700','#00b4ff','#ff50a0','#50ff78'];
-        const c = colors[i % colors.length];
-        return `<div style="padding:12px 14px;border-radius:14px;border:1px solid ${c}33;background:${c}11;position:relative;margin-bottom:8px;">
-          <div style="font-size:.75rem;font-weight:700;color:${c};margin-bottom:4px;">From: ${ffEsc(n.from||n.from_name||'Anonymous')} → To: ${ffEsc(n.to||n.to_name||'Everyone')}</div>
-          <div style="font-size:.92rem;">${ffEsc(n.message)}</div>
-          <button onclick="adminDeleteGratitude(${n.id})" style="position:absolute;top:8px;right:8px;background:rgba(244,67,54,.2);border:1px solid rgba(244,67,54,.5);color:#ffb3ad;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.75rem;">✕</button>
-        </div>`;
-      }).join('');
-    } catch(_) { box.innerHTML = '<div class="ff-empty">Could not load.</div>'; }
-  }
-
-  window.adminDeleteGratitude = async function(id) {
-    if (!confirm('Delete this sticky note?')) return;
-    try {
-      const res = await fetch(ffApi('/api/fun/gratitude/' + id), {
-        method: 'DELETE',
-        headers: { 'Authorization': 'Bearer ' + (window.state?.adminToken || '') }
-      });
-      const d = await res.json();
-      if (d.success) { ffNotify('success','Deleted','Note removed.'); loadGratitudeAdmin(); loadGratitudeNotes(); loadFunFeatureStats(); }
-      else ffNotify('error','Failed', d.error);
-    } catch(e) { ffNotify('error','Error',e.message); }
-  };
-
   async function init(){
     await loadFunFeatureToggles();
-    loadGratitudeNotes();loadSuperlatives();loadWishes();loadDedications();loadMoodBoard();loadTimeCapsules();
+    loadGratitudeNotes();loadSuperlatives();loadWishes();loadDedications();loadMoodBoard();loadTimeCapsules();loadSeniorAdvice();
+    
   }
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
 })();
@@ -2128,8 +2060,7 @@ overflow: hidden;
         <div class="admin-tab" id="tabTheme" onclick="switchAdminTab('theme')">Theme</div>
         <div class="admin-tab" id="tabUsers" onclick="switchAdminTab('users')">Users</div>
         <div class="admin-tab" id="tabCompilations" onclick="switchAdminTab('compilations')">Compilations</div>
-       <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
-<div class="admin-tab" id="tabFunFeatures" onclick="switchAdminTab('funFeatures')">Fun Features</div>
+        <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">Security</div>
       </div>
 
       <!-- Panels: content is completed in Part 3 -->
@@ -2183,7 +2114,6 @@ overflow: hidden;
       <div class="admin-panel" id="panelUsers"></div>
       <div class="admin-panel" id="panelCompilations"></div>
       <div class="admin-panel" id="panelSecurity"></div>
-      <div class="admin-panel" id="panelFunFeatures"></div>
     </div>
   </div>
 
@@ -2309,7 +2239,7 @@ overflow: hidden;
     // Change this ONE line to point to your server
     // =========================
     const CONFIG = {
-      API_BASE: "https://threshold-superb-gasoline-theology.trycloudflare.com",
+      API_BASE: localStorage.getItem('farewell_api_base') || "https://arch-referrals-finder-drawings.trycloudflare.com",
       REFRESH_INTERVAL: 60000,
       MAX_FILE_SIZE: 100 * 1024 * 1024,
       MAX_TOTAL_SIZE: 200 * 1024 * 1024,
@@ -2393,8 +2323,9 @@ overflow: hidden;
       selectedFiles: [],
       memories: [],
       memPage: 1,
-     memLimit: 2000,
-      viewingAllMemoriesPage: false,
+      memLimit: 2000,
+ previewLimit: 6,
+ viewingAllMemoriesPage: false,
       memHasMore: true,
       memLoading: false,
       memCursor: null,
@@ -2607,8 +2538,8 @@ function renderMemories() {
     countPill.textContent = `${state.memories.length} loaded${state.memHasMore ? ' • more available' : ''}`;
   }
 
-  const displayMemories = state.memories;
-  if (displayMemories.length === 0) {
+  const displayMemories = state.viewingAllMemoriesPage ? state.memories : state.memories.slice(0, state.previewLimit);
+ if (displayMemories.length === 0) {
     grid.innerHTML = `<div class="memory-empty" style="grid-column: 1/-1;"><div class="memory-empty-icon">🖼️</div><h3>No Memories Yet</h3><p>Be the first to share!</p></div>`;
     const loadMoreWrap = document.getElementById('loadMoreWrap');
     if (loadMoreWrap) loadMoreWrap.style.display = 'none';
@@ -2671,18 +2602,67 @@ function renderMemories() {
     function startReply(commentId) { state.replyingTo = commentId; resetReplyUI(); const textArea = document.getElementById('commentText'); if (textArea) textArea.focus(); }
     function openComments(memoryId) { const index = state.memories.findIndex(m => m.id === memoryId); if (index >= 0) openLightbox(index); }
     async function postComment() { const memoryId = activeMemoryId || state.memories[state.lightboxIndex]?.id; if (!memoryId) return; const name = document.getElementById('commentName')?.value?.trim(); const text = document.getElementById('commentText')?.value?.trim(); if (!name) return showNotification('error', 'Name required', 'Please enter your name.'); if (!text) return showNotification('error', 'Comment required', 'Please write a comment.'); try { const res = await fetch(apiUrl(`/api/comments/${memoryId}`), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, text, parentId: state.replyingTo }) }); const data = await res.json(); if (!data.success) return showNotification('error', 'Failed', data.error || 'Could not post.'); const textArea = document.getElementById('commentText'); if (textArea) textArea.value = ''; state.replyingTo = null; resetReplyUI(); await loadComments(memoryId); } catch (e) { showNotification('error', 'Failed', e.message); } }
-    document.addEventListener('DOMContentLoaded', () => {
+    function renderMemoriesPage() {
+ const grid = document.getElementById('memoryGridPage');
+ const wrap = document.getElementById('loadMoreWrapPage');
+ if (!grid) return;
+ if (!state.memories.length) {
+  grid.innerHTML = `<div class="memory-empty" style="grid-column: 1/-1;"><div class="memory-empty-icon">📷</div><h3>No Memories Yet</h3><p>Be the first to share!</p></div>`;
+  if (wrap) wrap.style.display = 'none';
+  return;
+ }
+ grid.innerHTML = document.getElementById('memoryGrid') ? document.getElementById('memoryGrid').innerHTML : '';
+ if (wrap) wrap.style.display = state.memHasMore ? 'flex' : 'none';
+}
+function openMemoriesPage() {
+ state.viewingAllMemoriesPage = true;
+ const page = document.getElementById('memoriesPage');
+ if (page) page.classList.remove('hidden');
+ history.pushState({ memoriesPage: true }, '', '#memories-page');
+ renderMemories();
+ renderMemoriesPage();
+ window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function backToMainPage() {
+ state.viewingAllMemoriesPage = false;
+ const page = document.getElementById('memoriesPage');
+ if (page) page.classList.add('hidden');
+ if (location.hash === '#memories-page') history.pushState({}, '', '#home');
+ const home = document.getElementById('home');
+ if (home) home.scrollIntoView({ behavior: 'smooth', block: 'start' });
+ renderMemories();
+}
+document.addEventListener('DOMContentLoaded', () => {
  const viewAllBtn = document.getElementById('viewAllMemoriesBtn');
- if (viewAllBtn) viewAllBtn.addEventListener('click', openMemoriesPage);
- const backBtn = document.getElementById('backToHomeFromMemoriesPage');
- if (backBtn) backBtn.addEventListener('click', backToMainPage);
+ if (viewAllBtn) viewAllBtn.addEventListener('click', openMemoriesOnlyPage);
+ const backBtn = document.getElementById('backFromMemoriesOnlyPage');
+ if (backBtn) backBtn.addEventListener('click', closeMemoriesOnlyPage);
+ const loadMoreBtnPage = document.getElementById('loadMoreBtnOnlyPage');
+ if (loadMoreBtnPage) loadMoreBtnPage.addEventListener('click', async () => {
+  await loadMemories(false);
+  renderMemoriesOnlyPage();
+ });
  document.querySelectorAll('a[href="#home"]').forEach(el => {
   el.addEventListener('click', (evt) => {
    evt.preventDefault();
-   backToMainPage();
+   closeMemoriesOnlyPage();
   });
  });
- });
+});
+window.addEventListener('popstate', () => {
+ const page = document.getElementById('memoriesPageOnly');
+ if (!page) return;
+ if (location.hash === '#memories-only') {
+  state.viewingAllMemoriesPage = true;
+  page.classList.remove('hidden');
+  renderMemoriesOnlyPage();
+ } else {
+  state.viewingAllMemoriesPage = false;
+  page.classList.add('hidden');
+  renderMemories();
+ }
+});
+ 
  window.addEventListener('popstate', () => {
  const page = document.getElementById('memoriesPage');
  if (!page) return;
@@ -2695,32 +2675,88 @@ function renderMemories() {
   page.classList.add('hidden');
  }
  });
+ 
+function cloneMemoryFiltersToOnlyPage() {
+ const src = document.getElementById('memoryFilters');
+ const dst = document.getElementById('memoryFiltersOnlyPage');
+ if (!src || !dst) return;
+ dst.innerHTML = src.innerHTML;
+ dst.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.classList.toggle('active', btn.dataset.filter === state.currentFilter);
+  btn.addEventListener('click', async () => {
+   document.querySelectorAll('#memoryFilters .filter-btn, #memoryFiltersOnlyPage .filter-btn').forEach(b => b.classList.remove('active'));
+   document.querySelectorAll(`#memoryFilters .filter-btn[data-filter="${btn.dataset.filter}"], #memoryFiltersOnlyPage .filter-btn[data-filter="${btn.dataset.filter}"]`).forEach(b => b.classList.add('active'));
+   state.currentFilter = btn.dataset.filter;
+   await loadMemories(true);
+   renderMemoriesOnlyPage();
+  });
+ });
+}
+function renderMemoriesOnlyPage() {
+ const grid = document.getElementById('memoryGridOnlyPage');
+ const wrap = document.getElementById('loadMoreWrapOnlyPage');
+ if (!grid) return;
+ cloneMemoryFiltersToOnlyPage();
+ if (!state.memories.length) {
+  grid.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><div class="memory-empty-icon">📷</div><h3>No Memories Yet</h3><p>Be the first to share!</p></div>`;
+  if (wrap) wrap.style.display = 'none';
+  return;
+ }
+ grid.innerHTML = state.memories.map((memory, index) => `
+ <div class="memory-card" data-index="${index}">
+  <div class="memory-media" onclick="openLightbox(${index})">
+   ${memory.file_type === 'video'
+    ? `<video src="${memory.file_url}" preload="metadata"></video><div class="play-button">▶</div>`
+    : `<img src="${memory.file_url}" alt="${escapeAttr(memory.caption)}" loading="lazy" />`}
+   <span class="memory-type-badge">${escapeHtml(memory.memory_type)}</span>
+   ${memory.featured ? `<span class="memory-featured-badge">Featured</span>` : ''}
+  </div>
+  <div class="memory-content">
+   <div class="memory-author">
+    <div class="memory-avatar">${escapeHtml((memory.student_name || '').charAt(0).toUpperCase())}</div>
+    <div class="memory-author-info">
+     <div class="memory-author-name">${escapeHtml(memory.student_name || '')}</div>
+     <div class="memory-time">${timeAgo(memory.created_at)}</div>
+    </div>
+   </div>
+   <p class="memory-caption">${escapeHtml(memory.caption || '')}</p>
+   <div class="memory-actions">
+    <div class="action-row">
+     <button class="like-btn ${isLiked(memory.id) ? 'liked' : ''}" onclick="likeMemory(${memory.id}, this)">
+      <span class="heart-icon">${isLiked(memory.id) ? '♥' : '♡'}</span>
+      <span class="like-count">${memory.likes || 0}</span>
+     </button>
+     <button class="comments-open-btn" onclick="openLightbox(${index}); setTimeout(() => scrollCommentsTop(), 50);">Comments</button>
+    </div>
+    <div class="react-group">${renderReactionButtons(memory)}</div>
+   </div>
+  </div>
+ </div>
+ `).join('');
+ if (wrap) wrap.style.display = state.memHasMore ? 'flex' : 'none';
+}
+async function openMemoriesOnlyPage() {
+ state.viewingAllMemoriesPage = true;
+ const page = document.getElementById('memoriesPageOnly');
+ if (page) page.classList.remove('hidden');
+ history.pushState({ memoriesOnlyPage: true }, '', '#memories-only');
+ const grid = document.getElementById('memoryGridOnlyPage');
+ if (grid) grid.innerHTML = `<div class="memory-loading" style="grid-column:1/-1;"><div class="loading-spinner"></div><p>Loading memories...</p></div>`;
+ await loadMemories(true);
+ renderMemoriesOnlyPage();
+ window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function closeMemoriesOnlyPage() {
+ state.viewingAllMemoriesPage = false;
+ const page = document.getElementById('memoriesPageOnly');
+ if (page) page.classList.add('hidden');
+ if (location.hash === '#memories-only') history.pushState({}, '', '#home');
+ const home = document.getElementById('home');
+ if (home) home.scrollIntoView({ behavior: 'smooth', block: 'start' });
+ renderMemories();
+}
 
- document.addEventListener('DOMContentLoaded', () => {
- const viewAllBtn = document.getElementById('viewAllMemoriesBtn');
- if (viewAllBtn) viewAllBtn.addEventListener('click', openMemoriesPage);
- const backBtn = document.getElementById('backToHomeFromMemoriesPage');
- if (backBtn) backBtn.addEventListener('click', backToMainPage);
- document.querySelectorAll('a[href="#home"]').forEach(el => {
-  el.addEventListener('click', (evt) => {
-   evt.preventDefault();
-   backToMainPage();
-  });
- });
- });
- window.addEventListener('popstate', () => {
- const page = document.getElementById('memoriesPage');
- if (!page) return;
- if (location.hash === '#memories-page') {
-  state.viewingAllMemoriesPage = true;
-  page.classList.remove('hidden');
-  renderMemoriesPage();
- } else {
-  state.viewingAllMemoriesPage = false;
-  page.classList.add('hidden');
- }
- });
- document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); closeAdminLogin(); closeCompilationPlayer(); } const lightbox = document.getElementById('lightbox'); if (lightbox && lightbox.classList.contains('active')) { if (e.key === 'ArrowLeft') navigateLightbox(-1); if (e.key === 'ArrowRight') navigateLightbox(1); } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); closeAdminLogin(); closeCompilationPlayer(); } const lightbox = document.getElementById('lightbox'); if (lightbox && lightbox.classList.contains('active')) { if (e.key === 'ArrowLeft') navigateLightbox(-1); if (e.key === 'ArrowRight') navigateLightbox(1); } });
 
     function renderTeachers() { const grid = document.getElementById('teachersGrid'); if (!grid) return; const t = Array.isArray(state.settings.teachers) ? state.settings.teachers : []; if (t.length === 0) { grid.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><h3>No teachers configured</h3></div>`; return; } grid.innerHTML = t.map(teacher => { const initials = getInitials(teacher.name || 'T'); const img = (teacher.imageUrl || '').trim(); return `<div class="teacher-card"><div class="teacher-image">${img ? `<img src="${escapeAttr(img)}" alt="${escapeAttr(teacher.name || '')}" />` : escapeHtml(initials)}</div><h3 class="teacher-name">${escapeHtml(teacher.name || '')}</h3><p class="teacher-subject">${escapeHtml(teacher.subject || '')}</p><p class="teacher-quote">${escapeHtml(teacher.quote || '')}</p></div>`; }).join(''); }
     function renderTimeline() { const list = document.getElementById('timelineList'); if (!list) return; const items = Array.isArray(state.settings.timeline) ? state.settings.timeline : []; if (items.length === 0) { list.innerHTML = `<div class="memory-empty" style="grid-column:1/-1;"><h3>No timeline configured</h3></div>`; return; } list.innerHTML = items.map(item => `<div class="timeline-item"><div class="timeline-content"><div class="timeline-dot"></div><div class="timeline-year">${escapeHtml(item.year || '')}</div><h3 class="timeline-title">${escapeHtml(item.title || '')}</h3><p class="timeline-description">${escapeHtml(item.description || '')}</p></div></div>`).join(''); }
@@ -2734,11 +2770,16 @@ function renderMemories() {
     async function verifyAdminToken() { try { const response = await fetch(apiUrl('/api/admin/verify'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); const data = await response.json(); if (data.valid) { state.adminUser = data.user; localStorage.setItem('adminUser', JSON.stringify(data.user)); openAdminDashboard(); } else adminLogout(); } catch { adminLogout(); } }
     function openAdminDashboard() { const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.add('active'); document.body.style.overflow = 'hidden'; buildAdminPanels(); switchAdminTab('moderation'); loadAdminMemories(true); }
     async function adminLogout() { try { await fetch(apiUrl('/api/admin/logout'), { method: 'POST', headers: { 'Authorization': `Bearer ${state.adminToken}` } }); } catch {} state.adminToken = null; state.adminUser = null; localStorage.removeItem('adminToken'); localStorage.removeItem('adminUser'); const dashboard = document.getElementById('adminDashboard'); if (dashboard) dashboard.classList.remove('active'); document.body.style.overflow = ''; window.location.hash = ''; }
-    function switchAdminTab(tab) {['moderation', 'settings', 'theme', 'users', 'compilations', 'security', 'funFeatures'].forEach(t => { const key = t.charAt(0).toUpperCase() + t.slice(1);
-        const tabEl = document.getElementById('tab' + key);
-        const panelEl = document.getElementById('panel' + key); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); }
+    function switchAdminTab(tab) { ['moderation', 'settings', 'theme', 'users', 'compilations', 'security'].forEach(t => { const tabEl = document.getElementById('tab' + capitalize(t)); const panelEl = document.getElementById('panel' + capitalize(t)); if (tabEl) tabEl.classList.toggle('active', t === tab); if (panelEl) panelEl.classList.toggle('active', t === tab); }); }
     function can(perm) { const u = state.adminUser; if (!u) return false; if (u.role === 'superadmin') return true; return !!u.permissions?.[perm]; }
-    function buildAdminPanels() { const tabs = { 'tabSettings': 'settings', 'tabTheme': 'theme', 'tabUsers': 'users' }; Object.entries(tabs).forEach(([id, perm]) => { const el = document.getElementById(id); if (el) el.style.display = can(perm) ? 'inline-block' : 'none'; }); const exportBtn = document.getElementById('btnExportCsv'); if (exportBtn) exportBtn.style.display = can('export') ? 'inline-flex' : 'none'; const approveAllBtn = document.getElementById('btnApproveAll'); if (approveAllBtn) approveAllBtn.style.display = can('bulk') ? 'inline-flex' : 'none'; const panelSettings = document.getElementById('panelSettings'); if (panelSettings) panelSettings.innerHTML = can('settings') ? renderSettingsPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelTheme = document.getElementById('panelTheme'); if (panelTheme) panelTheme.innerHTML = can('theme') ? renderThemePanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelUsers = document.getElementById('panelUsers'); if (panelUsers) panelUsers.innerHTML = can('users') ? renderUsersPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelSecurity = document.getElementById('panelSecurity'); if (panelSecurity) panelSecurity.innerHTML = renderSecurityPanelHtml(); if (can('settings')) wireSettingsPanel(); if (can('theme')) wireThemePanel(); if (can('users')) wireUsersPanel(); wireSecurityPanel(); const panelCompilations = document.getElementById('panelCompilations');
+    
+function renderSuperlativesAdminPanel() {
+ const panel = document.getElementById('panelFunFeatures');
+ if (!panel) return;
+ if (!panel.innerHTML.includes('Bulk Superlatives Control')) return;
+}
+
+function buildAdminPanels() { const tabs = { 'tabSettings': 'settings', 'tabTheme': 'theme', 'tabUsers': 'users' }; Object.entries(tabs).forEach(([id, perm]) => { const el = document.getElementById(id); if (el) el.style.display = can(perm) ? 'inline-block' : 'none'; }); const exportBtn = document.getElementById('btnExportCsv'); if (exportBtn) exportBtn.style.display = can('export') ? 'inline-flex' : 'none'; const approveAllBtn = document.getElementById('btnApproveAll'); if (approveAllBtn) approveAllBtn.style.display = can('bulk') ? 'inline-flex' : 'none'; const panelSettings = document.getElementById('panelSettings'); if (panelSettings) panelSettings.innerHTML = can('settings') ? renderSettingsPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelTheme = document.getElementById('panelTheme'); if (panelTheme) panelTheme.innerHTML = can('theme') ? renderThemePanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelUsers = document.getElementById('panelUsers'); if (panelUsers) panelUsers.innerHTML = can('users') ? renderUsersPanelHtml() : `<div class="mini-pill">No permission.</div>`; const panelSecurity = document.getElementById('panelSecurity'); if (panelSecurity) panelSecurity.innerHTML = renderSecurityPanelHtml(); if (can('settings')) wireSettingsPanel(); if (can('theme')) wireThemePanel(); if (can('users')) wireUsersPanel(); wireSecurityPanel(); const panelCompilations = document.getElementById('panelCompilations');
     if (panelCompilations) panelCompilations.innerHTML = renderCompilationsPanelHtml();
     loadCompilationsAdmin(); syncSettingsEditor(); syncThemeEditor(); }
 
@@ -2761,7 +2802,7 @@ function renderMemories() {
     function downloadAllApproved() { window.location.href = apiUrl(`/api/admin/download-all?token=${encodeURIComponent(state.adminToken || '')}`); showNotification('info', 'Downloading', 'Preparing ZIP...'); }
     function exportCSV() { fetch(apiUrl(`/api/admin/export/csv`), { headers: { 'Authorization': `Bearer ${state.adminToken}` } }).then(async r => { if (!r.ok) throw new Error('Export failed'); const blob = await r.blob(); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `memories-export-${new Date().toISOString().slice(0, 10)}.csv`; a.click(); URL.revokeObjectURL(a.href); showNotification('success', 'Exported', 'CSV downloaded.'); }).catch(e => showNotification('error', 'Failed', e.message)); }
 
-    function renderSettingsPanelHtml() { return `<div style="display:grid; gap: 18px;"><div class="stat-card" style="text-align:left;"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h3 style="font-family:var(--font-display); color:var(--primary-gold); font-size:1.3rem;">Site Settings</h3><div style="display:flex; gap:10px; flex-wrap:wrap;"><button class="admin-btn admin-btn-primary" onclick="saveSettingsFromEditor()">Save</button><button class="admin-btn admin-btn-secondary" onclick="reloadSettingsAdmin()">Reload</button></div></div><div style="margin-top:12px; display:grid; gap: 14px;"><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>School Name</label><input class="form-input" id="setSchoolName"/></div><div class="form-group"><label>Event Name</label><input class="form-input" id="setEventName"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Logo Text</label><input class="form-input" id="setLogoText" maxlength="5"/></div><div class="form-group"><label>Farewell IST (YYYY-MM-DDTHH:mm)</label><input class="form-input" id="setFarewellIST"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Contact Email</label><input class="form-input" id="setContactEmail"/></div><div class="form-group"><label>Location Line</label><input class="form-input" id="setLocationLine"/></div></div><div class="form-group"><label>Hero Badge</label><input class="form-input" id="setHeroBadge"/></div><div class="form-group"><label>Hero Title (use {year})</label><input class="form-input" id="setHeroTitle"/></div><div class="form-group"><label>Hero Subtitle</label><input class="form-input" id="setHeroSubtitle"/></div><div class="form-group"><label>Hero Description</label><textarea class="form-textarea" id="setHeroDescription" maxlength="600"></textarea></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Quote Text</label><textarea class="form-textarea" id="setQuoteText" maxlength="500"></textarea></div><div class="form-group"><label>Quote Author</label><input class="form-input" id="setQuoteAuthor"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Uploads Enabled</label><select class="form-select" id="setUploadsEnabled"><option value="true">true</option><option value="false">false</option></select></div><div class="form-group"><label>Comments Enabled</label><select class="form-select" id="setCommentsEnabled"><option value="true">true</option><option value="false">false</option></select></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Profanity Filter</label><select class="form-select" id="setProfanityEnabled"><option value="false">false</option><option value="true">true</option></select></div><div class="form-group"><label>Upload Window Enabled</label><select class="form-select" id="setUploadWindowEnabled"><option value="false">false</option><option value="true">true</option></select></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Upload Window Start (IST)</label><input class="form-input" id="setUploadWindowStart"/></div><div class="form-group"><label>Upload Window End (IST)</label><input class="form-input" id="setUploadWindowEnd"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Auto-Approve Enabled</label><select class="form-select" id="setAutoApproveEnabled"><option value="false">false</option><option value="true">true</option></select></div><div class="form-group"><label>(Auto) Start (IST)</label><input class="form-input" id="setAutoApproveStart"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>(Auto) End (IST)</label><input class="form-input" id="setAutoApproveEnd"/></div><div class="form-group"><label>—</label><div class="mini-pill">Auto-approve applies at upload time.</div></div></div><div class="form-group"><label>Footer Description</label><textarea class="form-textarea" id="setFooterDesc" maxlength="400"></textarea></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Footer Contact Note</label><input class="form-input" id="setFooterContactNote"/></div><div class="form-group"><label>Footer Made By</label><input class="form-input" id="setFooterMadeBy"/></div></div><div class="form-group"><label>Footer Copyright</label><input class="form-input" id="setFooterCopyright"/></div>
+    function renderSettingsPanelHtml() { return `<div style="display:grid; gap: 18px;"><div class="stat-card" style="text-align:left;"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h3 style="font-family:var(--font-display); color:var(--primary-gold); font-size:1.3rem;">Site Settings</h3><div style="display:flex; gap:10px; flex-wrap:wrap;"><button class="admin-btn admin-btn-primary" onclick="saveSettingsFromEditor()">Save</button><button class="admin-btn admin-btn-secondary" onclick="reloadSettingsAdmin()">Reload</button></div></div><div style="margin-top:12px; display:grid; gap: 14px;"><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>School Name</label><input class="form-input" id="setSchoolName"/></div><div class="form-group"><label>Event Name</label><input class="form-input" id="setEventName"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Logo Text</label><input class="form-input" id="setLogoText" maxlength="5"/></div><div class="form-group"><label>Farewell IST (YYYY-MM-DDTHH:mm)</label><input class="form-input" id="setFarewellIST"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Contact Email</label><input class="form-input" id="setContactEmail"/></div><div class="form-group"><label>Location Line</label><input class="form-input" id="setLocationLine"/></div></div><div class="form-group"><label>Hero Badge</label><input class="form-input" id="setHeroBadge"/></div><div class="form-group"><label>Hero Title (use {year})</label><input class="form-input" id="setHeroTitle"/></div><div class="form-group"><label>Hero Subtitle</label><input class="form-input" id="setHeroSubtitle"/></div><div class="form-group"><label>Hero Description</label><textarea class="form-textarea" id="setHeroDescription" maxlength="600"></textarea></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Quote Text</label><textarea class="form-textarea" id="setQuoteText" maxlength="7000"></textarea></div><div class="form-group"><label>Quote Author</label><input class="form-input" id="setQuoteAuthor"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Uploads Enabled</label><select class="form-select" id="setUploadsEnabled"><option value="true">true</option><option value="false">false</option></select></div><div class="form-group"><label>Comments Enabled</label><select class="form-select" id="setCommentsEnabled"><option value="true">true</option><option value="false">false</option></select></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Profanity Filter</label><select class="form-select" id="setProfanityEnabled"><option value="false">false</option><option value="true">true</option></select></div><div class="form-group"><label>Upload Window Enabled</label><select class="form-select" id="setUploadWindowEnabled"><option value="false">false</option><option value="true">true</option></select></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Upload Window Start (IST)</label><input class="form-input" id="setUploadWindowStart"/></div><div class="form-group"><label>Upload Window End (IST)</label><input class="form-input" id="setUploadWindowEnd"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Auto-Approve Enabled</label><select class="form-select" id="setAutoApproveEnabled"><option value="false">false</option><option value="true">true</option></select></div><div class="form-group"><label>(Auto) Start (IST)</label><input class="form-input" id="setAutoApproveStart"/></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>(Auto) End (IST)</label><input class="form-input" id="setAutoApproveEnd"/></div><div class="form-group"><label>—</label><div class="mini-pill">Auto-approve applies at upload time.</div></div></div><div class="form-group"><label>Footer Description</label><textarea class="form-textarea" id="setFooterDesc" maxlength="400"></textarea></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Footer Contact Note</label><input class="form-input" id="setFooterContactNote"/></div><div class="form-group"><label>Footer Made By</label><input class="form-input" id="setFooterMadeBy"/></div></div><div class="form-group"><label>Footer Copyright</label><input class="form-input" id="setFooterCopyright"/></div>
     <div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);">
       <h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:10px;">Intro Video Settings</h4>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end;">
@@ -2779,7 +2820,7 @@ function renderMemories() {
           <button class="admin-btn admin-btn-danger" style="width:100%; justify-content:center;" type="button" onclick="removeIntroVideo()">Remove Video (Disable)</button>
         </div>
       </div>
-    </div><div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:6px;">Teachers Editor</h4><button class="admin-btn admin-btn-secondary" type="button" onclick="addTeacherRow()">+ Add Teacher</button></div><div class="mini-pill">Fields: name, subject, quote, imageUrl (optional)</div><div id="teachersEditor" style="margin-top:12px; display:grid; gap:12px;"></div></div><div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:6px;">Timeline Editor</h4><button class="admin-btn admin-btn-secondary" type="button" onclick="addTimelineRow()">+ Add Timeline Item</button></div><div class="mini-pill">Fields: year, title, description</div><div id="timelineEditor" style="margin-top:12px; display:grid; gap:12px;"></div></div></div></div></div>`; }
+    </div><div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:6px;">Teachers Editor</h4><button class="admin-btn admin-btn-secondary" type="button" onclick="addTeacherRow()">+ Add Teacher</button></div><div class="mini-pill">Fields: name, subject, quote, imageUrl (optional)</div><div id="teachersEditor" style="margin-top:12px; display:grid; gap:12px;"></div></div><div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:6px;">Timeline Editor</h4><button class="admin-btn admin-btn-secondary" type="button" onclick="addTimelineRow()">+ Add Timeline Item</button></div><div class="mini-pill">Fields: year, title, description</div><div id="timelineEditor" style="margin-top:12px; display:grid; gap:12px;"></div></div><div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:6px;">Student Directory CSV</h4><div style="display:flex; gap:10px; flex-wrap:wrap;"><button class="admin-btn admin-btn-secondary" type="button" onclick="downloadStudentDirectoryTemplate()">Download Template</button><label class="admin-btn admin-btn-secondary" style="cursor:pointer;">Import CSV<input type="file" accept=".csv" style="display:none;" onchange="uploadStudentDirectoryCsv(this.files[0])"></label><button class="admin-btn admin-btn-primary" type="button" onclick="bulkApplyStudentsToSuperlatives()">Use in Superlatives</button></div></div><div class="mini-pill">Bulk update students with columns: name, section</div></div></div></div></div>`; }
     function wireSettingsPanel() { renderTeachersEditor(); renderTimelineEditor(); }
     function syncSettingsEditor() { const s = state.settings; setVal('setSchoolName', s.schoolName); setVal('setEventName', s.eventName); setVal('setLogoText', s.logoText); setVal('setFarewellIST', s.farewellIST); setVal('setContactEmail', s.contactEmail); setVal('setLocationLine', s.locationLine); setVal('setHeroBadge', s.heroBadge); setVal('setHeroTitle', s.heroTitle); setVal('setHeroSubtitle', s.heroSubtitle); setVal('setHeroDescription', s.heroDescription); setVal('setQuoteText', s.quoteText); setVal('setQuoteAuthor', s.quoteAuthor); setVal('setUploadsEnabled', String(!!s.uploadsEnabled)); setVal('setCommentsEnabled', String(!!s.commentsEnabled)); setVal('setProfanityEnabled', String(!!s.profanityFilterEnabled)); setVal('setUploadWindowEnabled', String(!!s.uploadWindowEnabled)); setVal('setUploadWindowStart', s.uploadWindowStartIST || ''); setVal('setUploadWindowEnd', s.uploadWindowEndIST || ''); setVal('setAutoApproveEnabled', String(!!s.autoApproveEnabled)); setVal('setAutoApproveStart', s.autoApproveStartIST || ''); setVal('setAutoApproveEnd', s.autoApproveEndIST || ''); setVal('setFooterDesc', s.footerDesc); setVal('setFooterContactNote', s.footerContactNote); setVal('setFooterMadeBy', s.footerMadeBy); setVal('setFooterCopyright', s.footerCopyright); renderTeachersEditor(); renderTimelineEditor(); }
     function readSettingsFromEditor() { const s = structuredClone(state.settings); s.schoolName = getVal('setSchoolName'); s.eventName = getVal('setEventName'); s.logoText = getVal('setLogoText'); s.farewellIST = getVal('setFarewellIST'); s.contactEmail = getVal('setContactEmail'); s.locationLine = getVal('setLocationLine'); s.heroBadge = getVal('setHeroBadge'); s.heroTitle = getVal('setHeroTitle'); s.heroSubtitle = getVal('setHeroSubtitle'); s.heroDescription = getVal('setHeroDescription'); s.quoteText = getVal('setQuoteText'); s.quoteAuthor = getVal('setQuoteAuthor'); s.uploadsEnabled = getVal('setUploadsEnabled') === 'true'; s.commentsEnabled = getVal('setCommentsEnabled') === 'true'; s.profanityFilterEnabled = getVal('setProfanityEnabled') === 'true'; s.uploadWindowEnabled = getVal('setUploadWindowEnabled') === 'true'; s.uploadWindowStartIST = getVal('setUploadWindowStart'); s.uploadWindowEndIST = getVal('setUploadWindowEnd'); s.autoApproveEnabled = getVal('setAutoApproveEnabled') === 'true'; s.autoApproveStartIST = getVal('setAutoApproveStart'); s.autoApproveEndIST = getVal('setAutoApproveEnd'); s.footerDesc = getVal('setFooterDesc'); s.footerContactNote = getVal('setFooterContactNote'); s.footerMadeBy = getVal('setFooterMadeBy'); s.footerCopyright = getVal('setFooterCopyright'); s.introHideSkip = getVal('setIntroHideSkip') === 'true'; return s; }
@@ -2793,7 +2834,66 @@ function renderMemories() {
     function resetThemeDefaults() { if (!confirm('Reset theme to defaults?')) return; state.settings.theme = structuredClone(DEFAULT_SETTINGS.theme); syncThemeEditor(); applyThemeToCSS(); }
     async function saveTheme() { const t = readThemeFromEditor(); const merged = structuredClone(state.settings); merged.theme = t; try { const res = await fetch(apiUrl('/api/admin/settings'), { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${state.adminToken}` }, body: JSON.stringify({ settings: merged }) }); const data = await res.json(); if (data.success) { state.settings = mergeDeep(structuredClone(DEFAULT_SETTINGS), merged); showNotification('success', 'Saved', 'Theme saved.'); } else showNotification('error', 'Failed', data.error || 'Could not save theme.'); } catch (e) { showNotification('error', 'Failed', e.message); } }
 
-    function renderUsersPanelHtml() { return `<div class="stat-card" style="text-align:left;"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h3 style="font-family:var(--font-display); color:var(--primary-gold); font-size:1.3rem;">Admin Users</h3><button class="admin-btn admin-btn-secondary" onclick="loadUsers()">Refresh</button></div><div class="mini-pill" style="margin-top:12px;">Create admin IDs and toggle permissions.</div><div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:10px;">Create User</h4><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>User ID</label><input class="form-input" id="newUserId" placeholder="moderator1" /></div><div class="form-group"><label>Name</label><input class="form-input" id="newUserName" placeholder="Moderator" /></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Password</label><input class="form-input" id="newUserPass" placeholder="min 8 chars" /></div><div class="form-group"><label>Role</label><select class="form-select" id="newUserRole"><option value="moderator">moderator</option><option value="admin">admin</option></select></div></div><div class="mini-pill" style="margin:10px 0;">Permissions</div><div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 10px;"><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_moderation" checked /><span>Moderation</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_settings" /><span>Settings</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_theme" /><span>Theme</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_export" /><span>Export</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_users" /><span>Users</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_trash" checked /><span>Trash</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_replaceFile" /><span>Replace File</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_editMemory" checked /><span>Edit Memory</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_bulk" /><span>Bulk Actions</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_featured" /><span>Featured</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_teachers" /><span>Teachers</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_timeline" /><span>Timeline</span></label></div><div style="display:flex; justify-content:flex-end; margin-top:12px;"><button class="admin-btn admin-btn-primary" onclick="createUser()">Create</button></div></div><div style="margin-top:16px;"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:10px;">Existing Users</h4><div id="usersList" class="admin-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px,1fr));"></div></div></div>`; }
+    
+async function loadStudentDirectoryIntoAdmin() {
+ try {
+  const res = await fetch(apiUrl('/api/student-directory'));
+  const data = await res.json();
+  return data.success && Array.isArray(data.students) ? data.students : [];
+ } catch (_) {
+  return [];
+ }
+}
+function buildStudentDirectoryCsvTemplate(students) {
+ const rows = [['name','section']];
+ (students || []).forEach(s => rows.push([s.name || '', s.section || '']));
+ return rows.map(r => r.map(v => `"${String(v).replaceAll('"','""')}"`).join(',')).join('\n');
+}
+async function downloadStudentDirectoryTemplate() {
+ const students = await loadStudentDirectoryIntoAdmin();
+ const csv = buildStudentDirectoryCsvTemplate(students);
+ const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+ const a = document.createElement('a');
+ a.href = URL.createObjectURL(blob);
+ a.download = 'student-directory-template.csv';
+ a.click();
+ URL.revokeObjectURL(a.href);
+}
+async function uploadStudentDirectoryCsv(file) {
+ if (!file) return showNotification('error', 'Missing file', 'Choose a CSV file first.');
+ const text = await file.text();
+ const lines = text.split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+ if (!lines.length) return showNotification('error', 'Empty file', 'CSV file is empty.');
+ const rows = lines.slice(1).map(line => {
+  const parts = line.split(',').map(x => x.trim().replace(/^"|"$/g, ''));
+  return { name: parts[0] || '', section: parts[1] || '' };
+ }).filter(r => r.name && r.section);
+ const res = await fetch(apiUrl('/api/admin/student-directory'), {
+  method:'POST',
+  headers:{'Content-Type':'application/json','Authorization':`Bearer ${state.adminToken}`},
+  body:JSON.stringify({ students: rows })
+ });
+ const data = await res.json();
+ if (!data.success) return showNotification('error', 'Failed', data.error || 'Could not update student directory.');
+ showNotification('success', 'Updated', `${rows.length} students imported.`);
+ await reloadSettingsAdmin();
+}
+async function bulkApplyStudentsToSuperlatives() {
+ const students = await loadStudentDirectoryIntoAdmin();
+ if (!students.length) return showNotification('error', 'No students', 'Student directory is empty.');
+ const categories = Array.isArray(window.supData) ? window.supData : [];
+ categories.forEach(cat => {
+  cat.nominees = students.map(s => ({
+   id: `${cat.id}_${s.name}`,
+   name: s.name,
+   votes: 0
+  }));
+ });
+ showNotification('success', 'Applied', 'Student directory has been copied into all superlative categories.');
+ if (typeof renderSuperlatives === 'function') renderSuperlatives();
+}
+
+function renderUsersPanelHtml() { return `<div class="stat-card" style="text-align:left;"><div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;"><h3 style="font-family:var(--font-display); color:var(--primary-gold); font-size:1.3rem;">Admin Users</h3><button class="admin-btn admin-btn-secondary" onclick="loadUsers()">Refresh</button></div><div class="mini-pill" style="margin-top:12px;">Create admin IDs and toggle permissions.</div><div style="margin-top:16px; border:1px solid var(--glass-border); border-radius:16px; padding:14px; background:rgba(255,255,255,0.03);"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:10px;">Create User</h4><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>User ID</label><input class="form-input" id="newUserId" placeholder="moderator1" /></div><div class="form-group"><label>Name</label><input class="form-input" id="newUserName" placeholder="Moderator" /></div></div><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="form-group"><label>Password</label><input class="form-input" id="newUserPass" placeholder="min 8 chars" /></div><div class="form-group"><label>Role</label><select class="form-select" id="newUserRole"><option value="moderator">moderator</option><option value="admin">admin</option></select></div></div><div class="mini-pill" style="margin:10px 0;">Permissions</div><div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 10px;"><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_moderation" checked /><span>Moderation</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_settings" /><span>Settings</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_theme" /><span>Theme</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_export" /><span>Export</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_users" /><span>Users</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_trash" checked /><span>Trash</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_replaceFile" /><span>Replace File</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_editMemory" checked /><span>Edit Memory</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_bulk" /><span>Bulk Actions</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_featured" /><span>Featured</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_teachers" /><span>Teachers</span></label><label style="display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.12);"><input type="checkbox" id="perm_timeline" /><span>Timeline</span></label></div><div style="display:flex; justify-content:flex-end; margin-top:12px;"><button class="admin-btn admin-btn-primary" onclick="createUser()">Create</button></div></div><div style="margin-top:16px;"><h4 style="font-family:var(--font-display); color:var(--primary-gold); margin-bottom:10px;">Existing Users</h4><div id="usersList" class="admin-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px,1fr));"></div></div></div>`; }
     function wireUsersPanel() { loadUsers(); }
     function gatherPermsFromCreateForm() { const ids = ['moderation','settings','theme','export','users','trash','replaceFile','editMemory','bulk','featured','teachers','timeline']; const p = {}; ids.forEach(k => p[k] = !!document.getElementById(`perm_${k}`)?.checked); return p; }
     async function loadUsers() { try { const res = await fetch(apiUrl('/api/admin/users'), { headers: { 'Authorization': `Bearer ${state.adminToken}` } }); const data = await res.json(); if (!data.success) return showNotification('error', 'Failed', data.error || 'Could not load users.'); renderUsersList(data.users || []); } catch (e) { showNotification('error', 'Failed', e.message); } }
@@ -6855,8 +6955,8 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
     loadClassPathsGlobeV7();
   }
 
-  let distanceLeafletMapV7 = null;
- let distanceLeafletMarkerV7 = null;
+//   let distanceLeafletMapV7 = null;
+//  let distanceLeafletMarkerV7 = null;
  function setLeafletPickedPointV7(lat, lng, label){
   const latEl = document.getElementById('distanceLatV7');
   const lngEl = document.getElementById('distanceLngV7');
@@ -6928,7 +7028,8 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
   }
  }catch(_){}
  }
- 
+ let distanceLeafletMapV7 = null;
+ let distanceLeafletMarkerV7 = null;
  function setLeafletPickedPointV7(lat, lng, label){
   const latEl = document.getElementById('distanceLatV7');
   const lngEl = document.getElementById('distanceLngV7');
@@ -7235,232 +7336,6 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
 </script>
 
 
-<script id="fixer-tour-script">
-(function(){
- if (window.__FIXER_TOUR_LOADED__) return;
- window.__FIXER_TOUR_LOADED__ = true;
- const TOUR_KEY = 'cornerstone_tour_seen_v1';
- function addTourFab(){
-  if (document.getElementById('featureTourFab')) return;
-  const btn = document.createElement('button');
-  btn.id = 'featureTourFab';
-  btn.className = 'feature-tour-fab';
-  btn.type = 'button';
-  btn.textContent = 'Tutorial';
-  btn.addEventListener('click', startSiteTour);
-  document.body.appendChild(btn);
- }
- function ensureTourNodes(){
-  if (!document.getElementById('featureTourOverlay')){
-   const overlay = document.createElement('div');
-   overlay.id = 'featureTourOverlay';
-   overlay.className = 'feature-tour-overlay';
-   overlay.innerHTML = '<div id="featureTourSpotlight" class="feature-tour-spotlight"></div><div id="featureTourCard" class="feature-tour-card"></div>';
-   document.body.appendChild(overlay);
-  }
- }
- function buildSteps(){
-  return [
-   { selector:'#home .hero-buttons', title:'Welcome', text:'Start here to share a memory or explore the wall.' },
-   { selector:'#countdown', title:'Countdown', text:'This shows how long is left until the big farewell moment.' },
-   { selector:'#memories', title:'Memories Preview', text:'Only six selected memories load here for a cleaner homepage.' },
-   { selector:'#viewAllMemoriesBtn', title:'View All', text:'Use this button to open the full memories page.' },
-   { selector:'#upload', title:'Upload', text:'Share your photo or video memory from here.' },
-   { selector:'#distanceMapSection', title:'Future Map', text:'Pick your future place on the map and save it.' },
-   { selector:'#compilations', title:'Compilations', text:'Watch curated memory compilations here.' }
-  ];
- }
- function stopSiteTour(){
-  const overlay = document.getElementById('featureTourOverlay');
-  if (overlay) overlay.classList.remove('active');
- }
- function startSiteTour(){
-  ensureTourNodes();
-  const steps = buildSteps();
-  let idx = 0;
-  const overlay = document.getElementById('featureTourOverlay');
-  const card = document.getElementById('featureTourCard');
-  const spot = document.getElementById('featureTourSpotlight');
-  function render(){
-   const step = steps[idx];
-   const el = document.querySelector(step.selector);
-   if (!el){ idx += 1; if (idx >= steps.length) return stopSiteTour(); return render(); }
-   el.scrollIntoView({ behavior:'smooth', block:'center' });
-   setTimeout(() => {
-    const r = el.getBoundingClientRect();
-    spot.style.left = Math.max(8, r.left - 8) + 'px';
-    spot.style.top = Math.max(8, r.top - 8) + 'px';
-    spot.style.width = Math.max(40, r.width + 16) + 'px';
-    spot.style.height = Math.max(40, r.height + 16) + 'px';
-    card.style.left = Math.min(window.innerWidth - 380, Math.max(12, r.left)) + 'px';
-    card.style.top = Math.min(window.innerHeight - 170, r.bottom + 12) + 'px';
-    card.innerHTML = `<h3>${step.title}</h3><p>${step.text}</p><div class="feature-tour-actions"><button class="btn btn-secondary" type="button" id="tourSkipBtn">Close</button><button class="btn btn-primary" type="button" id="tourNextBtn">${idx === steps.length - 1 ? 'Done' : 'Next'}</button></div>`;
-    document.getElementById('tourSkipBtn')?.addEventListener('click', stopSiteTour);
-    document.getElementById('tourNextBtn')?.addEventListener('click', () => {
-     idx += 1;
-     if (idx >= steps.length) { stopSiteTour(); return; }
-     render();
-    });
-   }, 420);
-  }
-  overlay.classList.add('active');
-  render();
- }
- window.startSiteTour = startSiteTour;
- document.addEventListener('DOMContentLoaded', () => {
-  addTourFab();
-  ensureTourNodes();
-  const page = document.getElementById('memoriesPage');
-  if (location.hash === '#memories-page' && page) {
-   state.viewingAllMemoriesPage = true;
-   page.classList.remove('hidden');
-   if (typeof renderMemoriesPage === 'function') renderMemoriesPage();
-  }
-  const navType = performance.getEntriesByType && performance.getEntriesByType('navigation')[0] ? performance.getEntriesByType('navigation')[0].type : '';
-  if (navType === 'reload') {
-   document.documentElement.classList.add('hard-refresh-top');
-   document.body.classList.add('hard-refresh-top');
-   window.scrollTo(0, 0);
-   setTimeout(() => {
-    document.documentElement.classList.remove('hard-refresh-top');
-    document.body.classList.remove('hard-refresh-top');
-   }, 1200);
-  }
-  if (!localStorage.getItem(TOUR_KEY)) {
-   setTimeout(() => {
-    startSiteTour();
-    localStorage.setItem(TOUR_KEY, '1');
-   }, 1200);
-  }
- });
-})();
-</script>
-
-<script id="fixer-stable-tour-script">
-(function(){
- if (window.__FIXER_STABLE_TOUR__) return;
- window.__FIXER_STABLE_TOUR__ = true;
- const TOUR_KEY = 'cornerstone_tour_seen_v2';
- function addTourFab(){
-  if (document.getElementById('featureTourFab')) return;
-  const btn = document.createElement('button');
-  btn.id = 'featureTourFab';
-  btn.className = 'feature-tour-fab';
-  btn.type = 'button';
-  btn.textContent = 'Tutorial';
-  btn.addEventListener('click', startSiteTour);
-  document.body.appendChild(btn);
- }
- function ensureTourNodes(){
-  if (!document.getElementById('featureTourOverlay')){
-   const overlay = document.createElement('div');
-   overlay.id = 'featureTourOverlay';
-   overlay.className = 'feature-tour-overlay';
-   overlay.innerHTML = '<div id="featureTourSpotlight" class="feature-tour-spotlight"></div><div id="featureTourCard" class="feature-tour-card"></div>';
-   document.body.appendChild(overlay);
-  }
- }
- function buildSteps(){
-  return [
-   { selector:'#home .hero-buttons', title:'Welcome', text:'Use these buttons to upload a memory or explore the memory wall.' },
-   { selector:'#countdown', title:'Countdown', text:'This section shows the live countdown to the farewell event.' },
-   { selector:'#memories', title:'Memories Preview', text:'The homepage shows six selected memories only for faster loading.' },
-   { selector:'#viewAllMemoriesBtn', title:'View All', text:'Open the full dedicated memories page from here.' },
-   { selector:'#upload', title:'Upload', text:'Approved uploads only appear after admin review.' },
-   { selector:'#distanceMapSection', title:'Future Path Globe', text:'Select your name, section, and future places, then save them to the globe.' },
-   { selector:'#compilations', title:'Compilations', text:'Curated slideshows appear here.' }
-  ];
- }
- function stopSiteTour(){
-  const overlay = document.getElementById('featureTourOverlay');
-  const spot = document.getElementById('featureTourSpotlight');
-  const card = document.getElementById('featureTourCard');
-  if (overlay) overlay.classList.remove('active');
-  if (spot) {
-   spot.style.left = '-9999px';
-   spot.style.top = '-9999px';
-   spot.style.width = '0px';
-   spot.style.height = '0px';
-  }
-  if (card) {
-   card.style.left = '-9999px';
-   card.style.top = '-9999px';
-  }
- }
- function startSiteTour(){
-  ensureTourNodes();
-  const steps = buildSteps();
-  let idx = 0;
-  const overlay = document.getElementById('featureTourOverlay');
-  const spot = document.getElementById('featureTourSpotlight');
-  const card = document.getElementById('featureTourCard');
-  function render(){
-   if (idx >= steps.length) {
-    stopSiteTour();
-    return;
-   }
-   const step = steps[idx];
-   const el = document.querySelector(step.selector);
-   if (!el) {
-    idx += 1;
-    render();
-    return;
-   }
-   el.scrollIntoView({ behavior:'smooth', block:'center' });
-   setTimeout(() => {
-    const r = el.getBoundingClientRect();
-    if (r.width <= 0 || r.height <= 0) {
-     idx += 1;
-     render();
-     return;
-    }
-    overlay.classList.add('active');
-    spot.style.left = Math.max(8, r.left - 8) + 'px';
-    spot.style.top = Math.max(8, r.top - 8) + 'px';
-    spot.style.width = Math.max(40, r.width + 16) + 'px';
-    spot.style.height = Math.max(40, r.height + 16) + 'px';
-    card.style.left = Math.min(window.innerWidth - 380, Math.max(12, r.left)) + 'px';
-    card.style.top = Math.min(window.innerHeight - 170, Math.max(12, r.bottom + 12)) + 'px';
-    card.innerHTML = `<h3>${step.title}</h3><p>${step.text}</p><div class="feature-tour-actions"><button class="btn btn-secondary" type="button" id="tourSkipBtn">Close</button><button class="btn btn-primary" type="button" id="tourNextBtn">${idx === steps.length - 1 ? 'Done' : 'Next'}</button></div>`;
-    document.getElementById('tourSkipBtn')?.addEventListener('click', stopSiteTour);
-    document.getElementById('tourNextBtn')?.addEventListener('click', () => {
-     idx += 1;
-     render();
-    });
-   }, 450);
-  }
-  render();
- }
- window.startSiteTour = startSiteTour;
- document.addEventListener('DOMContentLoaded', () => {
-  addTourFab();
-  ensureTourNodes();
-  const page = document.getElementById('memoriesPage');
-  if (location.hash === '#memories-page' && page) {
-   state.viewingAllMemoriesPage = true;
-   page.classList.remove('hidden');
-   if (typeof renderMemoriesPage === 'function') renderMemoriesPage();
-  }
-  const navType = performance.getEntriesByType && performance.getEntriesByType('navigation')[0] ? performance.getEntriesByType('navigation')[0].type : '';
-  if (navType === 'reload') {
-   document.documentElement.classList.add('hard-refresh-top');
-   document.body.classList.add('hard-refresh-top');
-   window.scrollTo(0, 0);
-   setTimeout(() => {
-    document.documentElement.classList.remove('hard-refresh-top');
-    document.body.classList.remove('hard-refresh-top');
-   }, 1200);
-  }
-  if (!localStorage.getItem(TOUR_KEY)) {
-   setTimeout(() => {
-    startSiteTour();
-    localStorage.setItem(TOUR_KEY, '1');
-   }, 1200);
-  }
- });
-})();
-</script>
-
 <script id="fixer-stable-tour-script">
 (function(){
  if (window.__FIXER_STABLE_TOUR__) return;
@@ -7492,7 +7367,7 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
    { selector:'#memories', title:'Memories Preview', text:'The homepage shows six selected memories only for faster loading.' },
    { selector:'#viewAllMemoriesBtn', title:'View All', text:'Open the full dedicated memories page from here.' },
    { selector:'#upload', title:'Upload', text:'Approved uploads appear after admin review only.' },
-   { selector:'#distanceMapSection', title:'Future Path Globe', text:'Select your name, section, and future places, then save them to the globe.' },
+   { selector:'#distanceMapSection', title:'Future Path Globe', text:'Select your name and future places, then save them to the globe.' },
    { selector:'#compilations', title:'Compilations', text:'Curated slideshows appear here.' }
   ];
  }
@@ -7520,25 +7395,14 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
   const spot = document.getElementById('featureTourSpotlight');
   const card = document.getElementById('featureTourCard');
   function render(){
-   if (idx >= steps.length) {
-    stopSiteTour();
-    return;
-   }
+   if (idx >= steps.length) return stopSiteTour();
    const step = steps[idx];
    const el = document.querySelector(step.selector);
-   if (!el) {
-    idx += 1;
-    render();
-    return;
-   }
+   if (!el) { idx += 1; return render(); }
    el.scrollIntoView({ behavior:'smooth', block:'center' });
    setTimeout(() => {
     const r = el.getBoundingClientRect();
-    if (r.width <= 0 || r.height <= 0) {
-     idx += 1;
-     render();
-     return;
-    }
+    if (r.width <= 0 || r.height <= 0) { idx += 1; return render(); }
     overlay.classList.add('active');
     spot.style.left = Math.max(8, r.left - 8) + 'px';
     spot.style.top = Math.max(8, r.top - 8) + 'px';
@@ -7548,10 +7412,7 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
     card.style.top = Math.min(window.innerHeight - 170, Math.max(12, r.bottom + 12)) + 'px';
     card.innerHTML = `<h3>${step.title}</h3><p>${step.text}</p><div class="feature-tour-actions"><button class="btn btn-secondary" type="button" id="tourSkipBtn">Close</button><button class="btn btn-primary" type="button" id="tourNextBtn">${idx === steps.length - 1 ? 'Done' : 'Next'}</button></div>`;
     document.getElementById('tourSkipBtn')?.addEventListener('click', stopSiteTour);
-    document.getElementById('tourNextBtn')?.addEventListener('click', () => {
-     idx += 1;
-     render();
-    });
+    document.getElementById('tourNextBtn')?.addEventListener('click', () => { idx += 1; render(); });
    }, 450);
   }
   render();
@@ -7560,22 +7421,6 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
  document.addEventListener('DOMContentLoaded', () => {
   addTourFab();
   ensureTourNodes();
-  const page = document.getElementById('memoriesPage');
-  if (location.hash === '#memories-page' && page) {
-   state.viewingAllMemoriesPage = true;
-   page.classList.remove('hidden');
-   if (typeof renderMemoriesPage === 'function') renderMemoriesPage();
-  }
-  const navType = performance.getEntriesByType && performance.getEntriesByType('navigation')[0] ? performance.getEntriesByType('navigation')[0].type : '';
-  if (navType === 'reload') {
-   document.documentElement.classList.add('hard-refresh-top');
-   document.body.classList.add('hard-refresh-top');
-   window.scrollTo(0, 0);
-   setTimeout(() => {
-    document.documentElement.classList.remove('hard-refresh-top');
-    document.body.classList.remove('hard-refresh-top');
-   }, 1200);
-  }
   if (!localStorage.getItem(TOUR_KEY)) {
    setTimeout(() => {
     startSiteTour();
@@ -7586,65 +7431,4 @@ body.sniper-ui-hidden > *:not(#leanBackOverlay):not(#sniperSfxHost):not(#sniperG
 })();
 </script>
 </body>
-</html>
-
-
-<!-- ADVICE TO JUNIORS SECTION -->
-<section id="adviceToJuniors" style="background: var(--navy-medium); padding: 80px 0;">
-  <div class="container">
-    <h2 style="text-align: center; margin-bottom: 3rem; color: var(--primary-gold);">Advice to Juniors</h2>
-    <p style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">Words of wisdom from your seniors</p>
-    <div style="max-width: 600px; margin: 0 auto 3rem; background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 15px; border: 1px solid var(--glass-border);"><h3 style="color: var(--primary-gold); margin-bottom: 1.5rem;">Share Your Advice</h3><div style="margin-bottom: 1.5rem;"><label style="display: block; margin-bottom: 0.5rem; color: var(--primary-gold); font-weight: 600;">Your Name</label><input type="text" id="adviceName" placeholder="Enter your name" style="width: 100%; padding: 1rem; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.05); color: var(--text-light); border-radius: 10px; font-size: 1rem;"></div><div style="margin-bottom: 1.5rem;"><label style="display: block; margin-bottom: 0.5rem; color: var(--primary-gold); font-weight: 600;">Your Advice</label><textarea id="adviceText" placeholder="Write your advice for juniors..." style="width: 100%; padding: 1rem; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.05); color: var(--text-light); border-radius: 10px; font-size: 1rem; min-height: 120px; resize: vertical;"></textarea></div><button onclick="submitAdvice()" style="width: 100%; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-light) 50%, var(--primary-gold) 100%); color: var(--navy-dark); border: none; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Submit Advice</button></div><div id="adviceGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; margin-top: 2rem;"></div>
-  </div>
-</section>
-
-<script>
-  function submitAdvice() { 
-    const name = document.getElementById('adviceName').value.trim(); 
-    const text = document.getElementById('adviceText').value.trim(); 
-    if (!name || !text) { 
-      alert('Please fill in all fields'); 
-      return; 
-    } 
-    fetch('/api/advice', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, text })
-    })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('adviceName').value = '';
-        document.getElementById('adviceText').value = '';
-        loadAdvices();
-        alert('Advice submitted successfully!');
-      } else {
-        alert('Error: ' + (data.error || 'Failed to submit'));
-      }
-    })
-    .catch(e => alert('Error: ' + e.message));
-  }
-  
-  function loadAdvices() { 
-    fetch('/api/advice')
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        const advices = data.advices || [];
-        const grid = document.getElementById('adviceGrid'); 
-        grid.innerHTML = ''; 
-        advices.reverse().forEach(advice => { 
-          const initials = advice.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2); 
-          const card = document.createElement('div'); 
-          card.style.cssText = 'background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-left: 4px solid var(--primary-gold); border-radius: 15px; padding: 2rem; transition: all 0.3s ease; backdrop-filter: blur(10px);'; 
-          card.innerHTML = `<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;"><div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-light)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold;">${initials}</div><div><div style="font-weight: bold; color: var(--primary-gold); font-size: 1.1rem;">${advice.name}</div><div style="font-size: 0.85rem; opacity: 0.7;">${advice.date}</div></div></div><div style="line-height: 1.8; font-size: 1rem; margin-top: 1rem; color: var(--text-light);">"${advice.text}"</div>`; 
-          grid.appendChild(card); 
-        }); 
-      }
-    })
-    .catch(e => console.error('Error loading advices:', e));
-  }
-  
-  loadAdvices();
-</script>
 </html>
