@@ -2269,6 +2269,31 @@ app.use((err, req, res, next) => {
     } catch(e) { res.status(500).json({ success: false, error: e.message }); }
   });
 
+  app.get('/api/admin/fun/stats', (req, res) => {
+    const auth = requireAdmin(req, res); if (!auth) return;
+    try {
+      const gratitude   = ffRead('gratitude');
+      const wishes      = ffRead('wishes');
+      const dedications = ffRead('dedications');
+      const capsules    = ffRead('capsules');
+      const mood        = ffRead('mood');
+      const sups        = ffRead('superlatives');
+
+      const moodCounts = {};
+      (mood.options||[]).forEach(o => moodCounts[o] = 0);
+      (mood.votes||[]).forEach(v => { if (moodCounts[v.mood] !== undefined) moodCounts[v.mood]++; });
+
+      res.json({ success: true, stats: {
+        gratitude:    { count: gratitude.entries.length,    entries: gratitude.entries },
+        wishes:       { count: wishes.entries.length,       entries: wishes.entries },
+        dedications:  { count: dedications.entries.length,  entries: dedications.entries },
+        capsules:     { count: capsules.entries.length,     entries: capsules.entries },
+        mood:         { total: (mood.votes||[]).length, votes: moodCounts, rawVotes: mood.votes||[] },
+        superlatives: { categories: sups.categories }
+      }});
+    } catch(e) { res.status(500).json({ success: false, error: e.message }); }
+  });
+
   app.get('/api/admin/fun/export/:feature', (req, res) => {
     const auth = requireAdmin(req, res); if (!auth) return;
     if (!hasPerm(auth.user, 'export')) return res.status(403).json({ success: false, error: 'Forbidden' });
