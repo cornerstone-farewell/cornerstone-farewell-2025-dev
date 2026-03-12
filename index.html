@@ -1419,6 +1419,16 @@ textarea.ff-input{resize:vertical;min-height:90px}
 .ff-toggle input:checked~.ff-toggle-slider{background:var(--primary-gold);border-color:var(--primary-gold)}
 .ff-toggle-slider::before{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;left:3px;top:3px;transition:.3s;box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .ff-toggle input:checked~.ff-toggle-slider::before{transform:translateX(24px)}
+.ff-admin-row{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+.ff-admin-row:last-child{border-bottom:none;}
+.ff-admin-section{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;}
+.ff-admin-section-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.07);gap:12px;flex-wrap:wrap;}
+.ff-admin-section-body{padding:16px 20px;}
+.ff-admin-badge{font-size:0.75rem;background:rgba(212,175,55,0.15);color:var(--primary-gold);padding:3px 10px;border-radius:20px;font-weight:600;}
+.ff-admin-search{width:100%;padding:9px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-family:var(--font-body);font-size:0.87rem;box-sizing:border-box;margin-bottom:12px;}
+.ff-admin-search:focus{outline:none;border-color:var(--primary-gold);}
+.ff-admin-entries{max-height:400px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:var(--primary-gold) rgba(255,255,255,0.05);}
+.ff-admin-loading{color:rgba(255,255,255,0.35);font-size:0.85rem;padding:20px 0;text-align:center;}
 </style>
 
 <!-- GRATITUDE WALL -->
